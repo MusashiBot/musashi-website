@@ -187,15 +187,15 @@ export default function TerminalDemo() {
       <div className="grid grid-cols-3 gap-8 w-full max-w-[1000px] mt-12">
         <div className="flex flex-col items-center gap-3 p-8 bg-[#111] border border-[#222] rounded-lg">
           <div className="font-grotesk text-[#4a9eff] text-[48px] font-bold tracking-[-1px]">
-            1,400+
+            659
           </div>
           <div className="font-jetbrains text-[#888] text-xs uppercase tracking-[1px]">
-            Markets
+            Markets Live
           </div>
         </div>
         <div className="flex flex-col items-center gap-3 p-8 bg-[#111] border border-[#222] rounded-lg">
           <div className="font-grotesk text-[#4a9eff] text-[48px] font-bold tracking-[-1px]">
-            4
+            7
           </div>
           <div className="font-jetbrains text-[#888] text-xs uppercase tracking-[1px]">
             API Endpoints
@@ -203,10 +203,10 @@ export default function TerminalDemo() {
         </div>
         <div className="flex flex-col items-center gap-3 p-8 bg-[#111] border border-[#222] rounded-lg">
           <div className="font-grotesk text-[#4a9eff] text-[48px] font-bold tracking-[-1px]">
-            2
+            71
           </div>
           <div className="font-jetbrains text-[#888] text-xs uppercase tracking-[1px]">
-            Platforms
+            Twitter Accounts
           </div>
         </div>
       </div>
