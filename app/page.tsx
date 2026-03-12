@@ -32,12 +32,12 @@ export default function Home() {
         <div className="absolute left-[80px] top-[100px] w-[500px] flex flex-col gap-7 z-10">
           {/* Headline */}
           <h1 className="font-jetbrains text-[var(--text-primary)] text-[52px] font-normal leading-[1.15] tracking-[-2px]">
-            Intelligence<br />for AI Agents
+            Trade the<br />[Tweets]
           </h1>
 
           {/* Subtitle */}
           <p className="font-jetbrains text-[var(--text-secondary)] text-[15px] font-normal leading-[1.7]">
-            Automated feed collecting tweets from 71 accounts every 2 minutes. AI analyzes sentiment, matches to 1000+ markets, generates trading signals. Your bots poll the API and execute.
+            In the future, your agents scroll and trade for you.
           </p>
 
           {/* CTA Buttons */}
