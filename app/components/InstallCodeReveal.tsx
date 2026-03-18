@@ -12,8 +12,10 @@ type PackageManager = 'npm' | 'pnpm';
 type Section = 'install' | 'api-call';
 
 interface CodeRow {
-  comment: string;
-  code: string;
+  blocks: Array<{
+    comment: string;
+    code: string | string[];
+  }>;
 }
 
 interface EndpointCard {
@@ -40,22 +42,47 @@ const SECTION_LABELS: Record<Section, string> = {
 };
 
 function getInstallRows(packageManager: PackageManager): CodeRow[] {
+  const installCommand = packageManager === 'npm' ? 'npm install' : 'pnpm install';
+  const agentRunCommand = packageManager === 'npm' ? 'npm run agent' : 'pnpm agent';
+  const agentBuildCommand = packageManager === 'npm' ? 'npm run agent:build' : 'pnpm agent:build';
+  const agentStartCommand = packageManager === 'npm' ? 'npm run agent:start' : 'pnpm agent:start';
+
   return [
     {
-      comment: 'Clone the Musashi repository.',
-      code: 'git clone https://github.com/VittorioC13/Musashi.git',
+      blocks: [
+        {
+          comment: 'Clone the Musashi repository.',
+          code: 'git clone https://github.com/VittorioC13/Musashi.git',
+        },
+      ],
     },
     {
-      comment: 'Enter the project directory.',
-      code: 'cd Musashi',
+      blocks: [
+        {
+          comment: 'Open the project folder.',
+          code: 'cd Musashi',
+        },
+      ],
     },
     {
-      comment: `Install dependencies with ${PACKAGE_LABELS[packageManager]}.`,
-      code: packageManager === 'npm' ? 'npm install' : 'pnpm install',
+      blocks: [
+        {
+          comment: `Install dependencies.`,
+          code: installCommand,
+        },
+      ],
     },
     {
-      comment: 'Run the production API contract test suite.',
-      code: 'npm run agent:test:api',
+      blocks: [
+        {
+          comment: `Run the agent.`,
+          code: agentRunCommand,
+        },
+        {
+          comment: `Optional: build first, then start.`,
+          code: [agentBuildCommand, agentStartCommand],
+        },
+      ],
     },
   ];
 }
@@ -303,32 +330,58 @@ export default function InstallCodeReveal({ showCode }: InstallCodeRevealProps) 
               </div>
 
               {section === 'install' ? (
-                <div className="space-y-2.5 px-5 py-4">
-                  {installRows.map((row, index) => {
-                    const rowKey = `install-${index}`;
+                <div className="min-h-0 flex-1 overflow-y-auto px-5 py-3 [scrollbar-color:#273244_transparent] [scrollbar-width:thin]">
+                  <div className="space-y-2">
+                    {installRows.map((row, index) => {
+                      const rowKey = `install-${index}`;
 
-                    return (
-                      <div
-                        key={rowKey}
-                        className="rounded-[24px] border border-[#FFFFFF08] bg-[linear-gradient(180deg,#05080E_0%,#04070C_100%)] px-4 py-3 transition-all duration-300 hover:border-[#FFFFFF16] hover:bg-[linear-gradient(180deg,#07101A_0%,#050912_100%)]"
-                      >
-                        <div className="mb-2 font-jetbrains text-[11px] leading-5 text-[#7B889D]">{row.comment}</div>
-                        <div className="flex items-center gap-3 rounded-2xl border border-[#FFFFFF08] bg-[#03070D] px-4 py-2.5">
-                          <span className="font-jetbrains text-[13px] text-[#E5E7EB]">$</span>
-                          <code className="flex-1 overflow-x-auto whitespace-pre-wrap font-jetbrains text-[13px] leading-6 text-[#E5E7EB]">
-                            {row.code}
-                          </code>
-                          <button
-                            type="button"
-                            onClick={() => copyCode(row.code, rowKey)}
-                            className="rounded-xl border border-[#FFFFFF12] bg-[#FFFFFF06] px-3 py-2 font-jetbrains text-[11px] font-semibold text-white transition-all duration-300 hover:border-[#FFFFFF20] hover:bg-[#FFFFFF10]"
-                          >
-                            {copiedKey === rowKey ? 'Copied' : 'Copy'}
-                          </button>
+                      return (
+                        <div
+                          key={rowKey}
+                          className="rounded-[22px] border border-[#FFFFFF08] bg-[linear-gradient(180deg,#05080E_0%,#04070C_100%)] px-4 py-2.5 transition-all duration-300 hover:border-[#FFFFFF16] hover:bg-[linear-gradient(180deg,#07101A_0%,#050912_100%)]"
+                        >
+                          <div className="space-y-1.5">
+                            {row.blocks.map((block, blockIndex) => {
+                              const blockKey = `${rowKey}-${blockIndex}`;
+
+                              return (
+                                <div key={blockKey} className={blockIndex > 0 ? 'pt-0.5' : ''}>
+                                  <div className="mb-1.5 font-jetbrains text-[11px] leading-5 text-[#7B889D]">{block.comment}</div>
+                                  {(() => {
+                                    const commands = Array.isArray(block.code) ? block.code : [block.code];
+
+                                    return (
+                                      <div className="space-y-1 rounded-2xl border border-[#FFFFFF08] bg-[#03070D] px-4 py-2">
+                                        {commands.map((command, commandIndex) => {
+                                          const commandKey = `${blockKey}-command-${commandIndex}`;
+
+                                          return (
+                                            <div key={commandKey} className="flex items-center gap-3">
+                                              <span className="font-jetbrains text-[13px] text-[#E5E7EB]">$</span>
+                                              <code className="flex-1 overflow-x-auto whitespace-pre-wrap font-jetbrains text-[13px] leading-6 text-[#E5E7EB]">
+                                                {command}
+                                              </code>
+                                              <button
+                                                type="button"
+                                                onClick={() => copyCode(command, commandKey)}
+                                                className="rounded-xl border border-[#FFFFFF12] bg-[#FFFFFF06] px-3 py-2 font-jetbrains text-[11px] font-semibold text-white transition-all duration-300 hover:border-[#FFFFFF20] hover:bg-[#FFFFFF10]"
+                                              >
+                                                {copiedKey === commandKey ? 'Copied' : 'Copy'}
+                                              </button>
+                                            </div>
+                                          );
+                                        })}
+                                      </div>
+                                    );
+                                  })()}
+                                </div>
+                              );
+                            })}
+                          </div>
                         </div>
-                      </div>
-                    );
-                  })}
+                      );
+                    })}
+                  </div>
                 </div>
               ) : (
                 <div className="min-h-0 flex-1 overflow-y-auto px-4 py-4">
