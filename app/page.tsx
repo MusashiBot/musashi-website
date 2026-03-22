@@ -5,6 +5,7 @@ import TerminalDemo from "./TerminalDemo";
 import SmoothScrollLink from "./components/SmoothScrollLink";
 import FAQ from "./components/FAQ";
 import InstallCodeReveal from "./components/InstallCodeReveal";
+import useCompactLayout from "./hooks/useCompactLayout";
 
 const mobileInstallSteps = [
   {
@@ -24,6 +25,7 @@ const mobileInstallSteps = [
 export default function Home() {
   const [showInstallCode, setShowInstallCode] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const isCompactLayout = useCompactLayout();
 
   return (
     <div className="flex flex-col w-full bg-[var(--bg-primary)]">
@@ -31,7 +33,7 @@ export default function Home() {
         <div className="font-jetbrains text-xl font-bold tracking-[1px] text-[var(--text-primary)] sm:text-[22px]">
           MUSASHI
         </div>
-        <nav className="hidden items-center gap-8 md:flex">
+        <nav className={`${isCompactLayout ? 'hidden' : 'hidden md:flex'} items-center gap-8`}>
           <a href="/ai" className="font-jetbrains text-xs font-medium text-[var(--text-secondary)] transition-colors hover:text-[var(--text-primary)]">API</a>
           <a href="/pricing" className="font-jetbrains text-xs font-medium text-[var(--text-secondary)] transition-colors hover:text-[var(--text-primary)]">PRICING</a>
           <a href="/privacy" className="font-jetbrains text-xs font-medium text-[var(--text-secondary)] transition-colors hover:text-[var(--text-primary)]">PRIVACY</a>
@@ -49,7 +51,7 @@ export default function Home() {
           <button
             type="button"
             onClick={() => setMobileMenuOpen((current) => !current)}
-            className="flex h-10 w-10 items-center justify-center border border-[#FFFFFF24] bg-[#FFFFFF08] md:hidden"
+            className={`flex h-10 w-10 items-center justify-center border border-[#FFFFFF24] bg-[#FFFFFF08] ${isCompactLayout ? '' : 'md:hidden'}`}
             aria-label={mobileMenuOpen ? 'Close menu' : 'Open menu'}
             aria-expanded={mobileMenuOpen}
           >
@@ -63,7 +65,7 @@ export default function Home() {
       </header>
 
       {mobileMenuOpen ? (
-        <div className="fixed inset-0 z-40 bg-[#05070D]/88 backdrop-blur-md md:hidden">
+        <div className={`fixed inset-0 z-40 bg-[#05070D]/88 backdrop-blur-md ${isCompactLayout ? '' : 'md:hidden'}`}>
           <div className="absolute inset-x-4 top-[76px] rounded-[28px] border border-[#FFFFFF14] bg-[linear-gradient(180deg,#0B1018_0%,#080C12_100%)] p-5 shadow-[0_30px_120px_rgba(0,0,0,0.45)]">
             <div className="mb-5 flex items-center justify-between border-b border-[#FFFFFF10] pb-4">
               <div>
@@ -110,11 +112,11 @@ export default function Home() {
         </div>
       ) : null}
 
-      <section className="relative w-full overflow-hidden bg-[var(--bg-primary)] lg:h-[860px]">
+      <section className={`relative w-full overflow-hidden bg-[var(--bg-primary)] ${isCompactLayout ? '' : 'lg:h-[860px]'}`}>
         <div className="absolute inset-0 bg-gradient-to-br from-[#0A0A0F] via-[#0A0A0F] to-[#0F0F1A] opacity-80" />
 
-        <div className="relative z-10 flex w-full max-w-[560px] flex-col gap-5 px-4 py-12 sm:px-6 sm:py-16 lg:absolute lg:left-[80px] lg:top-[100px] lg:w-[500px] lg:gap-7 lg:px-0 lg:py-0">
-          <div className="flex items-center gap-2 lg:hidden">
+        <div className={`relative z-10 flex w-full max-w-[560px] flex-col gap-5 px-4 py-12 sm:px-6 sm:py-16 ${isCompactLayout ? '' : 'lg:absolute lg:left-[80px] lg:top-[100px] lg:w-[500px] lg:gap-7 lg:px-0 lg:py-0'}`}>
+          <div className={`flex items-center gap-2 ${isCompactLayout ? '' : 'lg:hidden'}`}>
             <span className="h-2 w-2 rounded-full bg-[#00FF88]"></span>
             <span className="font-jetbrains text-[10px] uppercase tracking-[0.22em] text-[#A7F3D0]">Agent-ready prediction market intel</span>
           </div>
@@ -147,7 +149,7 @@ export default function Home() {
             </span>
           </div>
 
-          <div className="flex flex-wrap gap-2 lg:hidden">
+          <div className={`flex flex-wrap gap-2 ${isCompactLayout ? '' : 'lg:hidden'}`}>
             <span className="border border-[#FFFFFF14] bg-[#FFFFFF06] px-3 py-2 font-jetbrains text-[10px] uppercase tracking-[0.14em] text-[#C4CCD8]">
               659 markets live
             </span>
@@ -159,7 +161,7 @@ export default function Home() {
             </span>
           </div>
 
-          <div className="grid grid-cols-2 gap-3 lg:hidden">
+          <div className={`grid grid-cols-2 gap-3 ${isCompactLayout ? '' : 'lg:hidden'}`}>
             <div className="border border-[#FFFFFF15] bg-[#0A0A0A]/70 px-4 py-3 backdrop-blur-md">
               <span className="block font-jetbrains text-[10px] font-medium text-[#666]">LIVE MARKETS</span>
               <span className="block font-jetbrains text-sm font-bold text-white">659</span>
@@ -170,7 +172,7 @@ export default function Home() {
             </div>
           </div>
 
-          <div className="rounded-[28px] border border-[#FFFFFF14] bg-[#060A12]/88 p-4 shadow-[0_24px_80px_rgba(0,0,0,0.34)] sm:p-5 lg:hidden">
+          <div className={`rounded-[28px] border border-[#FFFFFF14] bg-[#060A12]/88 p-4 shadow-[0_24px_80px_rgba(0,0,0,0.34)] sm:p-5 ${isCompactLayout ? '' : 'lg:hidden'}`}>
             <div className="flex items-center justify-between gap-3">
               <div>
                 <span className="font-jetbrains text-[10px] uppercase tracking-[0.2em] text-[#8C99AD]">Mobile Layout</span>
@@ -210,13 +212,13 @@ export default function Home() {
           </div>
         </div>
 
-        <div className="hidden lg:block">
+        <div className={isCompactLayout ? 'hidden' : 'hidden lg:block'}>
           <InstallCodeReveal showCode={showInstallCode} />
         </div>
       </section>
 
       <div id="see-the-difference">
-        <TerminalDemo />
+        <TerminalDemo compactLayout={isCompactLayout} />
       </div>
 
       <section className="flex w-full flex-col items-center gap-12 bg-[var(--bg-primary)] px-4 py-16 sm:px-6 lg:px-[120px] lg:py-[80px]">

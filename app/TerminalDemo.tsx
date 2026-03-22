@@ -5,7 +5,11 @@ import { useEffect, useState } from 'react';
 const LEFT_LINES = 10;
 const RIGHT_LINES = 13;
 
-export default function TerminalDemo() {
+type TerminalDemoProps = {
+  compactLayout?: boolean;
+};
+
+export default function TerminalDemo({ compactLayout = false }: TerminalDemoProps) {
   const [visibleLinesLeft, setVisibleLinesLeft] = useState(0);
   const [visibleLinesRight, setVisibleLinesRight] = useState(0);
 
@@ -186,7 +190,7 @@ export default function TerminalDemo() {
         </h2>
       </div>
 
-      <div className="w-full xl:hidden">
+      <div className={compactLayout ? 'w-full' : 'w-full xl:hidden'}>
         <div className="mb-4 flex items-center justify-between gap-3">
           <span className="font-jetbrains text-[10px] uppercase tracking-[0.18em] text-[#7B889D]">
             Swipe the cards
@@ -205,7 +209,7 @@ export default function TerminalDemo() {
         </div>
       </div>
 
-      <div className="hidden w-full max-w-[1400px] grid-cols-1 gap-8 xl:grid xl:grid-cols-2">
+      <div className={compactLayout ? 'hidden' : 'hidden w-full max-w-[1400px] grid-cols-1 gap-8 xl:grid xl:grid-cols-2'}>
         <div>{withoutCard}</div>
         <div>{withCard}</div>
       </div>
