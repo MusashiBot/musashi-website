@@ -9,6 +9,10 @@ type FAQItem = {
 
 const faqs: FAQItem[] = [
   {
+    question: 'What is the mission of Musashi?',
+    answer: 'Andrej Karpathy said in his tweet: "it\'s 2026, Build. For. Agents" - and that\'s why we built Musashi. We believe the era of CLI and agent-first products is here. Humans shouldn\'t be glued to screens watching markets - agents should monitor, analyze, and trade autonomously. Musashi provides the structured intelligence layer that agents need: not a pretty dashboard, but a high-frequency API with trading signals, confidence scores, and real-time market data. We\'re building infrastructure for the autonomous trading era.',
+  },
+  {
     question: 'What is Musashi?',
     answer: 'Musashi is an AI intelligence service that automatically collects and analyzes tweets from 71 high-signal accounts every 2 minutes, matches them to 900+ prediction markets, generates trading signals, and feeds structured data to AI trading bots via a polling API. The Chrome extension is just a monitoring dashboard (10% of the product) - the real product is the intelligence layer for automated trading.',
   },
