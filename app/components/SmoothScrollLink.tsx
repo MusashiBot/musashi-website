@@ -9,6 +9,7 @@ type SmoothScrollLinkProps = {
   children: ReactNode;
   durationMs?: number;
   offset?: number;
+  onClick?: (event: MouseEvent<HTMLAnchorElement>) => void;
 };
 
 function easeOutCubic(t: number): number {
@@ -21,11 +22,15 @@ export default function SmoothScrollLink({
   children,
   durationMs,
   offset = 0,
+  onClick,
 }: SmoothScrollLinkProps) {
   const animationFrameRef = useRef<number | null>(null);
   const previousScrollBehaviorRef = useRef<string | null>(null);
 
   const handleClick = (event: MouseEvent<HTMLAnchorElement>) => {
+    onClick?.(event);
+    if (event.defaultPrevented) return;
+
     event.preventDefault();
 
     const target = document.getElementById(targetId);

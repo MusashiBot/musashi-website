@@ -7,6 +7,7 @@ export default function Pricing() {
           MUSASHI
         </a>
         <nav className="flex items-center gap-8">
+          <a href="/mission" className="font-jetbrains text-[var(--text-secondary)] text-xs font-medium hover:text-[var(--text-primary)] transition-colors">MISSION</a>
           <a href="/ai" className="font-jetbrains text-[var(--text-secondary)] text-xs font-medium hover:text-[var(--text-primary)] transition-colors">API</a>
           <a href="/pricing" className="font-jetbrains text-[var(--text-primary)] text-xs font-medium">PRICING</a>
           <a href="/privacy" className="font-jetbrains text-[var(--text-secondary)] text-xs font-medium hover:text-[var(--text-primary)] transition-colors">PRIVACY</a>

@@ -7,6 +7,7 @@ export default function PrivacyPolicy() {
           MUSASHI
         </a>
         <nav className="flex items-center gap-8">
+          <a href="/mission" className="font-jetbrains text-[var(--text-secondary)] text-xs font-medium hover:text-[var(--text-primary)] transition-colors">MISSION</a>
           <a href="/ai" className="font-jetbrains text-[var(--text-secondary)] text-xs font-medium hover:text-[var(--text-primary)] transition-colors">API</a>
           <a href="/pricing" className="font-jetbrains text-[var(--text-secondary)] text-xs font-medium hover:text-[var(--text-primary)] transition-colors">PRICING</a>
           <a href="/privacy" className="font-jetbrains text-[var(--text-primary)] text-xs font-medium hover:text-[var(--text-primary)] transition-colors">PRIVACY</a>
@@ -156,7 +157,7 @@ export default function PrivacyPolicy() {
               The Extension stores the following data exclusively within your local browser storage:
             </p>
             <ul className="font-jetbrains text-[var(--text-secondary)] text-sm space-y-2 pl-5 list-disc mb-4">
-              <li>Market cache containing current prediction market data (refreshed every 30-60 seconds)</li>
+              <li>Market cache containing current prediction market data (refreshed every 15-20 seconds)</li>
               <li>Recent sentiment analysis results cache (retained for 24 hours for performance purposes)</li>
               <li>User preferences and extension configuration settings</li>
             </ul>
@@ -255,7 +256,7 @@ export default function PrivacyPolicy() {
             </h2>
 
             <ul className="font-jetbrains text-[var(--text-secondary)] text-sm space-y-2 pl-5 list-disc">
-              <li><strong>Market data cache:</strong> Automatically refreshed every 30-60 seconds; outdated data is automatically purged</li>
+              <li><strong>Market data cache:</strong> Automatically refreshed every 15-20 seconds; outdated data is automatically purged</li>
               <li><strong>Sentiment analysis cache:</strong> Retained for 24 hours, then automatically deleted</li>
               <li><strong>User preferences:</strong> Retained until you uninstall the Extension or manually clear browser extension data</li>
             </ul>
