@@ -1,3 +1,15 @@
+import type { Metadata } from 'next'
+
+export const metadata: Metadata = {
+  title: 'Pricing',
+  description: 'Musashi is free during beta. No rate limits, no API keys required. Full access to the prediction market feed API, trading signals, arbitrage detection, and Agent SDK.',
+  openGraph: {
+    title: 'Pricing | MUSASHI',
+    description: 'Free prediction market API. 900+ markets, trading signals, arbitrage detection. No rate limits.',
+    url: 'https://musashi.bot/pricing',
+  },
+}
+
 export default function Pricing() {
   return (
     <div className="flex flex-col w-full min-h-screen bg-[var(--bg-primary)]">

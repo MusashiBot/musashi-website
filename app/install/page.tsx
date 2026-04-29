@@ -1,3 +1,15 @@
+import type { Metadata } from 'next'
+
+export const metadata: Metadata = {
+  title: 'Install',
+  description: 'Get started with Musashi in minutes. Clone the repo, install dependencies, and run npm run agent. Free prediction market trading bot intelligence API.',
+  openGraph: {
+    title: 'Install MUSASHI',
+    description: 'Get started with Musashi in minutes. Free prediction market API for AI trading bots.',
+    url: 'https://musashi.bot/install',
+  },
+}
+
 export default function Install() {
   return (
     <div className="flex flex-col w-full min-h-screen bg-[var(--bg-primary)]">

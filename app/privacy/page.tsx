@@ -1,3 +1,14 @@
+import type { Metadata } from 'next'
+
+export const metadata: Metadata = {
+  title: 'Privacy Policy',
+  description: 'Privacy policy for Musashi — the AI intelligence service for prediction market trading bots.',
+  openGraph: {
+    title: 'Privacy Policy | MUSASHI',
+    url: 'https://musashi.bot/privacy',
+  },
+}
+
 export default function PrivacyPolicy() {
   return (
     <div className="flex flex-col w-full bg-[var(--bg-primary)] min-h-screen">

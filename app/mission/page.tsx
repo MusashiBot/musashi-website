@@ -1,3 +1,15 @@
+import type { Metadata } from 'next'
+
+export const metadata: Metadata = {
+  title: 'Mission',
+  description: 'Musashi is building the API infrastructure for the autonomous trading era — the intelligence layer that AI agents need to monitor prediction markets and execute trades 24/7.',
+  openGraph: {
+    title: 'Mission | MUSASHI',
+    description: 'Building infrastructure for autonomous AI trading agents. The era of CLI and agent-first products is here.',
+    url: 'https://musashi.bot/mission',
+  },
+}
+
 export default function Mission() {
   return (
     <div className="flex flex-col w-full bg-[var(--bg-primary)] min-h-screen">

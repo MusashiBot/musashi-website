@@ -2,6 +2,17 @@ import fs from "node:fs/promises";
 import path from "node:path";
 import Link from "next/link";
 import type { ReactNode } from "react";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: 'API Documentation',
+  description: 'Musashi API documentation. REST API and Agent SDK for prediction market trading bots. 7 endpoints covering feed, arbitrage, market movers, and sentiment signals. Free, no rate limits.',
+  openGraph: {
+    title: 'API Documentation | MUSASHI',
+    description: 'REST API and Agent SDK for prediction market trading bots. Feed, arbitrage, and sentiment endpoints. Free with no rate limits.',
+    url: 'https://musashi.bot/ai',
+  },
+}
 
 type SearchParamValue = string | string[] | undefined;
 type SearchParams = Record<string, SearchParamValue>;
