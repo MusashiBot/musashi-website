@@ -17,7 +17,7 @@ export default function PrivacyPolicy() {
       <Header />
 
       {/* Main Content */}
-      <main className="flex flex-col items-center w-full px-[80px] py-[60px]">
+      <main className="flex flex-col items-center w-full px-4 py-12 sm:px-6 sm:py-16 lg:px-[80px] lg:py-[60px]">
         <div className="w-full max-w-[900px]">
           {/* Title */}
           <div className="border-l-4 border-[var(--text-primary)] pl-4 mb-8">
@@ -37,7 +37,8 @@ export default function PrivacyPolicy() {
             </h3>
             <ul className="font-jetbrains text-[var(--text-secondary)] text-sm space-y-2 pl-5 list-disc">
               <li>We do not collect or store personal data</li>
-              <li>No user accounts, tracking, or analytics</li>
+              <li>No user accounts, tracking, or analytics within the Extension</li>
+              <li>This website (musashi.bot) uses Vercel Analytics for anonymous, aggregate page-view measurement</li>
               <li>All data processing occurs locally in your browser</li>
               <li>Data is transmitted to third-party services only when you explicitly request sentiment analysis</li>
               <li>This service is provided free of charge with no advertising or data monetization</li>
@@ -104,7 +105,7 @@ export default function PrivacyPolicy() {
               <li>Browsing history or navigation patterns</li>
               <li>Personally identifiable information including name, email address, or physical address</li>
               <li>IP addresses or geolocation data</li>
-              <li>Usage analytics or behavioral tracking data</li>
+              <li>Usage analytics or behavioral tracking data from your Extension usage or browsing activity</li>
               <li>Cookies or browser fingerprinting data</li>
             </ul>
           </section>
@@ -206,6 +207,18 @@ export default function PrivacyPolicy() {
                   <strong>Purpose:</strong> Retrieval of regulated prediction market data<br />
                   <strong>Data Transmitted:</strong> None (we retrieve publicly available market data only)<br />
                   <strong>Privacy Policy:</strong> Available at kalshi.com/privacy
+                </p>
+              </div>
+
+              <div>
+                <h3 className="font-jetbrains text-[var(--text-primary)] text-base font-semibold mb-2">
+                  4.4 Vercel Analytics
+                </h3>
+                <p className="font-jetbrains text-[var(--text-secondary)] text-sm">
+                  <strong>Purpose:</strong> Anonymous, aggregate page-view measurement on the musashi.bot website<br />
+                  <strong>Data Collected:</strong> Page view events and referrer information; no personal identity data is collected<br />
+                  <strong>Privacy Policy:</strong> Available at vercel.com/legal/privacy-policy<br />
+                  <strong>Note:</strong> This analytics applies to the musashi.bot website only, not to the Chrome Extension.
                 </p>
               </div>
             </div>

@@ -18,7 +18,7 @@ export default function Install() {
       <Header />
 
       {/* Install Content */}
-      <main className="flex flex-col items-center justify-center flex-1 w-full px-[80px] py-[120px]">
+      <main className="flex flex-col items-center justify-center flex-1 w-full px-4 py-12 sm:px-6 sm:py-16 lg:px-[80px] lg:py-[120px]">
         <div className="flex flex-col items-center gap-12 w-full max-w-[800px]">
 
           {/* Chrome Badge */}

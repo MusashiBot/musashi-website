@@ -74,9 +74,7 @@ export default function Mission() {
                 View on GitHub
               </a>
               <a
-                href="https://musashi-api.vercel.app/api/health"
-                target="_blank"
-                rel="noopener noreferrer"
+                href="/docs/trading-bot-quickstart"
                 className="px-6 py-3 border border-[var(--text-primary)] text-[var(--text-primary)] font-jetbrains text-xs font-bold hover:bg-[var(--overlay-light)] transition-colors"
               >
                 API Docs
