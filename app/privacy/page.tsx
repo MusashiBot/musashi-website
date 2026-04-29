@@ -1,24 +1,23 @@
+import type { Metadata } from 'next'
+import Header from '../components/Header'
+import SiteFooter from '../components/SiteFooter'
+
+export const metadata: Metadata = {
+  title: 'Privacy Policy',
+  description: 'Privacy policy for Musashi — the AI intelligence service for prediction market trading bots.',
+  openGraph: {
+    title: 'Privacy Policy | MUSASHI',
+    url: 'https://musashi.bot/privacy',
+  },
+}
+
 export default function PrivacyPolicy() {
   return (
     <div className="flex flex-col w-full bg-[var(--bg-primary)] min-h-screen">
-      {/* Header */}
-      <header className="flex items-center justify-between w-full px-[80px] py-4 bg-[var(--bg-primary)] border-b border-[var(--border-primary)] gap-10">
-        <a href="/" className="font-jetbrains text-[var(--text-primary)] text-[22px] font-bold tracking-[1px]">
-          MUSASHI
-        </a>
-        <nav className="flex items-center gap-8">
-          <a href="/mission" className="font-jetbrains text-[var(--text-secondary)] text-xs font-medium hover:text-[var(--text-primary)] transition-colors">MISSION</a>
-          <a href="/ai" className="font-jetbrains text-[var(--text-secondary)] text-xs font-medium hover:text-[var(--text-primary)] transition-colors">API</a>
-          <a href="/pricing" className="font-jetbrains text-[var(--text-secondary)] text-xs font-medium hover:text-[var(--text-primary)] transition-colors">PRICING</a>
-          <a href="/privacy" className="font-jetbrains text-[var(--text-primary)] text-xs font-medium hover:text-[var(--text-primary)] transition-colors">PRIVACY</a>
-        </nav>
-        <a href="/install" className="px-5 py-[10px] border border-[#FFFFFF40] bg-transparent hover:bg-[var(--overlay-light)] transition-colors">
-          <span className="font-jetbrains text-[var(--text-primary)] text-xs font-bold">Install</span>
-        </a>
-      </header>
+      <Header />
 
       {/* Main Content */}
-      <main className="flex flex-col items-center w-full px-[80px] py-[60px]">
+      <main className="flex flex-col items-center w-full px-4 py-12 sm:px-6 sm:py-16 lg:px-[80px] lg:py-[60px]">
         <div className="w-full max-w-[900px]">
           {/* Title */}
           <div className="border-l-4 border-[var(--text-primary)] pl-4 mb-8">
@@ -38,7 +37,8 @@ export default function PrivacyPolicy() {
             </h3>
             <ul className="font-jetbrains text-[var(--text-secondary)] text-sm space-y-2 pl-5 list-disc">
               <li>We do not collect or store personal data</li>
-              <li>No user accounts, tracking, or analytics</li>
+              <li>No user accounts, tracking, or analytics within the Extension</li>
+              <li>This website (musashi.bot) uses Vercel Analytics for anonymous, aggregate page-view measurement</li>
               <li>All data processing occurs locally in your browser</li>
               <li>Data is transmitted to third-party services only when you explicitly request sentiment analysis</li>
               <li>This service is provided free of charge with no advertising or data monetization</li>
@@ -105,7 +105,7 @@ export default function PrivacyPolicy() {
               <li>Browsing history or navigation patterns</li>
               <li>Personally identifiable information including name, email address, or physical address</li>
               <li>IP addresses or geolocation data</li>
-              <li>Usage analytics or behavioral tracking data</li>
+              <li>Usage analytics or behavioral tracking data from your Extension usage or browsing activity</li>
               <li>Cookies or browser fingerprinting data</li>
             </ul>
           </section>
@@ -207,6 +207,18 @@ export default function PrivacyPolicy() {
                   <strong>Purpose:</strong> Retrieval of regulated prediction market data<br />
                   <strong>Data Transmitted:</strong> None (we retrieve publicly available market data only)<br />
                   <strong>Privacy Policy:</strong> Available at kalshi.com/privacy
+                </p>
+              </div>
+
+              <div>
+                <h3 className="font-jetbrains text-[var(--text-primary)] text-base font-semibold mb-2">
+                  4.4 Vercel Analytics
+                </h3>
+                <p className="font-jetbrains text-[var(--text-secondary)] text-sm">
+                  <strong>Purpose:</strong> Anonymous, aggregate page-view measurement on the musashi.bot website<br />
+                  <strong>Data Collected:</strong> Page view events and referrer information; no personal identity data is collected<br />
+                  <strong>Privacy Policy:</strong> Available at vercel.com/legal/privacy-policy<br />
+                  <strong>Note:</strong> This analytics applies to the musashi.bot website only, not to the Chrome Extension.
                 </p>
               </div>
             </div>
@@ -398,52 +410,11 @@ export default function PrivacyPolicy() {
       </main>
 
       {/* Footer */}
-      <footer className="flex flex-col gap-6 w-full px-[120px] py-12 bg-[var(--bg-secondary)] border-t border-[var(--border-primary)] mt-auto">
-        <div className="flex items-start justify-between w-full">
-          <div className="flex flex-col gap-3">
-            <span className="font-jetbrains text-[var(--text-primary)] text-base font-semibold tracking-[1px]">
-              MUSASHI
-            </span>
-            <span className="font-jetbrains text-[var(--text-tertiary)] text-xs font-normal max-w-[400px] leading-relaxed">
-              Chrome extension that shows prediction markets on Twitter. API for agents.
-            </span>
-          </div>
-
-          <div className="flex gap-16">
-            <div className="flex flex-col gap-3">
-              <span className="font-jetbrains text-[var(--text-muted)] text-[10px] font-bold tracking-[1.5px] uppercase">
-                Product
-              </span>
-              <nav className="flex flex-col gap-2">
-                <a href="/ai" className="font-jetbrains text-[var(--text-secondary)] text-xs font-medium hover:text-[var(--text-primary)] transition-colors">API Docs</a>
-                <a href="/pricing" className="font-jetbrains text-[var(--text-secondary)] text-xs font-medium hover:text-[var(--text-primary)] transition-colors">Pricing</a>
-                <a href="/privacy" className="font-jetbrains text-[var(--text-secondary)] text-xs font-medium hover:text-[var(--text-primary)] transition-colors">Privacy</a>
-              </nav>
-            </div>
-
-            <div className="flex flex-col gap-3">
-              <span className="font-jetbrains text-[var(--text-muted)] text-[10px] font-bold tracking-[1.5px] uppercase">
-                Community
-              </span>
-              <nav className="flex flex-col gap-2">
-                <a href="https://twitter.com/musashimarket" target="_blank" rel="noopener noreferrer" className="font-jetbrains text-[var(--text-secondary)] text-xs font-medium hover:text-[var(--text-primary)] transition-colors">Twitter</a>
-                <a href="https://github.com/VittorioC13/musashi-bot" target="_blank" rel="noopener noreferrer" className="font-jetbrains text-[var(--text-secondary)] text-xs font-medium hover:text-[var(--text-primary)] transition-colors">GitHub</a>
-              </nav>
-            </div>
-          </div>
-        </div>
-
-        <div className="w-full h-[1px] bg-[var(--border-primary)]" />
-
-        <div className="flex items-center justify-between w-full">
-          <span className="font-jetbrains text-[var(--text-tertiary)] text-[11px] font-normal">
-            © {new Date().getFullYear()} Musashi
-          </span>
-          <span className="font-jetbrains text-[var(--text-tertiary)] text-[11px] font-normal">
-            Built for agents. Powered by prediction markets.
-          </span>
-        </div>
-      </footer>
+      <SiteFooter
+        variant="extended"
+        description="Chrome extension that shows prediction markets on Twitter. API for agents."
+        className="mt-auto"
+      />
     </div>
   );
 }

@@ -7,9 +7,10 @@ const RIGHT_LINES = 13;
 
 type TerminalDemoProps = {
   compactLayout?: boolean;
+  marketCount?: number;
 };
 
-export default function TerminalDemo({ compactLayout = false }: TerminalDemoProps) {
+export default function TerminalDemo({ compactLayout = false, marketCount = 100 }: TerminalDemoProps) {
   const [visibleLinesLeft, setVisibleLinesLeft] = useState(0);
   const [visibleLinesRight, setVisibleLinesRight] = useState(0);
 
@@ -217,10 +218,10 @@ export default function TerminalDemo({ compactLayout = false }: TerminalDemoProp
       <div className="mt-12 grid w-full max-w-[1000px] grid-cols-3 gap-3 sm:gap-6">
         <div className="flex flex-col items-center gap-2 rounded-lg border border-[#222] bg-[#111] px-3 py-5 sm:gap-3 sm:p-8">
           <div className="font-grotesk text-[30px] font-bold tracking-[-1px] text-[#4a9eff] sm:text-[48px]">
-            659
+            {marketCount}
           </div>
           <div className="text-center font-jetbrains text-[9px] uppercase tracking-[1px] text-[#888] sm:text-xs">
-            Markets Live
+            Arb Pages
           </div>
         </div>
         <div className="flex flex-col items-center gap-2 rounded-lg border border-[#222] bg-[#111] px-3 py-5 sm:gap-3 sm:p-8">
