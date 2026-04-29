@@ -1,36 +1,77 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# MUSASHI — Trade the Tweets
 
-## Getting Started
+**[musashi.bot](https://musashi.bot)** · [API Docs](https://musashi.bot/ai) · [Install Extension](https://musashi.bot/install) · [Pricing](https://musashi.bot/pricing)
 
-First, run the development server:
+---
+
+## What is Musashi?
+
+Musashi is an AI intelligence service for prediction market trading bots. It monitors 71 high-signal Twitter accounts, tracks 900+ markets across Polymarket and Kalshi, and delivers automated trading signals, arbitrage detection, and sentiment analysis via a free REST API — no authentication required.
+
+## Who It's For
+
+- **Trading bot developers** who need a unified real-time signal and arbitrage feed across Polymarket and Kalshi
+- **AI agent builders** integrating prediction market intelligence via REST or MCP (Claude, ChatGPT)
+- **Quantitative traders** monitoring cross-platform price discrepancies for arbitrage opportunities
+
+## Core Capabilities
+
+| Capability | Details |
+|---|---|
+| Market coverage | 900+ markets — Polymarket 500+ and Kalshi 400+ unified |
+| Signal feed | 71 high-signal Twitter accounts monitored every 2 minutes |
+| Arbitrage detection | Cross-platform spread data, ~15–20s polling interval |
+| Sentiment classification | Bullish / bearish / neutral with confidence scores |
+| API access | 7 endpoints, no auth, no rate limits during beta |
+
+## Quick Links
+
+| Resource | URL |
+|---|---|
+| Live site | https://musashi.bot |
+| API reference | https://musashi.bot/ai |
+| Chrome extension | https://musashi.bot/install |
+| Trading bot quickstart | https://musashi.bot/docs/trading-bot-quickstart |
+| API comparison | https://musashi.bot/compare/best-prediction-market-api |
+| Live arbitrage spreads | https://musashi.bot/arb |
+
+## Ecosystem
+
+This repo is the public website and SEO/AEO content layer. The backend and distribution components live in separate repos:
+
+| Repo | Role |
+|---|---|
+| [musashi-api](https://github.com/MusashiBot/musashi-api) | REST API backend — analysis pipeline, market and Twitter clients |
+| [musashi-mcp](https://github.com/MusashiBot/musashi-mcp) | MCP server exposing Musashi tools to Claude and ChatGPT |
+| [musashi-infra](https://github.com/MusashiBot/musashi-infra) | Kalshi data ingestion, normalization, and durable storage |
+| [musashi-extension](https://github.com/MusashiBot/musashi-extension) | Chrome extension — scans tweets and surfaces matching market overlays |
+
+## Frequently Asked Questions
+
+**What does Musashi do?**
+Musashi reads tweets from 71 tracked accounts, classifies sentiment, matches them to active prediction markets on Polymarket and Kalshi, and surfaces trading signals and arbitrage opportunities via a REST API. The Chrome extension surfaces this inline on Twitter.
+
+**Is it free?**
+Yes. The API has no authentication and no rate limits during the beta period. See [musashi.bot/pricing](https://musashi.bot/pricing).
+
+**What markets does Musashi cover?**
+500+ active Polymarket markets and 400+ Kalshi markets, spanning crypto, economics, politics, finance, tech, sports, and geopolitics.
+
+**Does Musashi execute trades?**
+No. Musashi is an intelligence layer — signals, spreads, and sentiment. Execution happens through the Polymarket CLOB API and the Kalshi API in your own bot.
+
+**How do I connect Musashi to Claude or ChatGPT?**
+Use [musashi-mcp](https://github.com/MusashiBot/musashi-mcp). The hosted MCP endpoint is `https://musashi-production.up.railway.app/mcp` with OAuth support for both Claude and ChatGPT.
+
+## Local Development
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+pnpm install
+pnpm dev        # → http://localhost:3000
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Built with Next.js 16 (App Router), React 19, Tailwind CSS 4, TypeScript.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Deployment
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Deployed on Vercel. Production: **https://musashi.bot**
