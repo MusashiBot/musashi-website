@@ -1,13 +1,16 @@
 import type { Metadata } from 'next'
 import JsonLd from './components/JsonLd'
 import HomepageClient from './HomepageClient'
+import markets from '../data/markets.json'
+
+const publicMarketCount = (markets as Array<{ slug: string }>).length
 
 export const metadata: Metadata = {
   title: { absolute: 'MUSASHI - Trade the Tweets' },
-  description: 'AI intelligence service for trading bots. Monitor 71 high-signal accounts, track 900+ prediction markets across Polymarket and Kalshi, detect arbitrage, and get automated trading signals via REST API. Free.',
+  description: 'AI intelligence service for trading bots. Monitor 71 high-signal accounts, browse 100+ live arbitrage pages across Polymarket and Kalshi, detect spreads, and get automated trading signals via REST API. Free.',
   openGraph: {
     title: 'MUSASHI - Trade the Tweets',
-    description: 'AI trading bot intelligence for prediction markets. 900+ markets. Arbitrage detection. Free API with no rate limits.',
+    description: 'AI trading bot intelligence for prediction markets. 100+ live arbitrage pages. Arbitrage detection. Free API with no rate limits.',
     url: 'https://musashi.bot',
   },
 }
@@ -21,7 +24,7 @@ const faqSchema = {
       name: 'What is Musashi?',
       acceptedAnswer: {
         '@type': 'Answer',
-        text: 'Musashi is an AI intelligence service that automatically collects and analyzes tweets from 71 high-signal accounts every 2 minutes, matches them to 900+ prediction markets, generates trading signals, and feeds structured data to AI trading bots via a polling API.',
+        text: 'Musashi is an AI intelligence service that automatically collects and analyzes tweets from 71 high-signal accounts every 2 minutes, matches them to live prediction markets across Polymarket and Kalshi, generates trading signals, and feeds structured data to AI trading bots via a polling API.',
       },
     },
     {
@@ -45,7 +48,7 @@ const faqSchema = {
       name: 'What markets does Musashi cover?',
       acceptedAnswer: {
         '@type': 'Answer',
-        text: '900+ markets from Polymarket (500) and Kalshi (400), sorted by volume. Politics, economics, crypto, technology, sports, geopolitics, climate, and entertainment. Markets update every 15-20 seconds for real-time trading decisions.',
+        text: `The public site currently surfaces ${publicMarketCount} live arbitrage pages across crypto, economics, entertainment, finance, geopolitics, politics, sports, and tech. Musashi matches signals across both Polymarket and Kalshi and keeps cross-platform pricing fresh for live trading decisions.`,
       },
     },
     {
@@ -79,7 +82,7 @@ export default function Home() {
   return (
     <>
       <JsonLd data={faqSchema} />
-      <HomepageClient />
+      <HomepageClient publicMarketCount={publicMarketCount} />
     </>
   )
 }

@@ -1,4 +1,5 @@
 import type { Metadata } from 'next'
+import Header from '../components/Header'
 
 export const metadata: Metadata = {
   title: 'Mission',
@@ -13,24 +14,10 @@ export const metadata: Metadata = {
 export default function Mission() {
   return (
     <div className="flex flex-col w-full bg-[var(--bg-primary)] min-h-screen">
-      {/* Header */}
-      <header className="flex items-center justify-between w-full px-[80px] py-4 bg-[var(--bg-primary)] border-b border-[var(--border-primary)] gap-10">
-        <a href="/" className="font-jetbrains text-[var(--text-primary)] text-[22px] font-bold tracking-[1px]">
-          MUSASHI
-        </a>
-        <nav className="flex items-center gap-8">
-          <a href="/mission" className="font-jetbrains text-[var(--text-primary)] text-xs font-medium hover:text-[var(--text-primary)] transition-colors">MISSION</a>
-          <a href="/ai" className="font-jetbrains text-[var(--text-secondary)] text-xs font-medium hover:text-[var(--text-primary)] transition-colors">API</a>
-          <a href="/pricing" className="font-jetbrains text-[var(--text-secondary)] text-xs font-medium hover:text-[var(--text-primary)] transition-colors">PRICING</a>
-          <a href="/privacy" className="font-jetbrains text-[var(--text-secondary)] text-xs font-medium hover:text-[var(--text-primary)] transition-colors">PRIVACY</a>
-        </nav>
-        <a href="/install" className="px-5 py-[10px] border border-[#FFFFFF40] bg-transparent hover:bg-[var(--overlay-light)] transition-colors">
-          <span className="font-jetbrains text-[var(--text-primary)] text-xs font-bold">Install</span>
-        </a>
-      </header>
+      <Header />
 
       {/* Main Content */}
-      <main className="flex flex-col items-center w-full px-[80px] py-[60px]">
+      <main className="flex flex-col items-center w-full px-4 py-12 sm:px-6 sm:py-16 lg:px-[80px] lg:py-[60px]">
         <div className="w-full max-w-[900px]">
           {/* Title */}
           <div className="border-l-4 border-[var(--text-primary)] pl-4 mb-8">
@@ -46,7 +33,7 @@ export default function Mission() {
           {/* Quote Box */}
           <div className="bg-[var(--bg-secondary)] border border-[var(--text-primary)] border-l-4 p-6 mb-12">
             <blockquote className="font-jetbrains text-[var(--text-primary)] text-lg font-medium italic mb-4">
-              "it's 2026, Build. For. Agents"
+              &ldquo;it&apos;s 2026, Build. For. Agents&rdquo;
             </blockquote>
             <p className="font-jetbrains text-[var(--text-secondary)] text-sm">
               — Andrej Karpathy
@@ -59,10 +46,10 @@ export default function Mission() {
               The Vision
             </h2>
             <p className="font-jetbrains text-[var(--text-secondary)] text-[15px] leading-[1.8] mb-4">
-              In 5 years, most prediction market trades will be executed by agents, not humans. Agents will monitor millions of data sources simultaneously, detect patterns humans can't see, and execute trades in milliseconds. They'll run 24/7, never sleep, never panic sell, and never miss an opportunity because they were in a meeting.
+              In 5 years, most prediction market trades will be executed by agents, not humans. Agents will monitor millions of data sources simultaneously, detect patterns humans can&apos;t see, and execute trades in milliseconds. They&apos;ll run 24/7, never sleep, never panic sell, and never miss an opportunity because they were in a meeting.
             </p>
             <p className="font-jetbrains text-[var(--text-secondary)] text-[15px] leading-[1.8] mb-4">
-              Musashi is building the infrastructure for that future. We're not trying to make a prettier TradingView or a better Robinhood. We're building the API layer that the next generation of autonomous trading systems will run on.
+              Musashi is building the infrastructure for that future. We&apos;re not trying to make a prettier TradingView or a better Robinhood. We&apos;re building the API layer that the next generation of autonomous trading systems will run on.
             </p>
             <p className="font-jetbrains text-[var(--text-secondary)] text-[15px] leading-[1.8]">
               The era of CLI is here. The era of agents is here. And Musashi is ready.

@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import ContentPage, { type FaqEntry } from '../../components/ContentPage'
+import RelatedLinks from '../../components/RelatedLinks'
 
 export const metadata: Metadata = {
   title: 'How to Automate Polymarket Trading',
@@ -65,11 +66,17 @@ const schemas = [
   },
 ]
 
+const relatedGuideLinks = [
+  { href: '/docs/trading-bot-quickstart', label: 'Trading Bot Quickstart (full setup)' },
+  { href: '/blog/polymarket-vs-kalshi-arbitrage', label: 'Polymarket vs Kalshi arbitrage' },
+  { href: '/docs/polymarket-api', label: 'Polymarket API reference' },
+]
+
 export default function HowToAutomatePolymarket() {
   return (
     <ContentPage
       h1="How to Automate Polymarket Trading"
-      answer="To automate Polymarket trading, you need a market intelligence source and an execution layer. Musashi handles intelligence — providing sentiment signals matched to 900+ markets every 2 minutes. The Polymarket CLOB API handles execution. Connect both and your bot runs 24/7."
+      answer="To automate Polymarket trading, you need a market intelligence source and an execution layer. Musashi handles intelligence — providing sentiment signals matched to live prediction markets across Polymarket and Kalshi every 2 minutes. The Polymarket CLOB API handles execution. Connect both and your bot runs 24/7."
       faqs={faqs}
       schemas={schemas}
     >
@@ -177,14 +184,7 @@ runTradingLoop()`}</pre>
         </ul>
       </section>
 
-      <section className="border border-[var(--border-primary)] bg-[var(--bg-secondary)] p-6">
-        <h2 className="font-grotesk text-[var(--text-primary)] text-[20px] font-bold mb-3">Related Guides</h2>
-        <div className="flex flex-col gap-2">
-          <a href="/docs/trading-bot-quickstart" className="font-jetbrains text-[13px] text-[#00FF88] hover:opacity-80">→ Trading Bot Quickstart (full setup)</a>
-          <a href="/blog/polymarket-vs-kalshi-arbitrage" className="font-jetbrains text-[13px] text-[#00FF88] hover:opacity-80">→ Polymarket vs Kalshi arbitrage</a>
-          <a href="/docs/polymarket-api" className="font-jetbrains text-[13px] text-[#00FF88] hover:opacity-80">→ Polymarket API reference</a>
-        </div>
-      </section>
+      <RelatedLinks title="Related Guides" links={relatedGuideLinks} />
     </ContentPage>
   )
 }

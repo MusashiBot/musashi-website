@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import ContentPage, { type FaqEntry } from '../../components/ContentPage'
+import RelatedLinks from '../../components/RelatedLinks'
 
 export const metadata: Metadata = {
   title: 'Best Prediction Market API for Trading Bots',
@@ -14,7 +15,7 @@ export const metadata: Metadata = {
 const faqs: FaqEntry[] = [
   {
     q: 'Which prediction market API has the most markets?',
-    a: 'Musashi tracks 900+ markets across both Polymarket (500+) and Kalshi (400+) in a single unified API. Native Polymarket and Kalshi APIs only return their own markets, requiring you to maintain two separate integrations.',
+    a: 'Musashi combines Polymarket and Kalshi data in a single unified API. Native Polymarket and Kalshi APIs only return their own markets, requiring you to maintain two separate integrations and merge the market coverage yourself.',
   },
   {
     q: 'Is there a free Polymarket API?',
@@ -54,8 +55,14 @@ const schemas = [
   },
 ]
 
+const startBuildingLinks = [
+  { href: '/docs/trading-bot-quickstart', label: 'Trading Bot Quickstart' },
+  { href: '/ai', label: 'Full API Reference' },
+  { href: '/blog/polymarket-vs-kalshi-arbitrage', label: 'Arbitrage detection guide' },
+]
+
 const comparison = [
-  { feature: 'Markets covered', musashi: '900+ (Polymarket + Kalshi)', polymarket: 'Polymarket only', kalshi: 'Kalshi only' },
+  { feature: 'Markets covered', musashi: 'Cross-platform (Polymarket + Kalshi)', polymarket: 'Polymarket only', kalshi: 'Kalshi only' },
   { feature: 'Authentication', musashi: 'None required', polymarket: 'Wallet signature', kalshi: 'API key required' },
   { feature: 'Twitter sentiment signals', musashi: 'Yes — 71 accounts, every 2 min', polymarket: 'No', kalshi: 'No' },
   { feature: 'Arbitrage detection', musashi: 'Yes — cross-platform', polymarket: 'No', kalshi: 'No' },
@@ -103,25 +110,21 @@ export default function BestPredictionMarketApi() {
       <section>
         <h2 className="font-grotesk text-[var(--text-primary)] text-[24px] font-bold mb-4">Why Musashi for Trading Bots</h2>
         <p className="font-jetbrains text-[var(--text-secondary)] text-[14px] leading-[1.8] mb-4">
-          Native Polymarket and Kalshi APIs are optimized for order execution, not intelligence. They return raw market data but leave signal generation entirely to you. For a trading bot that needs to know <em>when</em> to trade — not just <em>how</em> — that's a major gap.
+          Native Polymarket and Kalshi APIs are optimized for order execution, not intelligence. They return raw market data but leave signal generation entirely to you. For a trading bot that needs to know <em>when</em> to trade — not just <em>how</em> — that&apos;s a major gap.
         </p>
         <p className="font-jetbrains text-[var(--text-secondary)] text-[14px] leading-[1.8] mb-4">
           Musashi fills the intelligence layer: it collects and classifies Twitter signals from 71 high-signal accounts, matches them to specific markets, and returns a structured signal with confidence score, edge estimate, and suggested action. Your bot can be operational in under 30 minutes.
         </p>
         <p className="font-jetbrains text-[var(--text-secondary)] text-[14px] leading-[1.8]">
-          For arbitrage bots specifically, Musashi's cross-platform spread detection is the only purpose-built endpoint in the category. It surfaces Polymarket–Kalshi price discrepancies automatically, so you don't have to maintain two separate polling loops.
+          For arbitrage bots specifically, Musashi&apos;s cross-platform spread detection is the only purpose-built endpoint in the category. It surfaces Polymarket–Kalshi price discrepancies automatically, so you don&apos;t have to maintain two separate polling loops.
         </p>
       </section>
 
-      <section className="border border-[var(--border-primary)] bg-[var(--bg-secondary)] p-6">
-        <h2 className="font-grotesk text-[var(--text-primary)] text-[20px] font-bold mb-3">Start Building</h2>
-        <p className="font-jetbrains text-[var(--text-secondary)] text-[13px] mb-4">Free with no authentication required. Ready in minutes.</p>
-        <div className="flex flex-col gap-2">
-          <a href="/docs/trading-bot-quickstart" className="font-jetbrains text-[13px] text-[#00FF88] hover:opacity-80">→ Trading Bot Quickstart</a>
-          <a href="/ai" className="font-jetbrains text-[13px] text-[#00FF88] hover:opacity-80">→ Full API Reference</a>
-          <a href="/blog/polymarket-vs-kalshi-arbitrage" className="font-jetbrains text-[13px] text-[#00FF88] hover:opacity-80">→ Arbitrage detection guide</a>
-        </div>
-      </section>
+      <RelatedLinks
+        title="Start Building"
+        description="Free with no authentication required. Ready in minutes."
+        links={startBuildingLinks}
+      />
     </ContentPage>
   )
 }

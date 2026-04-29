@@ -1,4 +1,5 @@
 import type { Metadata } from 'next'
+import Link from 'next/link'
 import ContentPage, { type FaqEntry } from '../../components/ContentPage'
 
 export const metadata: Metadata = {
@@ -89,11 +90,11 @@ export default function PolymarketVsKalshiArbitrage() {
       <section>
         <h2 className="font-grotesk text-[var(--text-primary)] text-[24px] font-bold mb-4">What Is Prediction Market Arbitrage?</h2>
         <p className="font-jetbrains text-[var(--text-secondary)] text-[14px] leading-[1.8] mb-4">
-          Prediction markets like Polymarket and Kalshi let you buy and sell shares in the outcome of future events. Each share resolves to $1 if the event occurs, $0 if it doesn't. When both platforms price the same event differently, you can trade both sides simultaneously for a near-guaranteed profit.
+          Prediction markets like Polymarket and Kalshi let you buy and sell shares in the outcome of future events. Each share resolves to $1 if the event occurs, $0 if it doesn&apos;t. When both platforms price the same event differently, you can trade both sides simultaneously for a near-guaranteed profit.
         </p>
         <div className="border border-[#00FF88]/30 bg-[#00FF88]/5 p-5">
           <p className="font-jetbrains text-[var(--text-secondary)] text-[13px] leading-[1.8]">
-            <strong className="text-[#00FF88]">Example:</strong> "Will the Fed cut rates in June?" trades at 63% YES on Polymarket and 70% YES on Kalshi.
+            <strong className="text-[#00FF88]">Example:</strong> &quot;Will the Fed cut rates in June?&quot; trades at 63% YES on Polymarket and 70% YES on Kalshi.
             Buy 100 YES shares at $0.63 on Polymarket. Sell 100 YES shares (short) at $0.70 on Kalshi.
             You collect $70 from the short sale and spend $63 on the long, locking in a <strong className="text-[#00FF88]">$7 gross spread</strong> up front.
             If YES resolves, the long pays $100 and the short owes $100.
@@ -116,7 +117,7 @@ export default function PolymarketVsKalshiArbitrage() {
       <section>
         <h2 className="font-grotesk text-[var(--text-primary)] text-[24px] font-bold mb-4">Live Arbitrage Data from Musashi</h2>
         <p className="font-jetbrains text-[var(--text-secondary)] text-[14px] leading-[1.8] mb-4">
-          Musashi's <code className="text-white">/api/markets/arbitrage</code> endpoint polls both platforms every 15–20 seconds and surfaces cross-platform spreads. Each entry includes:
+          Musashi&apos;s <code className="text-white">/api/markets/arbitrage</code> endpoint polls both platforms every 15–20 seconds and surfaces cross-platform spreads. Each entry includes:
         </p>
         <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
           {[
@@ -134,7 +135,7 @@ export default function PolymarketVsKalshiArbitrage() {
           ))}
         </div>
         <div className="mt-4">
-          <a href="/arb" className="font-jetbrains text-[13px] text-[#00FF88] hover:opacity-80">→ View live arbitrage pages by market</a>
+          <Link href="/arb" className="font-jetbrains text-[13px] text-[#00FF88] hover:opacity-80">→ View live arbitrage pages by market</Link>
         </div>
       </section>
 
@@ -187,9 +188,9 @@ for (const arb of opportunities) {
           The Musashi arbitrage endpoint is free and requires no authentication. Browse live spread data by market below.
         </p>
         <div className="flex flex-col gap-2">
-          <a href="/arb" className="font-jetbrains text-[13px] text-[#00FF88] hover:opacity-80">→ Live arbitrage market pages</a>
-          <a href="/docs/trading-bot-quickstart" className="font-jetbrains text-[13px] text-[#00FF88] hover:opacity-80">→ Build an arbitrage bot (quickstart)</a>
-          <a href="/docs/polymarket-api" className="font-jetbrains text-[13px] text-[#00FF88] hover:opacity-80">→ Full API reference</a>
+          <Link href="/arb" className="font-jetbrains text-[13px] text-[#00FF88] hover:opacity-80">→ Live arbitrage market pages</Link>
+          <Link href="/docs/trading-bot-quickstart" className="font-jetbrains text-[13px] text-[#00FF88] hover:opacity-80">→ Build an arbitrage bot (quickstart)</Link>
+          <Link href="/docs/polymarket-api" className="font-jetbrains text-[13px] text-[#00FF88] hover:opacity-80">→ Full API reference</Link>
         </div>
       </section>
     </ContentPage>

@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import ContentPage, { type FaqEntry } from '../../components/ContentPage'
+import RelatedLinks from '../../components/RelatedLinks'
 
 export const metadata: Metadata = {
   title: 'Polymarket API Reference',
@@ -111,6 +112,12 @@ const schemas = [
   },
 ]
 
+const referenceLinks = [
+  { href: '/ai', label: 'Interactive API docs' },
+  { href: '/docs/trading-bot-quickstart', label: 'Trading bot quickstart' },
+  { href: '/compare/best-prediction-market-api', label: 'Compare prediction market APIs' },
+]
+
 export default function PolymarketApiReference() {
   return (
     <ContentPage
@@ -190,17 +197,11 @@ export default function PolymarketApiReference() {
         </div>
       </section>
 
-      <section className="border border-[var(--border-primary)] bg-[var(--bg-secondary)] p-6">
-        <h2 className="font-grotesk text-[var(--text-primary)] text-[20px] font-bold mb-3">Full API Reference</h2>
-        <p className="font-jetbrains text-[var(--text-secondary)] text-[13px] mb-4">
-          The complete interactive API docs with examples in Python, Node.js, and curl are at the link below.
-        </p>
-        <div className="flex flex-col gap-2">
-          <a href="/ai" className="font-jetbrains text-[13px] text-[#00FF88] hover:opacity-80">→ Interactive API docs</a>
-          <a href="/docs/trading-bot-quickstart" className="font-jetbrains text-[13px] text-[#00FF88] hover:opacity-80">→ Trading bot quickstart</a>
-          <a href="/compare/best-prediction-market-api" className="font-jetbrains text-[13px] text-[#00FF88] hover:opacity-80">→ Compare prediction market APIs</a>
-        </div>
-      </section>
+      <RelatedLinks
+        title="Full API Reference"
+        description="The complete interactive API docs with examples in Python, Node.js, and curl are at the link below."
+        links={referenceLinks}
+      />
     </ContentPage>
   )
 }

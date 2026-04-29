@@ -3,6 +3,7 @@ import path from "node:path";
 import Link from "next/link";
 import type { ReactNode } from "react";
 import type { Metadata } from "next";
+import Header from "../components/Header";
 
 export const metadata: Metadata = {
   title: 'API Documentation',
@@ -60,46 +61,7 @@ export default async function DocsPage(props: PageProps) {
 
   return (
     <div className="flex min-h-screen w-full flex-col bg-[var(--bg-primary)]">
-      <header className="flex w-full items-center justify-between gap-8 border-b border-[var(--border-primary)] bg-[var(--bg-primary)] px-6 py-4 md:px-10 lg:px-[80px]">
-        <Link
-          href="/"
-          className="font-jetbrains text-[20px] font-bold tracking-[1px] text-[var(--text-primary)] md:text-[22px]"
-        >
-          MUSASHI
-        </Link>
-        <nav className="hidden items-center gap-8 md:flex">
-          <Link
-            href="/mission"
-            className="font-jetbrains text-xs font-medium text-[var(--text-secondary)] transition-colors hover:text-[var(--text-primary)]"
-          >
-            MISSION
-          </Link>
-          <Link
-            href="/ai"
-            className="font-jetbrains text-xs font-medium text-[var(--text-primary)] transition-colors hover:text-[var(--text-primary)]"
-          >
-            API
-          </Link>
-          <Link
-            href="/pricing"
-            className="font-jetbrains text-xs font-medium text-[var(--text-secondary)] transition-colors hover:text-[var(--text-primary)]"
-          >
-            PRICING
-          </Link>
-          <Link
-            href="/privacy"
-            className="font-jetbrains text-xs font-medium text-[var(--text-secondary)] transition-colors hover:text-[var(--text-primary)]"
-          >
-            PRIVACY
-          </Link>
-        </nav>
-        <Link
-          href="/install"
-          className="border border-[#FFFFFF40] bg-transparent px-5 py-[10px] transition-colors hover:bg-[var(--overlay-light)]"
-        >
-          <span className="font-jetbrains text-xs font-bold text-[var(--text-primary)]">Install</span>
-        </Link>
-      </header>
+      <Header />
 
       <main className="flex w-full flex-1 flex-col px-6 py-8 md:px-10 md:py-10 lg:px-[80px] lg:py-12">
         <section className="mb-8 flex w-full flex-col gap-6 border border-[var(--border-primary)] bg-[var(--bg-tertiary)] p-6 md:mb-10 md:p-8">

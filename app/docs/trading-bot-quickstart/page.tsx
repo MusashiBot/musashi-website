@@ -1,5 +1,7 @@
 import type { Metadata } from 'next'
+import Link from 'next/link'
 import ContentPage, { type FaqEntry } from '../../components/ContentPage'
+import RelatedLinks from '../../components/RelatedLinks'
 
 export const metadata: Metadata = {
   title: 'Trading Bot Quickstart',
@@ -22,7 +24,7 @@ const faqs: FaqEntry[] = [
   },
   {
     q: 'Does Musashi support Kalshi markets?',
-    a: 'Yes. Musashi tracks 400+ Kalshi markets alongside 500+ Polymarket markets, and its arbitrage endpoint detects cross-platform spreads between the two exchanges in real time.',
+    a: 'Yes. Musashi tracks Kalshi alongside Polymarket and its arbitrage endpoint detects cross-platform spreads between the two exchanges in real time.',
   },
   {
     q: 'How do I filter signals by urgency?',
@@ -78,11 +80,17 @@ const schemas = [
   },
 ]
 
+const nextStepLinks = [
+  { href: '/docs/polymarket-api', label: 'Polymarket API Reference' },
+  { href: '/compare/best-prediction-market-api', label: 'Compare prediction market APIs' },
+  { href: '/blog/polymarket-vs-kalshi-arbitrage', label: 'Polymarket vs Kalshi arbitrage guide' },
+]
+
 export default function TradingBotQuickstart() {
   return (
     <ContentPage
       h1="How to Build a Prediction Market Trading Bot with Musashi"
-      answer="Musashi provides a free REST API that monitors 71 Twitter accounts, matches sentiment signals to 900+ prediction markets on Polymarket and Kalshi, and delivers structured trading data. Clone, install, and your bot has live market intelligence in minutes."
+      answer="Musashi provides a free REST API that monitors 71 Twitter accounts, matches sentiment signals to live prediction markets on Polymarket and Kalshi, and delivers structured trading data. Clone, install, and your bot has live market intelligence in minutes."
       faqs={faqs}
       schemas={schemas}
     >
@@ -175,18 +183,11 @@ setInterval(async () => {
           Use the Polymarket CLOB client or Kalshi API to place orders when your signal threshold is met. Only trade markets where signal confidence is above your minimum threshold (0.70+ recommended to start).
         </p>
         <p className="font-jetbrains text-[var(--text-secondary)] text-[13px] leading-[1.8]">
-          For arbitrage opportunities, check <code className="text-white">GET /api/markets/arbitrage</code> — see the full reference in the <a href="/ai" className="text-[#00FF88] underline hover:opacity-80">API docs</a>.
+          For arbitrage opportunities, check <code className="text-white">GET /api/markets/arbitrage</code> — see the full reference in the <Link href="/ai" className="text-[#00FF88] underline hover:opacity-80">API docs</Link>.
         </p>
       </section>
 
-      <section className="border border-[var(--border-primary)] bg-[var(--bg-secondary)] p-6">
-        <h2 className="font-grotesk text-[var(--text-primary)] text-[20px] font-bold mb-3">Next Steps</h2>
-        <div className="flex flex-col gap-2">
-          <a href="/docs/polymarket-api" className="font-jetbrains text-[13px] text-[#00FF88] hover:opacity-80">→ Polymarket API Reference</a>
-          <a href="/compare/best-prediction-market-api" className="font-jetbrains text-[13px] text-[#00FF88] hover:opacity-80">→ Compare prediction market APIs</a>
-          <a href="/blog/polymarket-vs-kalshi-arbitrage" className="font-jetbrains text-[13px] text-[#00FF88] hover:opacity-80">→ Polymarket vs Kalshi arbitrage guide</a>
-        </div>
-      </section>
+      <RelatedLinks title="Next Steps" links={nextStepLinks} />
     </ContentPage>
   )
 }

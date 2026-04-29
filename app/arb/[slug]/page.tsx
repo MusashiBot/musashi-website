@@ -1,6 +1,11 @@
 import type { Metadata } from 'next'
+import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import JsonLd from '../../components/JsonLd'
+import Header from '../../components/Header'
+import SiteFooter from '../../components/SiteFooter'
+import { formatPrice, formatLiquidity } from '../../utils/formatMarket'
+import RelatedLinks from '../../components/RelatedLinks'
 import markets from '../../../data/markets.json'
 
 export const revalidate = 3600
@@ -39,16 +44,6 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
       url: `https://musashi.bot/arb/${slug}`,
     },
   }
-}
-
-function formatPrice(price: number) {
-  return `${(price * 100).toFixed(0)}¢`
-}
-
-function formatLiquidity(amount: number) {
-  if (amount >= 1_000_000) return `$${(amount / 1_000_000).toFixed(1)}M`
-  if (amount >= 1_000) return `$${(amount / 1_000).toFixed(0)}K`
-  return `$${amount}`
 }
 
 export default async function ArbPage({ params }: { params: Promise<{ slug: string }> }) {
@@ -121,27 +116,17 @@ export default async function ArbPage({ params }: { params: Promise<{ slug: stri
         <JsonLd key={i} data={schema} />
       ))}
 
-      <header className="flex items-center justify-between w-full px-6 py-4 bg-[var(--bg-primary)] border-b border-[var(--border-primary)] lg:px-[80px]">
-        <a href="/" className="font-jetbrains text-[var(--text-primary)] text-[22px] font-bold tracking-[1px]">MUSASHI</a>
-        <nav className="hidden md:flex items-center gap-6">
-          <a href="/arb" className="font-jetbrains text-[var(--text-secondary)] text-xs hover:text-[var(--text-primary)] transition-colors">All Markets</a>
-          <a href="/blog/polymarket-vs-kalshi-arbitrage" className="font-jetbrains text-[var(--text-secondary)] text-xs hover:text-[var(--text-primary)] transition-colors">Arb Guide</a>
-          <a href="/ai" className="font-jetbrains text-[var(--text-secondary)] text-xs hover:text-[var(--text-primary)] transition-colors">API</a>
-        </nav>
-        <a href="/install" className="px-5 py-[10px] border border-[#FFFFFF40] hover:bg-[var(--overlay-light)] transition-colors">
-          <span className="font-jetbrains text-[var(--text-primary)] text-xs font-bold">Install</span>
-        </a>
-      </header>
+      <Header />
 
       <main className="flex flex-col items-center w-full px-6 py-12 lg:px-[120px] lg:py-[60px]">
         <div className="w-full max-w-[860px]">
           {/* Breadcrumb */}
           <nav className="flex items-center gap-2 font-jetbrains text-[11px] text-[var(--text-tertiary)] mb-6">
-            <a href="/" className="hover:text-[var(--text-primary)] transition-colors">Home</a>
+            <Link href="/" className="hover:text-[var(--text-primary)] transition-colors">Home</Link>
             <span>/</span>
-            <a href="/arb" className="hover:text-[var(--text-primary)] transition-colors">Arbitrage Markets</a>
+            <Link href="/arb" className="hover:text-[var(--text-primary)] transition-colors">Arbitrage Markets</Link>
             <span>/</span>
-            <span className="text-[var(--text-secondary)]">{market.category}</span>
+            <span className="text-[var(--text-secondary)]">{market.title}</span>
           </nav>
 
           <h1 className="font-grotesk text-[var(--text-primary)] text-[30px] font-bold tracking-[-0.5px] leading-[1.2] mb-3 lg:text-[40px]">
@@ -215,32 +200,26 @@ export default async function ArbPage({ params }: { params: Promise<{ slug: stri
             </div>
           </section>
 
-          {/* Related */}
-          <section className="border border-[var(--border-primary)] bg-[var(--bg-secondary)] p-6">
-            <h2 className="font-grotesk text-[var(--text-primary)] text-[18px] font-bold mb-3">Detect More Arbitrage</h2>
-            <div className="flex flex-col gap-2">
-              <a href="/arb" className="font-jetbrains text-[13px] text-[#00FF88] hover:opacity-80">→ All arbitrage markets</a>
-              <a href="/blog/polymarket-vs-kalshi-arbitrage" className="font-jetbrains text-[13px] text-[#00FF88] hover:opacity-80">→ Polymarket vs Kalshi arbitrage guide</a>
-              <a href="/docs/trading-bot-quickstart" className="font-jetbrains text-[13px] text-[#00FF88] hover:opacity-80">→ Build an arbitrage trading bot</a>
-              <a href="/ai" className="font-jetbrains text-[13px] text-[#00FF88] hover:opacity-80">→ API reference (/api/markets/arbitrage)</a>
-            </div>
-          </section>
+          <RelatedLinks
+            title="Detect More Arbitrage"
+            links={[
+              { href: '/arb', label: 'All arbitrage markets' },
+              { href: '/blog/polymarket-vs-kalshi-arbitrage', label: 'Polymarket vs Kalshi arbitrage guide' },
+              { href: '/docs/trading-bot-quickstart', label: 'Build an arbitrage trading bot' },
+              { href: '/ai', label: 'API reference (/api/markets/arbitrage)' },
+            ]}
+          />
         </div>
       </main>
 
-      <footer className="flex w-full flex-col gap-4 border-t border-[var(--border-primary)] bg-[var(--bg-secondary)] px-6 py-10 lg:px-[120px]">
-        <div className="flex w-full flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
-          <a href="/" className="font-jetbrains text-base font-semibold tracking-[1px] text-[var(--text-primary)]">MUSASHI</a>
-          <nav className="flex gap-6">
-            <a href="/arb" className="font-jetbrains text-xs text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-colors">Markets</a>
-            <a href="/ai" className="font-jetbrains text-xs text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-colors">API</a>
-            <a href="/pricing" className="font-jetbrains text-xs text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-colors">Pricing</a>
-          </nav>
-        </div>
-        <span className="font-jetbrains text-[11px] text-[var(--text-tertiary)]">
-          © {new Date().getFullYear()} Musashi — Prediction market intelligence for trading bots.
-        </span>
-      </footer>
+      <SiteFooter
+        compactLinks={[
+          { label: 'Markets', href: '/arb' },
+          { label: 'API', href: '/ai' },
+          { label: 'Pricing', href: '/pricing' },
+        ]}
+        tagline="Prediction market intelligence for trading bots."
+      />
     </div>
   )
 }

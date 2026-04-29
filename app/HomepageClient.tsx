@@ -6,6 +6,8 @@ import SmoothScrollLink from "./components/SmoothScrollLink";
 import FAQ from "./components/FAQ";
 import InstallCodeReveal from "./components/InstallCodeReveal";
 import useCompactLayout from "./hooks/useCompactLayout";
+import Header from "./components/Header";
+import SiteFooter from "./components/SiteFooter";
 
 const mobileInstallSteps = [
   {
@@ -22,9 +24,8 @@ const mobileInstallSteps = [
   },
 ];
 
-export default function HomepageClient() {
+export default function HomepageClient({ publicMarketCount }: { publicMarketCount: number }) {
   const [showInstallCode, setShowInstallCode] = useState(false);
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [pendingInstallScroll, setPendingInstallScroll] = useState(false);
   const isCompactLayout = useCompactLayout();
   const installSectionRef = useRef<HTMLDivElement | null>(null);
@@ -42,99 +43,29 @@ export default function HomepageClient() {
 
   const handleInstallClick = () => {
     if (isCompactLayout) {
-      setMobileMenuOpen(false);
       setPendingInstallScroll(true);
       return;
     }
-
     setShowInstallCode((current) => !current);
   };
 
+  const installLabel = !isCompactLayout && showInstallCode ? 'Hide Setup' : 'Install';
+
   return (
     <div className="flex flex-col w-full bg-[var(--bg-primary)]">
-      <header className="relative z-50 flex items-center justify-between w-full gap-4 border-b border-[var(--border-primary)] bg-[var(--bg-primary)] px-4 py-4 sm:px-6 lg:px-[80px]">
-        <div className="font-jetbrains text-xl font-bold tracking-[1px] text-[var(--text-primary)] sm:text-[22px]">
-          MUSASHI
-        </div>
-        <nav className={`${isCompactLayout ? 'hidden' : 'hidden md:flex'} items-center gap-8`}>
-          <a href="/mission" className="font-jetbrains text-xs font-medium text-[var(--text-secondary)] transition-colors hover:text-[var(--text-primary)]">MISSION</a>
-          <a href="/ai" className="font-jetbrains text-xs font-medium text-[var(--text-secondary)] transition-colors hover:text-[var(--text-primary)]">API</a>
-          <a href="/pricing" className="font-jetbrains text-xs font-medium text-[var(--text-secondary)] transition-colors hover:text-[var(--text-primary)]">PRICING</a>
-          <a href="/privacy" className="font-jetbrains text-xs font-medium text-[var(--text-secondary)] transition-colors hover:text-[var(--text-primary)]">PRIVACY</a>
-        </nav>
-        <div className="flex items-center gap-2 sm:gap-3">
-          <button
-            type="button"
-            onClick={handleInstallClick}
-            className="border border-[#FFFFFF40] bg-transparent px-4 py-[10px] transition-colors hover:bg-[var(--overlay-light)] sm:px-5"
+      <Header
+        installLabel={installLabel}
+        onInstallClick={handleInstallClick}
+        mobileExtraAction={(closeMenu) => (
+          <SmoothScrollLink
+            targetId="see-the-difference"
+            className="border border-[#FFFFFF18] bg-transparent px-4 py-4 text-center transition-colors hover:bg-[#FFFFFF08]"
+            onClick={closeMenu}
           >
-            <span className="font-jetbrains text-xs font-bold text-[var(--text-primary)]">
-              {isCompactLayout ? 'Install' : showInstallCode ? 'Close' : 'Install'}
-            </span>
-          </button>
-          <button
-            type="button"
-            onClick={() => setMobileMenuOpen((current) => !current)}
-            className={`flex h-10 w-10 items-center justify-center border border-[#FFFFFF24] bg-[#FFFFFF08] ${isCompactLayout ? '' : 'md:hidden'}`}
-            aria-label={mobileMenuOpen ? 'Close menu' : 'Open menu'}
-            aria-expanded={mobileMenuOpen}
-          >
-            <span className="flex flex-col gap-[4px]">
-              <span className={`block h-[1.5px] w-4 bg-white transition-transform ${mobileMenuOpen ? 'translate-y-[5.5px] rotate-45' : ''}`}></span>
-              <span className={`block h-[1.5px] w-4 bg-white transition-opacity ${mobileMenuOpen ? 'opacity-0' : 'opacity-100'}`}></span>
-              <span className={`block h-[1.5px] w-4 bg-white transition-transform ${mobileMenuOpen ? '-translate-y-[5.5px] -rotate-45' : ''}`}></span>
-            </span>
-          </button>
-        </div>
-      </header>
-
-      {mobileMenuOpen ? (
-        <div className={`fixed inset-0 z-40 bg-[#05070D]/88 backdrop-blur-md ${isCompactLayout ? '' : 'md:hidden'}`}>
-          <div className="absolute inset-x-4 top-[76px] rounded-[28px] border border-[#FFFFFF14] bg-[linear-gradient(180deg,#0B1018_0%,#080C12_100%)] p-5 shadow-[0_30px_120px_rgba(0,0,0,0.45)]">
-            <div className="mb-5 flex items-center justify-between border-b border-[#FFFFFF10] pb-4">
-              <div>
-                <div className="font-jetbrains text-[10px] uppercase tracking-[0.22em] text-[#8C99AD]">Mobile Menu</div>
-                <div className="mt-2 font-grotesk text-[28px] leading-none text-white">Navigate fast.</div>
-              </div>
-              <span className="rounded-full border border-[#00FF88]/20 bg-[#00FF88]/10 px-3 py-1 font-jetbrains text-[10px] uppercase tracking-[0.16em] text-[#A7F3D0]">
-                responsive
-              </span>
-            </div>
-
-            <nav className="flex flex-col gap-3">
-              <a href="/mission" onClick={() => setMobileMenuOpen(false)} className="border border-[#FFFFFF12] bg-[#FFFFFF06] px-4 py-4 font-jetbrains text-xs font-semibold tracking-[0.08em] text-white transition-colors hover:bg-[#FFFFFF10]">
-                MISSION
-              </a>
-              <a href="/ai" onClick={() => setMobileMenuOpen(false)} className="border border-[#FFFFFF12] bg-[#FFFFFF06] px-4 py-4 font-jetbrains text-xs font-semibold tracking-[0.08em] text-white transition-colors hover:bg-[#FFFFFF10]">
-                API DOCS
-              </a>
-              <a href="/pricing" onClick={() => setMobileMenuOpen(false)} className="border border-[#FFFFFF12] bg-[#FFFFFF06] px-4 py-4 font-jetbrains text-xs font-semibold tracking-[0.08em] text-white transition-colors hover:bg-[#FFFFFF10]">
-                PRICING
-              </a>
-              <a href="/privacy" onClick={() => setMobileMenuOpen(false)} className="border border-[#FFFFFF12] bg-[#FFFFFF06] px-4 py-4 font-jetbrains text-xs font-semibold tracking-[0.08em] text-white transition-colors hover:bg-[#FFFFFF10]">
-                PRIVACY
-              </a>
-            </nav>
-
-            <div className="mt-5 grid grid-cols-2 gap-3">
-              <button
-                type="button"
-                onClick={handleInstallClick}
-                className="bg-white px-4 py-4 text-center"
-              >
-                <span className="font-jetbrains text-[11px] font-bold text-[#0A0A0F]">SETUP</span>
-              </button>
-              <SmoothScrollLink
-                targetId="see-the-difference"
-                className="border border-[#FFFFFF18] bg-transparent px-4 py-4 text-center transition-colors hover:bg-[#FFFFFF08]"
-                onClick={() => setMobileMenuOpen(false)}
-              >
-                <span className="font-jetbrains text-[11px] font-bold text-white">DEMO</span>
-              </SmoothScrollLink>
-            </div>
-          </div>
-        </div>
-      ) : null}
+            <span className="font-jetbrains text-[11px] font-bold text-white">DEMO</span>
+          </SmoothScrollLink>
+        )}
+      />
 
       <section className={`relative w-full overflow-hidden bg-[var(--bg-primary)] ${isCompactLayout ? '' : 'lg:h-[860px]'}`}>
         <div className="absolute inset-0 bg-gradient-to-br from-[#0A0A0F] via-[#0A0A0F] to-[#0F0F1A] opacity-80" />
@@ -161,7 +92,7 @@ export default function HomepageClient() {
                 className="bg-[var(--text-primary)] px-8 py-[14px] text-center transition-opacity hover:opacity-90"
               >
                 <span className="font-jetbrains text-xs font-bold text-[var(--bg-primary)]">
-                  {isCompactLayout ? 'Install' : showInstallCode ? 'Hide Setup' : 'Install'}
+                  {installLabel}
                 </span>
               </button>
               <SmoothScrollLink targetId="see-the-difference" className="border border-[var(--border-lighter)] bg-[var(--overlay-light)] px-8 py-[14px] text-center transition-colors hover:bg-[var(--overlay-lighter)]">
@@ -175,7 +106,7 @@ export default function HomepageClient() {
 
           <div className={`flex flex-wrap gap-2 ${isCompactLayout ? '' : 'lg:hidden'}`}>
             <span className="border border-[#FFFFFF14] bg-[#FFFFFF06] px-3 py-2 font-jetbrains text-[10px] uppercase tracking-[0.14em] text-[#C4CCD8]">
-              900+ markets live
+              {publicMarketCount} arb pages live
             </span>
             <span className="border border-[#FFFFFF14] bg-[#FFFFFF06] px-3 py-2 font-jetbrains text-[10px] uppercase tracking-[0.14em] text-[#C4CCD8]">
               71 tracked accounts
@@ -187,8 +118,8 @@ export default function HomepageClient() {
 
           <div className={`grid grid-cols-2 gap-3 ${isCompactLayout ? '' : 'lg:hidden'}`}>
             <div className="border border-[#FFFFFF15] bg-[#0A0A0A]/70 px-4 py-3 backdrop-blur-md">
-              <span className="block font-jetbrains text-[10px] font-medium text-[#666]">LIVE MARKETS</span>
-              <span className="block font-jetbrains text-sm font-bold text-white">659</span>
+              <span className="block font-jetbrains text-[10px] font-medium text-[#666]">LIVE ARB PAGES</span>
+              <span className="block font-jetbrains text-sm font-bold text-white">{publicMarketCount}</span>
             </div>
             <div className="border border-[#FFFFFF15] bg-[#0A0A0A]/70 px-4 py-3 backdrop-blur-md">
               <span className="block font-jetbrains text-[10px] font-medium text-[#666]">TRACKED ACCOUNTS</span>
@@ -237,7 +168,7 @@ export default function HomepageClient() {
       </section>
 
       <div id="see-the-difference">
-        <TerminalDemo compactLayout={isCompactLayout} />
+        <TerminalDemo compactLayout={isCompactLayout} marketCount={publicMarketCount} />
       </div>
 
       <section className="flex w-full flex-col items-center gap-12 bg-[var(--bg-primary)] px-4 py-16 sm:px-6 lg:px-[120px] lg:py-[80px]">
@@ -345,7 +276,7 @@ export default function HomepageClient() {
         </div>
       </section>
 
-      <FAQ />
+      <FAQ publicMarketCount={publicMarketCount} />
 
       <section className="flex w-full min-h-[360px] border border-[var(--border-primary)] bg-[var(--bg-primary)] px-4 py-20 sm:px-6 lg:min-h-[500px] lg:px-[120px] lg:py-[120px]">
         <div className="mx-auto flex w-full flex-col items-center justify-center gap-10">
@@ -359,53 +290,7 @@ export default function HomepageClient() {
         </div>
       </section>
 
-      <footer className="flex w-full flex-col gap-6 border-t border-[var(--border-primary)] bg-[var(--bg-secondary)] px-4 py-12 sm:px-6 lg:px-[120px]">
-        <div className="flex w-full flex-col gap-10 md:flex-row md:items-start md:justify-between">
-          <div className="flex flex-col gap-3">
-            <span className="font-jetbrains text-base font-semibold tracking-[1px] text-[var(--text-primary)]">
-              MUSASHI
-            </span>
-            <span className="max-w-[400px] font-jetbrains text-xs leading-relaxed text-[var(--text-tertiary)]">
-              AI intelligence service for trading bots. Automated feed API with sentiment analysis and trading signals. Chrome extension for monitoring.
-            </span>
-          </div>
-
-          <div className="flex flex-col gap-10 sm:flex-row sm:gap-16">
-            <div className="flex flex-col gap-3">
-              <span className="font-jetbrains text-[10px] font-bold uppercase tracking-[1.5px] text-[var(--text-muted)]">
-                Product
-              </span>
-              <nav className="flex flex-col gap-2">
-                <a href="/mission" className="font-jetbrains text-xs font-medium text-[var(--text-secondary)] transition-colors hover:text-[var(--text-primary)]">Mission</a>
-                <a href="/ai" className="font-jetbrains text-xs font-medium text-[var(--text-secondary)] transition-colors hover:text-[var(--text-primary)]">API Docs</a>
-                <a href="/pricing" className="font-jetbrains text-xs font-medium text-[var(--text-secondary)] transition-colors hover:text-[var(--text-primary)]">Pricing</a>
-                <a href="/privacy" className="font-jetbrains text-xs font-medium text-[var(--text-secondary)] transition-colors hover:text-[var(--text-primary)]">Privacy</a>
-              </nav>
-            </div>
-
-            <div className="flex flex-col gap-3">
-              <span className="font-jetbrains text-[10px] font-bold uppercase tracking-[1.5px] text-[var(--text-muted)]">
-                Community
-              </span>
-              <nav className="flex flex-col gap-2">
-                <a href="https://twitter.com/musashimarket" target="_blank" rel="noopener noreferrer" className="font-jetbrains text-xs font-medium text-[var(--text-secondary)] transition-colors hover:text-[var(--text-primary)]">Twitter</a>
-                <a href="https://github.com/VittorioC13/musashi-bot" target="_blank" rel="noopener noreferrer" className="font-jetbrains text-xs font-medium text-[var(--text-secondary)] transition-colors hover:text-[var(--text-primary)]">GitHub</a>
-              </nav>
-            </div>
-          </div>
-        </div>
-
-        <div className="h-[1px] w-full bg-[var(--border-primary)]" />
-
-        <div className="flex w-full flex-col gap-2 text-center sm:flex-row sm:items-center sm:justify-between sm:text-left">
-          <span className="font-jetbrains text-[11px] font-normal text-[var(--text-tertiary)]">
-            © {new Date().getFullYear()} Musashi
-          </span>
-          <span className="font-jetbrains text-[11px] font-normal text-[var(--text-tertiary)]">
-            Built for agents. Powered by prediction markets.
-          </span>
-        </div>
-      </footer>
+      <SiteFooter variant="extended" />
     </div>
   );
 }
