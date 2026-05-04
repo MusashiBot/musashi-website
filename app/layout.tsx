@@ -16,26 +16,26 @@ const spaceGrotesk = Space_Grotesk({
 
 const SITE_URL = 'https://musashi.bot';
 const SITE_NAME = 'MUSASHI';
-const SITE_DESCRIPTION = 'AI intelligence service for trading bots. Monitor high-signal accounts, track prediction markets across Polymarket and Kalshi, and get automated trading signals via REST API. Free with no rate limits.';
+const SITE_DESCRIPTION = 'Free prediction market API for trading bots. Track Polymarket and Kalshi prices, arbitrage spreads, and X/Twitter market signals in one feed.';
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: {
-    default: `${SITE_NAME} - Trade the Tweets`,
+    default: `${SITE_NAME} | Free Prediction Market API with X/Twitter Signals`,
     template: `%s | ${SITE_NAME}`,
   },
   description: SITE_DESCRIPTION,
   openGraph: {
     type: 'website',
     siteName: SITE_NAME,
-    title: `${SITE_NAME} - Trade the Tweets`,
-    description: 'AI trading bot intelligence for prediction markets. Cross-platform arbitrage detection. Free API.',
+    title: `${SITE_NAME} | Free Prediction Market API with X/Twitter Signals`,
+    description: SITE_DESCRIPTION,
     url: SITE_URL,
   },
   twitter: {
     card: 'summary_large_image',
-    title: `${SITE_NAME} - Trade the Tweets`,
-    description: 'AI trading bot intelligence for prediction markets. Cross-platform arbitrage detection. Free API.',
+    title: `${SITE_NAME} | Free Prediction Market API with X/Twitter Signals`,
+    description: SITE_DESCRIPTION,
   },
   icons: {
     icon: '/icon.svg',
@@ -68,7 +68,7 @@ const softwareSchema = {
   applicationCategory: 'FinanceApplication',
   operatingSystem: 'Any',
   offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
-  description: 'Prediction market intelligence API for AI trading bots. Automated feed from high-signal accounts, cross-platform arbitrage detection, and trading signals across Polymarket and Kalshi.',
+  description: SITE_DESCRIPTION,
   url: SITE_URL,
 };
 

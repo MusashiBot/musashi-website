@@ -4,13 +4,15 @@ import HomepageClient from './HomepageClient'
 import markets from '../data/markets.json'
 
 const publicMarketCount = (markets as Array<{ slug: string }>).length
+const homeTitleTopic = 'Trading Bot API for Prediction Markets & Twitter Signals'
+const homeTitle = `MUSASHI | ${homeTitleTopic}`
 
 export const metadata: Metadata = {
-  title: { absolute: 'MUSASHI - Trade the Tweets' },
-  description: 'AI intelligence service for trading bots. Monitor 71 high-signal accounts, browse 100+ live arbitrage pages across Polymarket and Kalshi, detect spreads, and get automated trading signals via REST API. Free.',
+  title: { absolute: homeTitle },
+  description: 'Free trading bot API for prediction markets. Track Polymarket and Kalshi prices, arbitrage spreads, and Twitter/X market signals in one feed.',
   openGraph: {
-    title: 'MUSASHI - Trade the Tweets',
-    description: 'AI trading bot intelligence for prediction markets. 100+ live arbitrage pages. Arbitrage detection. Free API with no rate limits.',
+    title: homeTitle,
+    description: 'Free trading bot API for prediction markets with Polymarket/Kalshi prices, arbitrage spreads, and Twitter/X signals.',
     url: 'https://musashi.bot',
   },
 }
@@ -24,7 +26,7 @@ const faqSchema = {
       name: 'What is Musashi?',
       acceptedAnswer: {
         '@type': 'Answer',
-        text: 'Musashi is an AI intelligence service that automatically collects and analyzes tweets from 71 high-signal accounts every 2 minutes, matches them to live prediction markets across Polymarket and Kalshi, generates trading signals, and feeds structured data to AI trading bots via a polling API.',
+        text: 'Musashi is a free prediction market API with X/Twitter signals for trading bots. It tracks Polymarket and Kalshi prices, arbitrage spreads, and market signals in one structured feed.',
       },
     },
     {
