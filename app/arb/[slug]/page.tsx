@@ -82,6 +82,8 @@ export default async function ArbPage({ params }: { params: Promise<{ slug: stri
       name: `Polymarket vs Kalshi Arbitrage: ${market.title}`,
       description: `Current arbitrage spread data for "${market.title}" between Polymarket and Kalshi prediction markets.`,
       url: `https://musashi.bot/arb/${market.slug}`,
+      creator: { '@type': 'Organization', name: 'MUSASHI', url: 'https://musashi.bot' },
+      license: 'https://musashi.bot/data-license',
       provider: { '@type': 'Organization', name: 'MUSASHI', url: 'https://musashi.bot' },
       temporalCoverage: market.last_updated,
       variableMeasured: [

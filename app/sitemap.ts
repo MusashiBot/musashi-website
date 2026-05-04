@@ -10,6 +10,7 @@ const staticRoutes = [
   { url: '/ai', priority: 0.9, changeFrequency: 'weekly' as const },
   { url: '/pricing', priority: 0.6, changeFrequency: 'monthly' as const },
   { url: '/privacy', priority: 0.3, changeFrequency: 'yearly' as const },
+  { url: '/data-license', priority: 0.3, changeFrequency: 'yearly' as const },
   { url: '/install', priority: 0.8, changeFrequency: 'monthly' as const },
   { url: '/arb', priority: 0.9, changeFrequency: 'hourly' as const },
   { url: '/blog/how-to-automate-polymarket-trading', priority: 0.8, changeFrequency: 'monthly' as const },
