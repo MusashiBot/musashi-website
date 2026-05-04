@@ -53,6 +53,8 @@ const schemas = [
     name: 'Polymarket–Kalshi Arbitrage Spreads',
     description: 'Real-time cross-platform price discrepancies between Polymarket and Kalshi prediction markets, detected by Musashi.',
     url: 'https://musashi-api.vercel.app/api/markets/arbitrage',
+    creator: { '@type': 'Organization', name: 'MUSASHI', url: 'https://musashi.bot' },
+    license: 'https://musashi.bot/data-license',
     provider: { '@type': 'Organization', name: 'MUSASHI', url: 'https://musashi.bot' },
     distribution: {
       '@type': 'DataDownload',
