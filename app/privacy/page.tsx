@@ -1,15 +1,15 @@
 import type { Metadata } from 'next'
 import Header from '../components/Header'
 import SiteFooter from '../components/SiteFooter'
+import { createPageMetadata } from '../lib/seo'
 
-export const metadata: Metadata = {
+export const metadata: Metadata = createPageMetadata({
   title: 'Privacy Policy',
-  description: 'Privacy policy for Musashi — the AI intelligence service for prediction market trading bots.',
-  openGraph: {
-    title: 'Privacy Policy | MUSASHI',
-    url: 'https://musashi.bot/privacy',
-  },
-}
+  description:
+    'Privacy policy for Musashi — the AI intelligence service for prediction market trading bots.',
+  path: '/privacy',
+  ogTitle: 'Privacy Policy | MUSASHI',
+})
 
 export default function PrivacyPolicy() {
   return (

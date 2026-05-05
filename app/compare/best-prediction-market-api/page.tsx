@@ -1,16 +1,17 @@
 import type { Metadata } from 'next'
 import ContentPage, { type FaqEntry } from '../../components/ContentPage'
 import RelatedLinks from '../../components/RelatedLinks'
+import { createBreadcrumbSchema, createFaqSchema, createPageMetadata } from '../../lib/seo'
 
-export const metadata: Metadata = {
+export const metadata: Metadata = createPageMetadata({
   title: 'Best Prediction Market API for Trading Bots',
-  description: 'Compare the best prediction market APIs for trading bots. Musashi vs Polymarket native API vs Kalshi native API — features, data coverage, and automation support.',
-  openGraph: {
-    title: 'Best Prediction Market API for Trading Bots | MUSASHI',
-    description: 'Musashi is the only API combining Twitter sentiment signals, arbitrage detection, and live market data for Polymarket and Kalshi. Free with no rate limits.',
-    url: 'https://musashi.bot/compare/best-prediction-market-api',
-  },
-}
+  description:
+    'Compare the best prediction market APIs for trading bots. Musashi vs Polymarket native API vs Kalshi native API — features, data coverage, and automation support.',
+  path: '/compare/best-prediction-market-api',
+  ogTitle: 'Best Prediction Market API for Trading Bots | MUSASHI',
+  ogDescription:
+    'Musashi is the only API combining Twitter sentiment signals, arbitrage detection, and live market data for Polymarket and Kalshi. Free with no rate limits.',
+})
 
 const faqs: FaqEntry[] = [
   {
@@ -36,23 +37,15 @@ const faqs: FaqEntry[] = [
 ]
 
 const schemas = [
-  {
-    '@context': 'https://schema.org',
-    '@type': 'FAQPage',
-    mainEntity: faqs.map(({ q, a }) => ({
-      '@type': 'Question',
-      name: q,
-      acceptedAnswer: { '@type': 'Answer', text: a },
-    })),
-  },
-  {
-    '@context': 'https://schema.org',
-    '@type': 'BreadcrumbList',
-    itemListElement: [
-      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://musashi.bot' },
-      { '@type': 'ListItem', position: 2, name: 'Compare', item: 'https://musashi.bot/compare/best-prediction-market-api' },
-    ],
-  },
+  createFaqSchema(faqs),
+  createBreadcrumbSchema([
+    { name: 'Home', path: '/' },
+    { name: 'Compare', path: '/compare' },
+    {
+      name: 'Best Prediction Market API for Trading Bots',
+      path: '/compare/best-prediction-market-api',
+    },
+  ]),
 ]
 
 const startBuildingLinks = [

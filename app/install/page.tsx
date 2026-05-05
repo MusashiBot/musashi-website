@@ -1,16 +1,17 @@
 import type { Metadata } from 'next'
 import Header from '../components/Header'
 import SiteFooter from '../components/SiteFooter'
+import { createPageMetadata } from '../lib/seo'
 
-export const metadata: Metadata = {
+export const metadata: Metadata = createPageMetadata({
   title: 'Install',
-  description: 'Get started with Musashi in minutes. Clone the repo, install dependencies, and run npm run agent. Free prediction market trading bot intelligence API.',
-  openGraph: {
-    title: 'Install MUSASHI',
-    description: 'Get started with Musashi in minutes. Free prediction market API for AI trading bots.',
-    url: 'https://musashi.bot/install',
-  },
-}
+  description:
+    'Get started with Musashi in minutes. Clone the repo, install dependencies, and run npm run agent. Free prediction market trading bot intelligence API.',
+  path: '/install',
+  ogTitle: 'Install MUSASHI',
+  ogDescription:
+    'Get started with Musashi in minutes. Free prediction market API for AI trading bots.',
+})
 
 export default function Install() {
   return (

@@ -24,7 +24,8 @@ export const NAV_CONFIG: NavSection[] = [
   {
     label: 'Developers',
     children: [
-      { label: 'API Docs', href: '/ai', matchMode: 'exact' },
+      { label: 'Docs Hub', href: '/docs', matchMode: 'prefix' },
+      { label: 'API Console', href: '/ai', matchMode: 'exact' },
       { label: 'Trading Bot Quickstart', href: '/docs/trading-bot-quickstart', matchMode: 'exact' },
       { label: 'Polymarket API', href: '/docs/polymarket-api', matchMode: 'exact' },
     ],
@@ -37,8 +38,10 @@ export const NAV_CONFIG: NavSection[] = [
   {
     label: 'Learn',
     children: [
+      { label: 'Blog', href: '/blog', matchMode: 'prefix' },
       { label: 'Automate Polymarket Trading', href: '/blog/how-to-automate-polymarket-trading', matchMode: 'exact' },
       { label: 'Polymarket vs Kalshi Arbitrage', href: '/blog/polymarket-vs-kalshi-arbitrage', matchMode: 'exact' },
+      { label: 'Compare', href: '/compare', matchMode: 'prefix' },
       { label: 'Best Prediction Market API', href: '/compare/best-prediction-market-api', matchMode: 'exact' },
     ],
   },

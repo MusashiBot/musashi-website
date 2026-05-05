@@ -1,16 +1,23 @@
 import type { Metadata } from 'next'
 import ContentPage, { type FaqEntry } from '../../components/ContentPage'
 import RelatedLinks from '../../components/RelatedLinks'
+import {
+  createBreadcrumbSchema,
+  createFaqSchema,
+  createPageMetadata,
+  createPublisherSchema,
+} from '../../lib/seo'
 
-export const metadata: Metadata = {
+export const metadata: Metadata = createPageMetadata({
   title: 'How to Automate Polymarket Trading',
-  description: 'Step-by-step guide to automating Polymarket trading. Use the Musashi API for sentiment signals and market data, then execute trades with the Polymarket CLOB client.',
-  openGraph: {
-    title: 'How to Automate Polymarket Trading | MUSASHI',
-    description: 'Automate Polymarket trading with sentiment signals and real-time market data from the Musashi API. Free guide.',
-    url: 'https://musashi.bot/blog/how-to-automate-polymarket-trading',
-  },
-}
+  description:
+    'Step-by-step guide to automating Polymarket trading. Use the Musashi API for sentiment signals and market data, then execute trades with the Polymarket CLOB client.',
+  path: '/blog/how-to-automate-polymarket-trading',
+  ogTitle: 'How to Automate Polymarket Trading | MUSASHI',
+  ogDescription:
+    'Automate Polymarket trading with sentiment signals and real-time market data from the Musashi API. Free guide.',
+  type: 'article',
+})
 
 const faqs: FaqEntry[] = [
   {
@@ -44,26 +51,15 @@ const schemas = [
     url: 'https://musashi.bot/blog/how-to-automate-polymarket-trading',
     datePublished: '2026-04-29',
     image: 'https://musashi.bot/images/generated-1771830449125.png',
-    author: { '@type': 'Organization', name: 'MUSASHI', url: 'https://musashi.bot' },
-    publisher: { '@type': 'Organization', name: 'MUSASHI', url: 'https://musashi.bot' },
+    author: createPublisherSchema(),
+    publisher: createPublisherSchema(),
   },
-  {
-    '@context': 'https://schema.org',
-    '@type': 'FAQPage',
-    mainEntity: faqs.map(({ q, a }) => ({
-      '@type': 'Question',
-      name: q,
-      acceptedAnswer: { '@type': 'Answer', text: a },
-    })),
-  },
-  {
-    '@context': 'https://schema.org',
-    '@type': 'BreadcrumbList',
-    itemListElement: [
-      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://musashi.bot' },
-      { '@type': 'ListItem', position: 2, name: 'Blog', item: 'https://musashi.bot/blog/how-to-automate-polymarket-trading' },
-    ],
-  },
+  createFaqSchema(faqs),
+  createBreadcrumbSchema([
+    { name: 'Home', path: '/' },
+    { name: 'Blog', path: '/blog' },
+    { name: 'How to Automate Polymarket Trading', path: '/blog/how-to-automate-polymarket-trading' },
+  ]),
 ]
 
 const relatedGuideLinks = [

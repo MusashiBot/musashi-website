@@ -1,295 +1,169 @@
-# Musashi SEO + AEO Growth Plan
+# Musashi SEO + AEO Execution Plan
 
-## Strategic Thesis
+Updated: May 5, 2026
 
-Musashi wins not by publishing more content, but by becoming the most reliable source of
-structured, proprietary prediction market intelligence on the web — indexed by search engines
-and cited by AI models.
+## Current Baseline
 
-Two compounding mechanisms: **pSEO** converts 900+ live markets into indexed destination
-pages. **AEO** structures all content so LLMs (Perplexity, ChatGPT, Claude) cite Musashi
-when a developer or trader asks about prediction market APIs, Polymarket arbitrage, or AI
-trading tooling.
+The site now has a real technical SEO foundation:
 
-**Execution model:** funnel, not checklist. Each step gates the next. If Step 3 fails, Step 5
-may never happen — and that is the right outcome.
+- Canonical metadata is wired across indexed routes.
+- `sitemap.xml` now uses file-backed and data-backed `lastmod` values instead of stamping every URL with the current build time.
+- Breadcrumb and FAQ schema now match real route hierarchy.
+- `/docs`, `/blog`, and `/compare` now exist as crawlable hub pages instead of leaving child pages orphaned under non-existent parents.
+- The `Data License` page no longer ships with a placeholder effective date.
 
----
+This means the next phase should focus less on infrastructure and more on authority, query coverage, and measurement.
 
-## Operating Principles
+## What The Site Should Own
 
-**Validate → decide → expand.** Scale follows evidence, not ambition.
+### `/docs/`
 
-**Authority amplifies strength.** Off-site signals work by compounding indexed, performing
-content — not by compensating for absent or weak pages.
+Own implementation queries and developer retrieval:
 
-**Volume is not success.** Indexed usefulness is success.
+- how to build a prediction market trading bot
+- prediction market API docs
+- polymarket API reference
+- twitter sentiment API for trading bots
 
----
+### `/blog/`
 
-## Current State
+Own educational and strategy queries:
 
-**Six pages live:** `/` `/mission` `/ai` `/pricing` `/privacy` `/install`
+- how to automate polymarket trading
+- polymarket vs kalshi arbitrage
+- prediction market arbitrage strategy
+- how AI agents trade prediction markets
 
-**No SEO infrastructure:** no sitemap, no robots.txt, no per-page metadata, no structured
-data, no OpenGraph, no blog or docs routes.
+### `/compare/`
 
-**Assets to build on:** existing `FAQ.tsx` component (reuse as FAQPage schema source);
-filesystem doc loader pattern in `app/ai/page.tsx` (extend for docs section); homepage copy
-that already surfaces the core moat (900+ markets, 71 accounts, arbitrage) — reuse verbatim
-in metadata and structured data.
+Own evaluation queries:
 
----
+- best prediction market API
+- Musashi vs Polymarket API
+- Musashi vs Kalshi API
+- best API for prediction market trading bots
 
-## Information Architecture
+### `/arb/`
 
-### Homepage Role
+Own live market-intent queries:
 
-The homepage is not an SEO landing page. Its job is brand clarity, authority signaling,
-and internal link distribution — directing visitors toward the strongest owned pages. It
-should not try to rank for every query.
+- [event] arbitrage
+- polymarket vs kalshi spread for [event]
+- live prediction market arbitrage opportunities
 
-### Content Type Ownership (Enforced Rules)
+## Remaining Gaps
 
-These are not guidelines — they are enforced to prevent keyword cannibalization and duplicate
-content. If a draft page's target query belongs to a different section, it moves there.
+### 1. Query coverage is still thin
 
-| Section | Owns | Hard boundary |
-|---------|------|--------------|
-| `/docs/` | Implementation depth. How to build with Musashi. Developer retrieval queries. | No educational overviews, no comparisons |
-| `/blog/` | Answer-first guides. Search capture and LLM citation. Educational and strategy queries. | No API reference, no head-to-head comparisons |
-| `/compare/` | Evaluation and replacement queries. Visitors actively deciding between tools. | No tutorials, no data pages |
-| `/arb/` | Live arbitrage data per market. Data destination pages. | Not guides, not comparisons |
-| `/use-cases/` | Scenario-specific builder guides not already served by `/docs/` or `/blog/`. | Strictly additive — nothing that overlaps an existing section |
+The site now has better structure, but only a small set of pages actually targets high-value queries:
 
-### Internal Linking Strategy
+- 2 docs pages
+- 2 blog pages
+- 1 comparison page
 
-Internal linking is not a minor optimization for pSEO — it is core infrastructure. Without
-it, programmatic pages fail to accumulate authority.
+That is enough for a clean first cluster, not enough for category authority.
 
-Required linking structure:
-- Docs → compare pages (evaluation context)
-- Compare pages → quickstart (conversion path)
-- Blog → docs + relevant pSEO pages (depth and discovery)
-- pSEO pages → educational content (context and authority signals)
-- Homepage → highest-performing pages in each section (link distribution)
+### 2. `/ai` is still a utility page, not a strong search landing page
 
-Top-performing pages become authority hubs. This structure must be built in from the start,
-not retrofitted.
+`/ai` is useful for humans who want the raw docs console, but it is still broader and less answer-focused than the dedicated `/docs/*` pages. We should decide whether to:
 
----
+- keep it indexed as a documentation hub, or
+- de-emphasize it for search and treat `/docs/*` as the primary indexed docs surface
 
-## Step 1: Technical SEO Baseline
+Do not do both at once.
 
-**Rationale:** Everything downstream depends on correct crawlability and metadata. No
-content earns indexing value without this.
+### 3. No measurement loop exists yet
 
-**Scope:** sitemap, robots.txt, site-wide OpenGraph and Twitter Card defaults, `metadataBase`,
-unique per-page title and description for all six existing pages, reusable JSON-LD component
-supporting Organization, SoftwareApplication, FAQPage, BreadcrumbList, Dataset, and Article
-schemas, FAQPage schema wired to existing homepage FAQ data.
+There is still no documented process for:
 
-**Completion criteria:**
-- [ ] sitemap.xml valid and submitted to Google Search Console
-- [ ] All six pages have distinct titles, descriptions, and OG tags
-- [ ] FAQPage schema on homepage passes Google Rich Results Test
-- [ ] OrganizationSchema valid sitewide
+- Google Search Console monitoring
+- Bing Webmaster Tools submission
+- query-level impression tracking
+- AI citation tracking across ChatGPT, Perplexity, Claude, and Gemini
 
----
+Without this, content expansion will be guesswork.
 
-## Step 2: Core AEO Content (Initial 5-Page Batch)
+### 4. pSEO scale should stay gated
 
-**Rationale:** Start with 5 high-value pages covering the most important query classes.
-Structure and depth matter more than volume. The batch size is fixed. Page selection is
-not — if Step 4 AEO audit reveals stronger citation gaps, subsequent pages should address
-those gaps rather than a pre-set list.
+The arbitrage template is now in a better crawlable state, but expansion should still depend on quality signals:
 
-### GitHub README (P0 — Parallel to Step 2)
+- indexation ratio
+- impressions per batch
+- duplicate/thin-page signals
+- whether pages earn citations or links
 
-**Scope: the primary README(s) on the [MusashiBot GitHub organization](https://github.com/MusashiBot)
-— not this web repository.** The MusashiBot org repos are what developers encounter and what
-LLMs index when answering developer queries about Musashi's API and capabilities.
+### 5. Off-site authority is still underpowered
 
-The GitHub README is one of the primary citation surfaces for LLM retrieval — it is among
-the most-cited document types when AI models answer developer queries. It deserves treatment
-closer to a core content asset than to generic authority-building.
+The most important non-site AEO surfaces remain outside this repo:
 
-Rewrite in AEO structure: direct answer to "what is Musashi" → who it's for → what it does
-(3 bullets, proprietary specifics) → quickstart link → FAQ (5 Q&A pairs) → comparison. Never
-lead with architecture or internal implementation. README quality can directly affect ChatGPT
-and Perplexity citations.
+- GitHub org README
+- primary API repo docs
+- launch and community posts that link back to canonical pages
 
-### Initial 5 Pages
+For developer-facing AEO, those surfaces matter almost as much as the site itself.
 
-**1. `/docs/trading-bot-quickstart`** — Highest-priority single AEO asset. Scenario-driven:
-"I want to build a bot that places Polymarket bets when a tracked account posts bullish
-sentiment — here is exactly how." Owns the highest-volume developer query in the category.
-Schema: `TechArticle` + `HowTo` + `FAQPage` + `BreadcrumbList`
+## Phase Plan
 
-**2. `/compare/best-prediction-market-api`** — Category-defining comparison. Feature table:
-Musashi vs. native Polymarket API vs. native Kalshi API. Evergreen title, no year.
-Schema: `FAQPage` + `BreadcrumbList`
+### Phase 1: Measurement and Validation
 
-**3. `/blog/how-to-automate-polymarket-trading`** — Highest search-volume educational query.
-H1 = exact query. Direct answer in paragraph 1.
-Schema: `Article` + `FAQPage` + `BreadcrumbList`
+Ship first:
 
-**4. `/docs/polymarket-api`** — Structured technical reference. Reference format, not a
-tutorial. Endpoint specs, parameters, response schemas, code examples.
-Schema: `TechArticle` + `BreadcrumbList`
+- Submit `https://musashi.bot/sitemap.xml` to Google Search Console and Bing Webmaster Tools.
+- Validate homepage, docs pages, compare page, and arbitrage template in Rich Results Test.
+- Track 10 owned queries in a simple weekly sheet: ranking, impressions, clicks, cited source, cited competitor.
+- Run a weekly citation audit in ChatGPT, Perplexity, Claude, and Gemini for the same 10 queries.
 
-**5. `/blog/polymarket-vs-kalshi-arbitrage`** — Uses real Musashi arbitrage data. This page
-also serves as the content destination for Step 6 Reddit posts.
-Schema: `Article` + `Dataset` + `FAQPage`
+### Phase 2: Fill The Core Content Cluster
 
-### AEO Structure Rule (All Pages)
+Publish next:
 
-1. H1 = exact target query
-2. Paragraph 1 = direct answer, under 50 words, no preamble
-3. Structured sections with semantic headings
-4. FAQ section at the end, minimum 4 questions
-5. Contextual link to the next relevant page (not promotional)
+- `/docs/kalshi-api`
+- `/docs/twitter-sentiment-api`
+- `/blog/prediction-market-arbitrage-strategy`
+- `/blog/how-to-build-an-ai-trading-bot-for-polymarket`
+- `/compare/musashi-vs-polymarket-api`
+- `/compare/musashi-vs-kalshi-api`
 
-**Completion criteria:**
-- [ ] All 5 pages indexed (confirmed in GSC, not submitted)
-- [ ] Each page passes Rich Results Test for its schema type
-- [ ] GitHub README rewritten and live
-- [ ] AEO baseline audit complete: 8 queries checked across Perplexity, ChatGPT, Claude
-- [ ] At least 1 page generating an organic impression
+Rules:
 
----
+- H1 must match the owned query.
+- Paragraph 1 must answer the query directly.
+- Every page must end with FAQs and point to the next logical page.
+- Every new page must link back to a hub page and at least one sibling page.
 
-## Step 3: pSEO — Arbitrage Template, Controlled First Batch
+### Phase 3: Improve Entity and Citation Strength
 
-**Rationale:** The arbitrage template has the clearest search intent and the lowest quality
-risk. A controlled first batch proves the template earns indexing and search performance.
-Breadth is not the goal.
+Strengthen off-site and structured signals:
 
-**Template:** `/arb/[slug]` — one page per prediction market event. Required elements:
-current spread data with visible "Last updated" timestamp, brief arbitrage explainer (AEO
-hook), FAQ section. Schema: `Dataset` + `FAQPage` + `BreadcrumbList`. ISR for freshness.
+- Rewrite the main GitHub README to mirror the docs hierarchy.
+- Make the API repo README answer “what is Musashi, who is it for, how do I use it” in the first screen.
+- Add explicit source attribution and canonical links anywhere market data is reused publicly.
+- Create one reusable citation block for docs and README pages so LLMs repeatedly see the same product description.
 
-**First batch:** top 100 markets by liquidity.
+### Phase 4: Controlled pSEO Expansion
 
-**Expansion gate — all four required before scaling:**
-1. Strong indexing ratio: meaningful share of submitted pages confirmed indexed (not just crawled)
-2. Impression coverage: ≥30 of 100 pages showing impressions in GSC
-3. No quality flags: GSC coverage report shows no thin-content, duplicate, or soft-404 signals
-4. Template differentiation: pages not treated as near-duplicates in coverage report
+Only expand `/arb/[slug]` when the first batch shows:
 
-**Completion criteria:**
-- [ ] 100 `/arb/` pages indexed (confirmed in GSC)
-- [ ] GSC coverage report reviewed at 2 and 4 weeks post-launch
-- [ ] Expansion gate evaluation formally documented
+- healthy indexation
+- impressions on a meaningful share of pages
+- no soft-404 or duplicate-content warnings
+- stable internal linking from `/arb`, `/blog`, and `/docs`
 
----
+If those checks fail, improve the template before generating more pages.
 
-## Step 4: Decision Gate
+## Success Criteria
 
-**This is the central decision point of the entire strategy.** Step 5 exists only if this
-step produces an "Expand" decision on the arbitrage template. Every surface is evaluated
-independently.
+Within the next 30 days, success means:
 
-**Decision matrix:**
+- every indexed page has valid metadata, canonical tags, and accurate structured data
+- docs, blog, compare, and arb each have a real hub page and at least 2 supporting child pages
+- at least 10 owned queries are being tracked weekly
+- Musashi appears as a cited or suggested source for at least some target queries in one or more AI products
+- arbitrage pages show real impressions before any large-scale pSEO expansion
 
-| Decision | Condition |
-|----------|-----------|
-| **Expand** | Strong indexing ratio, growing impressions, AEO citations appearing |
-| **Refine** | Indexed but low impressions — structural or content quality issue to fix before scaling |
-| **Prune** | Indexed, no signal after sufficient time — pages are harming overall site quality and should be removed. Pruning is not failure; it is quality control. Not every generated page deserves to stay live. |
-| **Pause** | Template generating quality flags — stop, diagnose, fix before any further expansion |
+## Do Not Do Yet
 
-### AEO Audit (8 Queries)
-
-Run across Perplexity, ChatGPT, Claude. Document: is Musashi cited? If not, which source
-is cited and why?
-
-| Query | Owned by |
-|-------|---------|
-| best prediction market API for trading bots | `/compare/` |
-| how to automate polymarket trading | `/blog/` |
-| polymarket kalshi arbitrage detection | `/arb/` + `/blog/` |
-| twitter sentiment prediction market API | `/docs/` |
-| real-time kalshi API | `/docs/` |
-| how to build AI trading bot polymarket | `/docs/` |
-| prediction market arbitrage strategy | `/blog/` |
-| best tools for polymarket trading | `/compare/` |
-
-For citation gaps: identify the competing source and why it ranks. Publish a response only
-if a meaningfully stronger version can be built.
-
-**Outcome-based KPIs:**
-
-| Metric | Target |
-|--------|--------|
-| Indexing ratio (arb batch) | >70% of submitted pages confirmed indexed |
-| Arb pages with impressions | ≥30 of 100 |
-| Content pages with clicks | ≥2 of 5 |
-| AEO citation presence | Musashi cited in ≥3 of 8 audited queries |
-
----
-
-## Step 5: Conditional Expansion
-
-**Executes only if Step 4 returns "Expand" for the arbitrage template.**
-
-**Arbitrage:** scale from 100 to full market set. Maintain identical template standards.
-
-**Sentiment template:** not "the next template" — it must earn the right to exist. Proceed
-only if arbitrage shows strong indexing/impressions/clicks, there is identifiable search
-demand for account-specific market queries, and data density is sufficient to make pages
-non-thin. Start with highest-signal 5–10 accounts × 10–15 markets. Apply the same expansion
-gate. The default assumption is that sentiment expansion does not happen.
-
----
-
-## Step 6: Authority Amplification
-
-**Rationale:** Runs after Steps 1–4 are complete. Every action points to a specific
-high-quality on-site destination.
-
-| Action | Destination |
-|--------|------------|
-| HN Show HN post | `/docs/trading-bot-quickstart` + GitHub |
-| Reddit arbitrage data post | `/blog/polymarket-vs-kalshi-arbitrage` |
-| Reddit sentiment data post | A validated `/sentiment/` page (Step 5 only) |
-| Directory listings | Homepage + quickstart |
-| Outreach (3–5 newsletters/channels) | Best comparison or quickstart assets |
-
-**Completion criteria:**
-- [ ] HN post live, pointing to indexed quickstart
-- [ ] 2 Reddit threads live, each pointing to a specific indexed page
-- [ ] 3+ directory listings live
-- [ ] AEO re-audit: Musashi cited in ≥6 of 8 target queries
-
----
-
-## North Star Metric
-
-Musashi cited by at least one of Perplexity, ChatGPT, or Claude for at least 10 of the 30
-monitored queries, measured at Steps 4 and 6.
-
-Musashi wins this space not by publishing more pages, but by being the most structured,
-most specific, and most data-rich source at every point where a trader or developer asks
-a question that Musashi's proprietary data can answer.
-
----
-
-## Critical Files
-
-| File | Action | Step |
-|------|--------|------|
-| `app/sitemap.ts` | Create | 1 |
-| `public/robots.txt` | Create | 1 |
-| `app/layout.tsx` | Modify — metadataBase, OG, Twitter Card | 1 |
-| `app/components/JsonLd.tsx` | Create | 1 |
-| `app/components/FAQ.tsx` | Modify — FAQPage schema | 1 |
-| All 6 existing page files | Add `generateMetadata()` | 1 |
-| MusashiBot org GitHub README(s) | Rewrite (separate from web repo) | 2 |
-| `app/docs/trading-bot-quickstart/page.tsx` | Create | 2 |
-| `app/compare/best-prediction-market-api/page.tsx` | Create | 2 |
-| `app/blog/how-to-automate-polymarket-trading/page.tsx` | Create | 2 |
-| `app/docs/polymarket-api/page.tsx` | Create | 2 |
-| `app/blog/polymarket-vs-kalshi-arbitrage/page.tsx` | Create | 2 |
-| `data/markets.json` | Create — top 100 markets seed | 3 |
-| `app/arb/[slug]/page.tsx` | Create — pSEO arbitrage template | 3 |
+- Do not mass-generate hundreds of new non-differentiated content pages.
+- Do not add more comparison pages until each one has a distinct query target.
+- Do not split authority between `/ai` and `/docs` without making an explicit indexing decision.
+- Do not optimize for “more pages” before validating impressions, citations, and internal linking.

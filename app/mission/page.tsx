@@ -1,15 +1,16 @@
 import type { Metadata } from 'next'
 import Header from '../components/Header'
+import { createPageMetadata } from '../lib/seo'
 
-export const metadata: Metadata = {
+export const metadata: Metadata = createPageMetadata({
   title: 'Mission',
-  description: 'Musashi is building the API infrastructure for the autonomous trading era — the intelligence layer that AI agents need to monitor prediction markets and execute trades 24/7.',
-  openGraph: {
-    title: 'Mission | MUSASHI',
-    description: 'Building infrastructure for autonomous AI trading agents. The era of CLI and agent-first products is here.',
-    url: 'https://musashi.bot/mission',
-  },
-}
+  description:
+    'Musashi is building the API infrastructure for the autonomous trading era — the intelligence layer that AI agents need to monitor prediction markets and execute trades 24/7.',
+  path: '/mission',
+  ogTitle: 'Mission | MUSASHI',
+  ogDescription:
+    'Building infrastructure for autonomous AI trading agents. The era of CLI and agent-first products is here.',
+})
 
 export default function Mission() {
   return (

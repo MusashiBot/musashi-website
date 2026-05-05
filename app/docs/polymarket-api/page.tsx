@@ -1,16 +1,23 @@
 import type { Metadata } from 'next'
 import ContentPage, { type FaqEntry } from '../../components/ContentPage'
 import RelatedLinks from '../../components/RelatedLinks'
+import {
+  createBreadcrumbSchema,
+  createFaqSchema,
+  createPageMetadata,
+  createPublisherSchema,
+} from '../../lib/seo'
 
-export const metadata: Metadata = {
+export const metadata: Metadata = createPageMetadata({
   title: 'Polymarket API Reference',
-  description: 'Musashi Polymarket API reference. Endpoints for market data, sentiment feed, arbitrage detection, and market movers. Free REST API with no authentication required.',
-  openGraph: {
-    title: 'Polymarket API Reference | MUSASHI',
-    description: 'Free Polymarket API with sentiment signals, arbitrage detection, and real-time market data. No authentication required.',
-    url: 'https://musashi.bot/docs/polymarket-api',
-  },
-}
+  description:
+    'Musashi Polymarket API reference. Endpoints for market data, sentiment feed, arbitrage detection, and market movers. Free REST API with no authentication required.',
+  path: '/docs/polymarket-api',
+  ogTitle: 'Polymarket API Reference | MUSASHI',
+  ogDescription:
+    'Free Polymarket API with sentiment signals, arbitrage detection, and real-time market data. No authentication required.',
+  type: 'article',
+})
 
 const faqs: FaqEntry[] = [
   {
@@ -89,27 +96,15 @@ const schemas = [
     url: 'https://musashi.bot/docs/polymarket-api',
     datePublished: '2026-04-29',
     image: 'https://musashi.bot/images/generated-1771830449125.png',
-    author: { '@type': 'Organization', name: 'MUSASHI', url: 'https://musashi.bot' },
-    publisher: { '@type': 'Organization', name: 'MUSASHI', url: 'https://musashi.bot' },
+    author: createPublisherSchema(),
+    publisher: createPublisherSchema(),
   },
-  {
-    '@context': 'https://schema.org',
-    '@type': 'FAQPage',
-    mainEntity: faqs.map(({ q, a }) => ({
-      '@type': 'Question',
-      name: q,
-      acceptedAnswer: { '@type': 'Answer', text: a },
-    })),
-  },
-  {
-    '@context': 'https://schema.org',
-    '@type': 'BreadcrumbList',
-    itemListElement: [
-      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://musashi.bot' },
-      { '@type': 'ListItem', position: 2, name: 'Docs', item: 'https://musashi.bot/ai' },
-      { '@type': 'ListItem', position: 3, name: 'Polymarket API', item: 'https://musashi.bot/docs/polymarket-api' },
-    ],
-  },
+  createFaqSchema(faqs),
+  createBreadcrumbSchema([
+    { name: 'Home', path: '/' },
+    { name: 'Docs', path: '/docs' },
+    { name: 'Polymarket API', path: '/docs/polymarket-api' },
+  ]),
 ]
 
 const referenceLinks = [

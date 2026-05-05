@@ -2,16 +2,23 @@ import type { Metadata } from 'next'
 import Link from 'next/link'
 import ContentPage, { type FaqEntry } from '../../components/ContentPage'
 import RelatedLinks from '../../components/RelatedLinks'
+import {
+  createBreadcrumbSchema,
+  createFaqSchema,
+  createPageMetadata,
+  createPublisherSchema,
+} from '../../lib/seo'
 
-export const metadata: Metadata = {
+export const metadata: Metadata = createPageMetadata({
   title: 'Trading Bot Quickstart',
-  description: 'How to build a prediction market trading bot with Musashi. Step-by-step guide: connect to the feed API, read sentiment signals, and automate trades on Polymarket and Kalshi.',
-  openGraph: {
-    title: 'Trading Bot Quickstart | MUSASHI',
-    description: 'Build a prediction market trading bot in minutes. Free REST API with sentiment signals for Polymarket and Kalshi.',
-    url: 'https://musashi.bot/docs/trading-bot-quickstart',
-  },
-}
+  description:
+    'How to build a prediction market trading bot with Musashi. Step-by-step guide: connect to the feed API, read sentiment signals, and automate trades on Polymarket and Kalshi.',
+  path: '/docs/trading-bot-quickstart',
+  ogTitle: 'Trading Bot Quickstart | MUSASHI',
+  ogDescription:
+    'Build a prediction market trading bot in minutes. Free REST API with sentiment signals for Polymarket and Kalshi.',
+  type: 'article',
+})
 
 const faqs: FaqEntry[] = [
   {
@@ -45,8 +52,8 @@ const schemas = [
     url: 'https://musashi.bot/docs/trading-bot-quickstart',
     datePublished: '2026-04-29',
     image: 'https://musashi.bot/images/generated-1771830449125.png',
-    author: { '@type': 'Organization', name: 'MUSASHI', url: 'https://musashi.bot' },
-    publisher: { '@type': 'Organization', name: 'MUSASHI', url: 'https://musashi.bot' },
+    author: createPublisherSchema(),
+    publisher: createPublisherSchema(),
   },
   {
     '@context': 'https://schema.org',
@@ -60,24 +67,12 @@ const schemas = [
       { '@type': 'HowToStep', name: 'Execute trades', text: 'Use Polymarket or Kalshi SDKs to place trades when signal confidence exceeds your threshold.' },
     ],
   },
-  {
-    '@context': 'https://schema.org',
-    '@type': 'FAQPage',
-    mainEntity: faqs.map(({ q, a }) => ({
-      '@type': 'Question',
-      name: q,
-      acceptedAnswer: { '@type': 'Answer', text: a },
-    })),
-  },
-  {
-    '@context': 'https://schema.org',
-    '@type': 'BreadcrumbList',
-    itemListElement: [
-      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://musashi.bot' },
-      { '@type': 'ListItem', position: 2, name: 'Docs', item: 'https://musashi.bot/ai' },
-      { '@type': 'ListItem', position: 3, name: 'Trading Bot Quickstart', item: 'https://musashi.bot/docs/trading-bot-quickstart' },
-    ],
-  },
+  createFaqSchema(faqs),
+  createBreadcrumbSchema([
+    { name: 'Home', path: '/' },
+    { name: 'Docs', path: '/docs' },
+    { name: 'Trading Bot Quickstart', path: '/docs/trading-bot-quickstart' },
+  ]),
 ]
 
 const nextStepLinks = [

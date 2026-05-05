@@ -4,16 +4,17 @@ import Link from "next/link";
 import type { ReactNode } from "react";
 import type { Metadata } from "next";
 import Header from "../components/Header";
+import { createPageMetadata } from "../lib/seo";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = createPageMetadata({
   title: 'API Documentation',
-  description: 'Musashi API documentation. REST API and Agent SDK for prediction market trading bots. 7 endpoints covering feed, arbitrage, market movers, and sentiment signals. Free, no rate limits.',
-  openGraph: {
-    title: 'API Documentation | MUSASHI',
-    description: 'REST API and Agent SDK for prediction market trading bots. Feed, arbitrage, and sentiment endpoints. Free with no rate limits.',
-    url: 'https://musashi.bot/ai',
-  },
-}
+  description:
+    'Musashi API documentation. REST API and Agent SDK for prediction market trading bots. 7 endpoints covering feed, arbitrage, market movers, and sentiment signals. Free, no rate limits.',
+  path: '/ai',
+  ogTitle: 'API Documentation | MUSASHI',
+  ogDescription:
+    'REST API and Agent SDK for prediction market trading bots. Feed, arbitrage, and sentiment endpoints. Free with no rate limits.',
+})
 
 type SearchParamValue = string | string[] | undefined;
 type SearchParams = Record<string, SearchParamValue>;

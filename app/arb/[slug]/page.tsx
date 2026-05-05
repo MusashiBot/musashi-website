@@ -6,6 +6,12 @@ import Header from '../../components/Header'
 import SiteFooter from '../../components/SiteFooter'
 import { formatPrice, formatLiquidity } from '../../utils/formatMarket'
 import RelatedLinks from '../../components/RelatedLinks'
+import {
+  createBreadcrumbSchema,
+  createFaqSchema,
+  createPageMetadata,
+  createPublisherSchema,
+} from '../../lib/seo'
 import markets from '../../../data/markets.json'
 
 export const revalidate = 3600
@@ -35,15 +41,13 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   const buyOn = market.polymarket_price < market.kalshi_price ? 'Polymarket' : 'Kalshi'
   const sellOn = buyOn === 'Polymarket' ? 'Kalshi' : 'Polymarket'
 
-  return {
+  return createPageMetadata({
     title: `Arbitrage: ${market.title}`,
     description: `Live ${market.spread.toFixed(1)}% arbitrage spread for "${market.title}". Buy YES on ${buyOn} at ${(Math.min(market.polymarket_price, market.kalshi_price) * 100).toFixed(0)}¢, sell YES on ${sellOn} at ${(Math.max(market.polymarket_price, market.kalshi_price) * 100).toFixed(0)}¢. Live data via Musashi.`,
-    openGraph: {
-      title: `${market.spread.toFixed(1)}% Arb Spread — ${market.title}`,
-      description: `Cross-platform arbitrage opportunity between Polymarket and Kalshi. Spread: ${market.spread.toFixed(1)}%. Liquidity: $${(market.liquidity / 1000).toFixed(0)}K.`,
-      url: `https://musashi.bot/arb/${slug}`,
-    },
-  }
+    path: `/arb/${slug}`,
+    ogTitle: `${market.spread.toFixed(1)}% Arb Spread — ${market.title}`,
+    ogDescription: `Cross-platform arbitrage opportunity between Polymarket and Kalshi. Spread: ${market.spread.toFixed(1)}%. Liquidity: $${(market.liquidity / 1000).toFixed(0)}K.`,
+  })
 }
 
 export default async function ArbPage({ params }: { params: Promise<{ slug: string }> }) {
@@ -82,9 +86,9 @@ export default async function ArbPage({ params }: { params: Promise<{ slug: stri
       name: `Polymarket vs Kalshi Arbitrage: ${market.title}`,
       description: `Current arbitrage spread data for "${market.title}" between Polymarket and Kalshi prediction markets.`,
       url: `https://musashi.bot/arb/${market.slug}`,
-      creator: { '@type': 'Organization', name: 'MUSASHI', url: 'https://musashi.bot' },
+      creator: createPublisherSchema(),
       license: 'https://musashi.bot/data-license',
-      provider: { '@type': 'Organization', name: 'MUSASHI', url: 'https://musashi.bot' },
+      provider: createPublisherSchema(),
       temporalCoverage: market.last_updated,
       variableMeasured: [
         { '@type': 'PropertyValue', name: 'Polymarket YES price', value: market.polymarket_price },
@@ -92,24 +96,12 @@ export default async function ArbPage({ params }: { params: Promise<{ slug: stri
         { '@type': 'PropertyValue', name: 'Spread (%)', value: market.spread },
       ],
     },
-    {
-      '@context': 'https://schema.org',
-      '@type': 'FAQPage',
-      mainEntity: faqs.map(({ q, a }) => ({
-        '@type': 'Question',
-        name: q,
-        acceptedAnswer: { '@type': 'Answer', text: a },
-      })),
-    },
-    {
-      '@context': 'https://schema.org',
-      '@type': 'BreadcrumbList',
-      itemListElement: [
-        { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://musashi.bot' },
-        { '@type': 'ListItem', position: 2, name: 'Arbitrage Markets', item: 'https://musashi.bot/arb' },
-        { '@type': 'ListItem', position: 3, name: market.title, item: `https://musashi.bot/arb/${market.slug}` },
-      ],
-    },
+    createFaqSchema(faqs),
+    createBreadcrumbSchema([
+      { name: 'Home', path: '/' },
+      { name: 'Arbitrage Markets', path: '/arb' },
+      { name: market.title, path: `/arb/${market.slug}` },
+    ]),
   ]
 
   return (

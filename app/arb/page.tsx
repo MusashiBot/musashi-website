@@ -4,17 +4,18 @@ import JsonLd from '../components/JsonLd'
 import Header from '../components/Header'
 import SiteFooter from '../components/SiteFooter'
 import ArbFilter from '../components/ArbFilter'
+import { createBreadcrumbSchema, createPageMetadata } from '../lib/seo'
 import markets from '../../data/markets.json'
 
-export const metadata: Metadata = {
+export const metadata: Metadata = createPageMetadata({
   title: 'Prediction Market Arbitrage — Live Polymarket vs Kalshi Spreads',
-  description: 'Live arbitrage opportunities between Polymarket and Kalshi. Browse 100+ prediction markets with cross-platform price discrepancies. Data updated hourly via the Musashi API.',
-  openGraph: {
-    title: 'Live Prediction Market Arbitrage | MUSASHI',
-    description: 'Browse Polymarket vs Kalshi arbitrage spreads in real time. 100+ markets across crypto, politics, finance, and more.',
-    url: 'https://musashi.bot/arb',
-  },
-}
+  description:
+    'Live arbitrage opportunities between Polymarket and Kalshi. Browse 100+ prediction markets with cross-platform price discrepancies. Data updated hourly via the Musashi API.',
+  path: '/arb',
+  ogTitle: 'Live Prediction Market Arbitrage | MUSASHI',
+  ogDescription:
+    'Browse Polymarket vs Kalshi arbitrage spreads in real time. 100+ markets across crypto, politics, finance, and more.',
+})
 
 type Market = {
   slug: string
@@ -31,14 +32,10 @@ const allMarkets = (markets as Market[]).sort((a, b) => b.spread - a.spread)
 
 const categories = Array.from(new Set(allMarkets.map(m => m.category))).sort()
 
-const breadcrumbSchema = {
-  '@context': 'https://schema.org',
-  '@type': 'BreadcrumbList',
-  itemListElement: [
-    { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://musashi.bot' },
-    { '@type': 'ListItem', position: 2, name: 'Arbitrage Markets', item: 'https://musashi.bot/arb' },
-  ],
-}
+const breadcrumbSchema = createBreadcrumbSchema([
+  { name: 'Home', path: '/' },
+  { name: 'Arbitrage Markets', path: '/arb' },
+])
 
 export default function ArbIndex() {
   return (

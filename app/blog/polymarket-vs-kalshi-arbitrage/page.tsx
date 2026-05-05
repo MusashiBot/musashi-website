@@ -1,16 +1,23 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import ContentPage, { type FaqEntry } from '../../components/ContentPage'
+import {
+  createBreadcrumbSchema,
+  createFaqSchema,
+  createPageMetadata,
+  createPublisherSchema,
+} from '../../lib/seo'
 
-export const metadata: Metadata = {
+export const metadata: Metadata = createPageMetadata({
   title: 'Polymarket vs Kalshi Arbitrage: Detect and Trade Price Discrepancies',
-  description: 'How to detect and trade Polymarket vs Kalshi arbitrage. When the same event trades at different prices on both platforms, you can lock in a risk-free profit. Musashi detects these spreads automatically.',
-  openGraph: {
-    title: 'Polymarket vs Kalshi Arbitrage | MUSASHI',
-    description: 'Detect and trade Polymarket–Kalshi price discrepancies automatically with the Musashi arbitrage API. Real spread data, free.',
-    url: 'https://musashi.bot/blog/polymarket-vs-kalshi-arbitrage',
-  },
-}
+  description:
+    'How to detect and trade Polymarket vs Kalshi arbitrage. When the same event trades at different prices on both platforms, you can lock in a risk-free profit. Musashi detects these spreads automatically.',
+  path: '/blog/polymarket-vs-kalshi-arbitrage',
+  ogTitle: 'Polymarket vs Kalshi Arbitrage | MUSASHI',
+  ogDescription:
+    'Detect and trade Polymarket–Kalshi price discrepancies automatically with the Musashi arbitrage API. Real spread data, free.',
+  type: 'article',
+})
 
 const faqs: FaqEntry[] = [
   {
@@ -44,8 +51,8 @@ const schemas = [
     url: 'https://musashi.bot/blog/polymarket-vs-kalshi-arbitrage',
     datePublished: '2026-04-29',
     image: 'https://musashi.bot/images/generated-1771830449125.png',
-    author: { '@type': 'Organization', name: 'MUSASHI', url: 'https://musashi.bot' },
-    publisher: { '@type': 'Organization', name: 'MUSASHI', url: 'https://musashi.bot' },
+    author: createPublisherSchema(),
+    publisher: createPublisherSchema(),
   },
   {
     '@context': 'https://schema.org',
@@ -53,32 +60,24 @@ const schemas = [
     name: 'Polymarket–Kalshi Arbitrage Spreads',
     description: 'Real-time cross-platform price discrepancies between Polymarket and Kalshi prediction markets, detected by Musashi.',
     url: 'https://musashi-api.vercel.app/api/markets/arbitrage',
-    creator: { '@type': 'Organization', name: 'MUSASHI', url: 'https://musashi.bot' },
+    creator: createPublisherSchema(),
     license: 'https://musashi.bot/data-license',
-    provider: { '@type': 'Organization', name: 'MUSASHI', url: 'https://musashi.bot' },
+    provider: createPublisherSchema(),
     distribution: {
       '@type': 'DataDownload',
       encodingFormat: 'application/json',
       contentUrl: 'https://musashi-api.vercel.app/api/markets/arbitrage',
     },
   },
-  {
-    '@context': 'https://schema.org',
-    '@type': 'FAQPage',
-    mainEntity: faqs.map(({ q, a }) => ({
-      '@type': 'Question',
-      name: q,
-      acceptedAnswer: { '@type': 'Answer', text: a },
-    })),
-  },
-  {
-    '@context': 'https://schema.org',
-    '@type': 'BreadcrumbList',
-    itemListElement: [
-      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://musashi.bot' },
-      { '@type': 'ListItem', position: 2, name: 'Blog', item: 'https://musashi.bot/blog/polymarket-vs-kalshi-arbitrage' },
-    ],
-  },
+  createFaqSchema(faqs),
+  createBreadcrumbSchema([
+    { name: 'Home', path: '/' },
+    { name: 'Blog', path: '/blog' },
+    {
+      name: 'Polymarket vs Kalshi Arbitrage',
+      path: '/blog/polymarket-vs-kalshi-arbitrage',
+    },
+  ]),
 ]
 
 export default function PolymarketVsKalshiArbitrage() {

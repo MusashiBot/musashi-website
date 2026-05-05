@@ -3,19 +3,15 @@ import type { ReactNode } from 'react'
 import Header from '../components/Header'
 import SiteFooter from '../components/SiteFooter'
 import JsonLd from '../components/JsonLd'
+import { createPageMetadata } from '../lib/seo'
 
-export const metadata: Metadata = {
+export const metadata: Metadata = createPageMetadata({
   title: 'Data License',
   description:
     'Data license governing use of MUSASHI dataset pages, arbitrage summaries, spread calculations, API responses, and other analytical outputs at musashi.bot.',
-  alternates: {
-    canonical: 'https://musashi.bot/data-license',
-  },
-  openGraph: {
-    title: 'Data License | MUSASHI',
-    url: 'https://musashi.bot/data-license',
-  },
-}
+  path: '/data-license',
+  ogTitle: 'Data License | MUSASHI',
+})
 
 const pageSchema = {
   '@context': 'https://schema.org',
@@ -66,7 +62,7 @@ export default function DataLicense() {
           </div>
 
           <p className="font-jetbrains text-[var(--text-tertiary)] text-sm mb-10">
-            Effective Date: [MONTH DAY, YEAR]
+            Effective Date: May 5, 2026
           </p>
 
           {/* Summary */}

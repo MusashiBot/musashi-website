@@ -1,16 +1,17 @@
 import type { Metadata } from 'next'
 import Header from '../components/Header'
 import SiteFooter from '../components/SiteFooter'
+import { createPageMetadata } from '../lib/seo'
 
-export const metadata: Metadata = {
+export const metadata: Metadata = createPageMetadata({
   title: 'Pricing',
-  description: 'Musashi is free during beta. No rate limits, no API keys required. Full access to the prediction market feed API, trading signals, arbitrage detection, and Agent SDK.',
-  openGraph: {
-    title: 'Pricing | MUSASHI',
-    description: 'Free prediction market API. Cross-platform market intelligence, trading signals, and arbitrage detection. No rate limits.',
-    url: 'https://musashi.bot/pricing',
-  },
-}
+  description:
+    'Musashi is free during beta. No rate limits, no API keys required. Full access to the prediction market feed API, trading signals, arbitrage detection, and Agent SDK.',
+  path: '/pricing',
+  ogTitle: 'Pricing | MUSASHI',
+  ogDescription:
+    'Free prediction market API. Cross-platform market intelligence, trading signals, and arbitrage detection. No rate limits.',
+})
 
 export default function Pricing() {
   return (
