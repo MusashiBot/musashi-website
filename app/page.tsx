@@ -45,7 +45,7 @@ const faqSchema = createFaqSchema([
   },
   {
     q: 'What about arbitrage and market movers?',
-    a: 'Musashi detects cross-platform arbitrage opportunities (e.g., same market trading at 63% on Polymarket, 70% on Kalshi = 7% spread) and tracks markets with significant price changes. Access via /api/markets/arbitrage and /api/markets/movers endpoints.',
+    a: 'Musashi detects cross-platform arbitrage opportunities (e.g., same market trading at 63% on Polymarket, 70% on Kalshi = 7% spread) and tracks markets with significant price changes. Access via the /api/markets/arbitrage and /api/markets/movers endpoints at musashi-api.vercel.app.',
   },
 ])
 

@@ -54,15 +54,7 @@ const endpoints = [
       { name: 'sentiment', type: 'string', desc: 'Filter: bullish | bearish | neutral' },
     ],
   },
-  {
-    method: 'GET',
-    path: '/api/markets',
-    description: 'Live market list with prices across Polymarket and Kalshi',
-    params: [
-      { name: 'category', type: 'string', desc: 'Filter by market category' },
-      { name: 'limit', type: 'number', desc: 'Number of markets to return (default 50, max 200)' },
-    ],
-  },
+
   {
     method: 'GET',
     path: '/api/markets/arbitrage',
@@ -92,7 +84,7 @@ const schemas = [
     '@context': 'https://schema.org',
     '@type': 'TechArticle',
     headline: 'Polymarket API Reference — Musashi',
-    description: 'REST API reference for Musashi\'s Polymarket data endpoints including feed, markets, arbitrage, and movers.',
+    description: 'REST API reference for Musashi\'s Polymarket data endpoints including feed, arbitrage, and movers.',
     url: 'https://musashi.bot/docs/polymarket-api',
     datePublished: '2026-04-29',
     image: 'https://musashi.bot/images/generated-1771830449125.png',
@@ -117,7 +109,7 @@ export default function PolymarketApiReference() {
   return (
     <ContentPage
       h1="Polymarket API Reference"
-      answer="Musashi exposes a unified REST API for Polymarket and Kalshi market data. Base URL: musashi-api.vercel.app. No authentication required. All endpoints return JSON. 4 endpoints covering feed, markets, arbitrage, and movers."
+      answer="Musashi exposes a unified REST API for Polymarket and Kalshi market data. Base URL: musashi-api.vercel.app. No authentication required. All endpoints return JSON. 3 endpoints covering feed, arbitrage, and movers."
       faqs={faqs}
       schemas={schemas}
     >

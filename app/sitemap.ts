@@ -21,9 +21,7 @@ const staticRoutes: StaticRoute[] = [
   { url: '/mission', priority: 0.7, changeFrequency: 'monthly', sourcePath: 'app/mission/page.tsx' },
   { url: '/pricing', priority: 0.6, changeFrequency: 'monthly', sourcePath: 'app/pricing/page.tsx' },
   { url: '/install', priority: 0.8, changeFrequency: 'monthly', sourcePath: 'app/install/page.tsx' },
-  { url: '/privacy', priority: 0.3, changeFrequency: 'yearly', sourcePath: 'app/privacy/page.tsx' },
-  { url: '/data-license', priority: 0.3, changeFrequency: 'yearly', sourcePath: 'app/data-license/page.tsx' },
-  { url: '/ai', priority: 0.7, changeFrequency: 'weekly', sourcePath: 'app/ai/page.tsx' },
+
   { url: '/docs', priority: 0.9, changeFrequency: 'weekly', sourcePath: 'app/docs/page.tsx' },
   { url: '/docs/polymarket-api', priority: 0.8, changeFrequency: 'monthly', sourcePath: 'app/docs/polymarket-api/page.tsx' },
   { url: '/docs/trading-bot-quickstart', priority: 0.8, changeFrequency: 'monthly', sourcePath: 'app/docs/trading-bot-quickstart/page.tsx' },

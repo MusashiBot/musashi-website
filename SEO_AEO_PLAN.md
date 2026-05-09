@@ -1,6 +1,6 @@
 # Musashi SEO + AEO Execution Plan
 
-Updated: May 5, 2026
+Updated: May 9, 2026
 
 ## Current Baseline
 
@@ -13,6 +13,24 @@ The site now has a real technical SEO foundation:
 - The `Data License` page no longer ships with a placeholder effective date.
 
 This means the next phase should focus less on infrastructure and more on authority, query coverage, and measurement.
+
+## GSC Review Conclusion
+
+The current GSC issues do **not** mean we should create more pages just to satisfy coverage reports.
+
+The right interpretation is:
+
+- `/install` and `/mission` are valid site URLs and should remain live and indexable.
+- `/ai`, `/privacy`, and `/data-license` should remain accessible, but they should be treated as non-index targets via `noindex` and removal from the sitemap.
+- `https://musashi.bot/api/markets` should be treated as a retired URL, not a missing feature. Keep the `410 Gone` approach unless we intentionally decide to support that API contract on the main site.
+- We should not create a fake `/api/markets` endpoint or new placeholder pages just to make Search Console cleaner.
+- `robots.txt` should be narrowed carefully: prefer blocking `/_next/static/` rather than all of `/_next/`, and do not block `/api/` until Google has had time to process the `410` on `/api/markets`.
+
+So the practical conclusion is:
+
+1. Keep the real product and content pages.
+2. Retire the accidental or historical URLs cleanly.
+3. Reduce crawl noise without cutting off signals Google still needs to process.
 
 ## What The Site Should Own
 

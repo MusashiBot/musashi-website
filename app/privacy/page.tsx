@@ -9,6 +9,7 @@ export const metadata: Metadata = createPageMetadata({
     'Privacy policy for Musashi — the AI intelligence service for prediction market trading bots.',
   path: '/privacy',
   ogTitle: 'Privacy Policy | MUSASHI',
+  noIndex: true,
 })
 
 export default function PrivacyPolicy() {

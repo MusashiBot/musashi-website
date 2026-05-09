@@ -24,7 +24,7 @@ const faqs: FaqEntry[] = [
   },
   {
     q: 'Can I get real-time Kalshi prices via API?',
-    a: 'Yes. Musashi polls Kalshi prices every 15–20 seconds and exposes them via /api/markets, including 1-hour and 24-hour change data. The native Kalshi API also provides market data but requires API key authentication.',
+    a: 'Yes. Musashi polls Kalshi prices every 15–20 seconds and exposes them via the REST API, including 1-hour and 24-hour change data. The native Kalshi API also provides market data but requires API key authentication.',
   },
   {
     q: 'What is the best API for prediction market arbitrage?',

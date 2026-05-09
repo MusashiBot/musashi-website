@@ -43,7 +43,7 @@ function buildFaqs(publicMarketCount: number): FAQItem[] {
     },
     {
       question: 'What about arbitrage and market movers?',
-      answer: 'Musashi detects cross-platform arbitrage opportunities (e.g., same market trading at 63% on Polymarket, 70% on Kalshi = 7% spread) and tracks markets with significant price changes (>5% in 1h or 24h windows). Access via /api/markets/arbitrage and /api/markets/movers endpoints.',
+      answer: 'Musashi detects cross-platform arbitrage opportunities (e.g., same market trading at 63% on Polymarket, 70% on Kalshi = 7% spread) and tracks markets with significant price changes (>5% in 1h or 24h windows). Access via the /api/markets/arbitrage and /api/markets/movers endpoints at musashi-api.vercel.app.',
     },
   ];
 }

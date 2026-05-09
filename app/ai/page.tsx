@@ -14,6 +14,7 @@ export const metadata: Metadata = createPageMetadata({
   ogTitle: 'API Documentation | MUSASHI',
   ogDescription:
     'REST API and Agent SDK for prediction market trading bots. Feed, arbitrage, and sentiment endpoints. Free with no rate limits.',
+  noIndex: true,
 })
 
 type SearchParamValue = string | string[] | undefined;

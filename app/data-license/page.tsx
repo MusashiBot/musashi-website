@@ -11,6 +11,7 @@ export const metadata: Metadata = createPageMetadata({
     'Data license governing use of MUSASHI dataset pages, arbitrage summaries, spread calculations, API responses, and other analytical outputs at musashi.bot.',
   path: '/data-license',
   ogTitle: 'Data License | MUSASHI',
+  noIndex: true,
 })
 
 const pageSchema = {
