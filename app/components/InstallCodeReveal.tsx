@@ -52,7 +52,7 @@ function getInstallRows(packageManager: PackageManager): CodeRow[] {
       blocks: [
         {
           comment: 'Clone the Musashi repository.',
-          code: 'git clone https://github.com/VittorioC13/Musashi.git',
+          code: 'git clone https://github.com/MusashiBot/Musashi.git',
         },
       ],
     },

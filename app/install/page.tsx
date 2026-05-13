@@ -94,7 +94,7 @@ export default function Install() {
               Chrome 90+ • Edge • Brave • Opera
             </span>
             <span className="font-jetbrains text-[var(--text-tertiary)] text-[11px] font-normal text-center">
-              900+ markets from Polymarket and Kalshi • Price updates every 15-20 seconds
+              Install the extension client • Connect to Musashi API + MCP services
             </span>
           </div>
 
@@ -109,7 +109,7 @@ export default function Install() {
               MUSASHI
             </span>
             <span className="font-jetbrains text-[var(--text-tertiary)] text-xs font-normal max-w-[400px] leading-relaxed">
-              Chrome extension that shows prediction markets on Twitter. API for agents.
+              Musashi platform for agents: API intelligence, extension client, MCP tools, and data infrastructure.
             </span>
           </div>
 
@@ -131,7 +131,7 @@ export default function Install() {
               </span>
               <nav className="flex flex-col gap-2">
                 <a href="https://twitter.com/musashimarket" target="_blank" rel="noopener noreferrer" className="font-jetbrains text-[var(--text-secondary)] text-xs font-medium hover:text-[var(--text-primary)] transition-colors">Twitter</a>
-                <a href="https://github.com/VittorioC13/musashi-bot" target="_blank" rel="noopener noreferrer" className="font-jetbrains text-[var(--text-secondary)] text-xs font-medium hover:text-[var(--text-primary)] transition-colors">GitHub</a>
+                <a href="https://github.com/MusashiBot" target="_blank" rel="noopener noreferrer" className="font-jetbrains text-[var(--text-secondary)] text-xs font-medium hover:text-[var(--text-primary)] transition-colors">GitHub</a>
               </nav>
             </div>
           </div>
