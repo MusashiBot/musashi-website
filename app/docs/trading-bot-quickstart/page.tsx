@@ -180,36 +180,22 @@ const schemas = [
   ]),
 ]
 
-const editorOptions = [
-  {
-    name: 'Claude Code',
-    href: 'https://www.anthropic.com/claude-code',
-    how: 'Open Claude Code in an empty folder, paste the prompt, accept the file writes.',
-  },
-  {
-    name: 'Codex',
-    href: 'https://developers.openai.com/codex',
-    how: 'Run `codex` in an empty folder, paste the prompt, approve the plan.',
-  },
-  {
-    name: 'Cursor',
-    href: 'https://cursor.com',
-    how: 'Open Cursor in an empty folder, hit ⌘L, paste the prompt, accept changes.',
-  },
+const editors = [
+  { name: 'Claude Code', href: 'https://www.anthropic.com/claude-code' },
+  { name: 'Codex', href: 'https://developers.openai.com/codex' },
+  { name: 'Cursor', href: 'https://cursor.com' },
 ]
 
-const scaffoldedFiles = [
-  'package.json, tsconfig.json, .env.example, .gitignore',
-  'src/index.ts — boot + lifecycle',
-  'src/config.ts — zod-validated env',
-  'src/musashi.ts — typed Musashi client',
-  'src/dedupe.ts — TTL dedupe',
-  'src/alert.ts — Slack + Discord formatters',
-  'src/server.ts — /tweet webhook + /healthz',
-  'src/strategies/{arbitrage,movers,tweet}.ts',
-  'Dockerfile (node:20-slim, multi-stage)',
-  'README.md (run + deploy + go-live)',
-]
+const scaffoldTree = `.
+├ src/index.ts          boot + lifecycle
+├ src/config.ts         zod-validated env
+├ src/musashi.ts        typed API client
+├ src/dedupe.ts         TTL dedupe
+├ src/alert.ts          Slack + Discord
+├ src/server.ts         /tweet + /healthz
+├ src/strategies/       arbitrage · movers · tweet
+├ Dockerfile            node:20-slim, multi-stage
+└ README.md             run + deploy + go-live`
 
 const nextStepLinks = [
   { href: '/docs/polymarket-api', label: 'Polymarket API Reference' },
@@ -218,105 +204,116 @@ const nextStepLinks = [
   { href: '/blog/polymarket-vs-kalshi-arbitrage', label: 'Polymarket vs Kalshi arbitrage guide' },
 ]
 
+function StepHeader({ number, title, tagline }: { number: string; title: string; tagline: string }) {
+  return (
+    <header className="flex flex-col gap-5">
+      <div className="flex items-center gap-4">
+        <span className="font-jetbrains text-[12px] font-bold uppercase tracking-[0.28em] text-[#00FF88]">
+          {number}
+        </span>
+        <div className="h-px flex-1 bg-[var(--border-primary)]" />
+      </div>
+      <h2 className="font-grotesk text-[28px] font-semibold tracking-[-0.5px] text-[var(--text-primary)] lg:text-[34px]">
+        {title}
+      </h2>
+      <p className="max-w-[600px] font-jetbrains text-[14px] leading-[1.85] text-[var(--text-secondary)]">
+        {tagline}
+      </p>
+    </header>
+  )
+}
+
 export default function TradingBotQuickstart() {
   return (
     <ContentPage
       h1="How to Build a Prediction Market Trading Bot with Musashi"
-      answer="Don't write the bot from scratch. Paste the prompt below into Claude Code, Codex, or Cursor — your editor scaffolds a production-grade Musashi-powered bot that scans arbitrage spreads, market movers, and tweet-driven signals, then alerts to Slack or Discord. Signal-only by default; one env flag away from execution-ready."
+      answer="Paste one prompt. Your editor scaffolds a Musashi-powered bot that scans arbitrage, movers, and tweet signals — and alerts to Slack or Discord. Signal-only by default."
       faqs={faqs}
       schemas={schemas}
     >
-      <section>
-        <h2 className="font-grotesk text-[var(--text-primary)] text-[24px] font-bold mb-3">The prompt</h2>
-        <p className="font-jetbrains text-[var(--text-secondary)] text-[13px] leading-[1.8] mb-5">
-          One self-contained prompt. It encodes the architecture, env contract, alert format, deployment target,
-          and Musashi endpoint contracts. Paste it into your editor and let it scaffold the project end-to-end.
-        </p>
-        <CopyPromptBlock label="Musashi Trading Bot — Master Prompt" prompt={MUSASHI_PROMPT} />
-      </section>
-
-      <section>
-        <h2 className="font-grotesk text-[var(--text-primary)] text-[24px] font-bold mb-4">How to use it</h2>
-        <div className="grid grid-cols-1 gap-3 md:grid-cols-3">
-          {editorOptions.map(({ name, href, how }) => (
+      <section className="flex flex-col gap-6 pt-4">
+        <StepHeader
+          number="01"
+          title="Open your editor"
+          tagline="Use any agentic coding tool in an empty folder. They all handle the prompt the same way."
+        />
+        <div className="flex flex-wrap gap-2">
+          {editors.map(({ name, href }) => (
             <a
               key={name}
               href={href}
               target="_blank"
               rel="noopener noreferrer"
-              className="group flex flex-col gap-2 border border-[var(--border-primary)] bg-[var(--bg-secondary)] p-4 transition-colors hover:bg-[var(--overlay-light)]"
+              className="group inline-flex items-center gap-1.5 border border-[var(--border-primary)] px-3 py-1.5 font-jetbrains text-[12px] text-[var(--text-secondary)] transition-colors hover:border-[#00FF88]/40 hover:text-[var(--text-primary)]"
             >
-              <div className="flex items-center justify-between">
-                <span className="font-grotesk text-[var(--text-primary)] text-[18px] font-semibold">{name}</span>
-                <span className="font-jetbrains text-[12px] text-[var(--text-tertiary)] transition-colors group-hover:text-[var(--text-primary)]">↗</span>
-              </div>
-              <p className="font-jetbrains text-[var(--text-secondary)] text-[12px] leading-[1.7]">{how}</p>
+              {name}
+              <span className="text-[var(--text-muted)] transition-colors group-hover:text-[#00FF88]">↗</span>
             </a>
           ))}
         </div>
       </section>
 
-      <section>
-        <h2 className="font-grotesk text-[var(--text-primary)] text-[24px] font-bold mb-4">What the editor scaffolds</h2>
-        <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
-          {scaffoldedFiles.map((file) => (
-            <div key={file} className="flex items-start gap-2 border border-[var(--border-primary)] bg-[var(--bg-secondary)] px-3 py-2">
-              <span className="text-[#00FF88] font-bold mt-0.5">→</span>
-              <code className="font-jetbrains text-[12px] text-white">{file}</code>
-            </div>
-          ))}
+      <section className="flex flex-col gap-7 pt-4">
+        <StepHeader
+          number="02"
+          title="Copy the prompt"
+          tagline="One self-contained prompt. It encodes the architecture, env contract, alert format, and Musashi endpoint contracts."
+        />
+        <CopyPromptBlock label="Master prompt" prompt={MUSASHI_PROMPT} />
+        <div>
+          <div className="mb-3 font-jetbrains text-[10px] uppercase tracking-[0.22em] text-[var(--text-muted)]">
+            What you&apos;ll get
+          </div>
+          <pre className="whitespace-pre bg-[var(--bg-secondary)] p-5 font-jetbrains text-[12px] leading-[1.85] text-[var(--text-secondary)] sm:p-6">
+            {scaffoldTree}
+          </pre>
         </div>
       </section>
 
-      <section>
-        <h2 className="font-grotesk text-[var(--text-primary)] text-[24px] font-bold mb-3">Prerequisites</h2>
-        <ul className="flex flex-col gap-2">
-          {[
-            'Node.js 20+',
-            'A coding agent: Claude Code, Codex, or Cursor',
-            'A Slack or Discord incoming webhook URL',
-            'Optional: Polymarket or Kalshi account if you later enable live execution',
-          ].map((item) => (
-            <li key={item} className="flex items-start gap-3 font-jetbrains text-[13px] text-[var(--text-secondary)]">
-              <span className="text-[#00FF88] font-bold mt-0.5">→</span>{item}
-            </li>
-          ))}
-        </ul>
-      </section>
-
-      <section>
-        <h2 className="font-grotesk text-[var(--text-primary)] text-[24px] font-bold mb-3">Configure &amp; run</h2>
-        <p className="font-jetbrains text-[var(--text-secondary)] text-[13px] leading-[1.8] mb-4">
-          After your editor scaffolds the project, set the env and start the bot. Both Slack and Discord webhook URLs are supported — set whichever you use.
-        </p>
-        <div className="bg-[var(--bg-secondary)] border border-[var(--border-primary)] p-5 font-jetbrains text-[13px] text-white rounded-sm">
-          <div className="text-[#6E7D93] text-[11px] mb-3 uppercase tracking-[0.14em]">Terminal</div>
-          <pre>{`cp .env.example .env
-# fill in SLACK_WEBHOOK_URL or DISCORD_WEBHOOK_URL, INBOUND_TOKEN
+      <section className="flex flex-col gap-6 pt-4">
+        <StepHeader
+          number="03"
+          title="Configure and run"
+          tagline="Set your webhook URL and start the bot. Node 20+, one of Slack or Discord."
+        />
+        <pre className="whitespace-pre-wrap bg-[var(--bg-secondary)] p-5 font-jetbrains text-[12.5px] leading-[1.95] text-white sm:p-6">
+{`cp .env.example .env
+# set SLACK_WEBHOOK_URL or DISCORD_WEBHOOK_URL, INBOUND_TOKEN
 npm install
-npm run dev`}</pre>
-        </div>
-        <p className="font-jetbrains text-[var(--text-secondary)] text-[13px] leading-[1.8] mt-4">
-          The bot starts polling <code className="text-white">/api/markets/arbitrage</code> every 30 seconds,{' '}
-          <code className="text-white">/api/markets/movers</code> every 5 minutes, and listens for tweet payloads on{' '}
-          <code className="text-white">POST /tweet</code>. Alerts above your thresholds land in Slack or Discord.
+npm run dev`}
+        </pre>
+        <p className="max-w-[600px] font-jetbrains text-[13px] leading-[1.85] text-[var(--text-tertiary)]">
+          Arbitrage polls every 30s, movers every 5m,{' '}
+          <code className="text-[var(--text-secondary)]">/tweet</code> listens on{' '}
+          <code className="text-[var(--text-secondary)]">PORT 8080</code>. Alerts above your thresholds land in Slack or Discord.
         </p>
       </section>
 
-      <section>
-        <h2 className="font-grotesk text-[var(--text-primary)] text-[24px] font-bold mb-3">Going live</h2>
-        <p className="font-jetbrains text-[var(--text-secondary)] text-[13px] leading-[1.8]">
-          The scaffold is signal-only by design. When you&apos;re ready to trade real money, ask your editor:{' '}
-          <em className="text-white">
-            &ldquo;Add an executor that places limit orders on Polymarket via @polymarket/clob-client when
-            MIN_EDGE is exceeded, behind a LIVE_TRADING=1 env flag with a confirmation gate.&rdquo;
-          </em>{' '}
-          Pair the executor with the arbitrage spread direction and you have a fully autonomous loop. The full
-          endpoint reference is in the <Link href="/ai" className="text-[#00FF88] underline hover:opacity-80">interactive API docs</Link>.
+      <section className="flex flex-col gap-6 pt-4">
+        <StepHeader
+          number="04"
+          title="Going live"
+          tagline="The scaffold is signal-only by design. When you're ready to trade real money, ask your editor:"
+        />
+        <blockquote className="max-w-[640px] border-l border-[var(--border-primary)] pl-5 font-jetbrains text-[13.5px] leading-[1.85] italic text-[var(--text-secondary)]">
+          &ldquo;Add an executor that places limit orders on Polymarket via{' '}
+          <span className="not-italic text-[var(--text-primary)]">@polymarket/clob-client</span> when{' '}
+          <span className="not-italic text-[var(--text-primary)]">MIN_EDGE</span> is exceeded, behind a{' '}
+          <span className="not-italic text-[var(--text-primary)]">LIVE_TRADING=1</span> env flag with a confirmation gate.&rdquo;
+        </blockquote>
+        <p className="font-jetbrains text-[13px] leading-[1.85] text-[var(--text-tertiary)]">
+          Full reference →{' '}
+          <Link
+            href="/ai"
+            className="text-[var(--text-primary)] underline decoration-[var(--border-primary)] underline-offset-[3px] transition-colors hover:decoration-[#00FF88]"
+          >
+            interactive API docs
+          </Link>
+          .
         </p>
       </section>
 
-      <RelatedLinks title="Next Steps" links={nextStepLinks} />
+      <RelatedLinks title="Next" links={nextStepLinks} />
     </ContentPage>
   )
 }
