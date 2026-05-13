@@ -1,7 +1,9 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
+import type { ReactNode } from 'react'
 import ContentPage, { type FaqEntry } from '../../components/ContentPage'
-import CopyPromptBlock from '../../components/CopyPromptBlock'
+import CopyableCodeBlock from '../../components/CopyableCodeBlock'
+import MasterPromptCard from '../../components/MasterPromptCard'
 import RelatedLinks from '../../components/RelatedLinks'
 import {
   createBreadcrumbSchema,
@@ -13,134 +15,169 @@ import {
 export const metadata: Metadata = createPageMetadata({
   title: 'Trading Bot Quickstart',
   description:
-    'Paste one prompt into Claude Code, Codex, or Cursor and ship a production-grade Musashi-powered prediction-market trading bot. Arbitrage, tweet signals, and market movers in one service.',
+    'Paste one prompt into Claude Code, Codex, or Cursor and ship a real-money prediction-market trading bot. Polymarket and Kalshi execution wired to Musashi signals with built-in risk limits, kill switch, and dry-run mode.',
   path: '/docs/trading-bot-quickstart',
   ogTitle: 'Trading Bot Quickstart | MUSASHI',
   ogDescription:
-    'One prompt, one Musashi-powered prediction-market trading bot. Free REST API for Polymarket and Kalshi.',
+    'One prompt, one Musashi-powered trading bot. Real-money Polymarket and Kalshi execution with built-in risk limits.',
   type: 'article',
 })
 
-const MUSASHI_PROMPT = `Build me a production-grade prediction-market signal bot that uses the Musashi API.
+const MUSASHI_PROMPT = `Build me a production trading bot for prediction markets that places real-money trades on Polymarket and Kalshi using Musashi as the signal source.
 
 # Overview
-A long-running TypeScript/Node service that polls three Musashi endpoints in parallel, applies configurable thresholds, dedupes alerts, and posts unified messages to a Slack or Discord webhook. SIGNAL-ONLY by default — do not place real trades unless I explicitly add an execution module later.
+A long-running TypeScript/Node service that:
+- Polls Musashi for arbitrage opportunities, market movers, and tweet signals
+- Sizes positions based on edge and configurable risk limits
+- Places real-money limit orders on Polymarket (CLOB) and Kalshi (REST)
+- Enforces a daily-loss kill switch, per-market position cap, and minimum edge
+- Logs every fill and every risk event to Slack or Discord
 
-# Musashi API
+# Musashi API (signal source)
 Base URL: https://musashi-api.vercel.app
 No auth required during free beta.
 
 Endpoints:
 - GET /api/markets/arbitrage?minSpread={MIN_SPREAD}&minConfidence=0.5&limit=20
-  Returns cross-platform Poly↔Kalshi opportunities.
+  Cross-platform Poly↔Kalshi opportunities.
   Fields: data.opportunities[].{polymarket,kalshi,spread,direction,confidence}, data.metadata.data_age_seconds.
-  Cache TTL ~15s — poll no faster than every 30s.
+  Poll every 30s.
 
 - GET /api/markets/movers?minChange={MIN_CHANGE}&limit=20
-  Returns 1h / 24h movers.
-  Fields: data.movers[].{market,priceChange1h,priceChange24h,previousPrice,currentPrice,direction}.
-  Snapshots persist 7 days; poll no faster than every 60s.
+  1h / 24h price movers.
+  Fields: data.movers[].{market,priceChange1h,previousPrice,currentPrice,direction}.
+  Poll every 60s+.
 
-- POST /api/analyze-text { "text": string, "minConfidence": 0.4, "maxResults": 3 }
-  Analyzes tweet/news text.
+- POST /api/analyze-text { "text": string, "minConfidence": 0.4 }
+  Tweet/news analysis.
   Fields: data.suggested_action.{direction,edge,reasoning}, data.urgency, data.sentiment, data.markets[].{market,confidence}.
-  Used for the inbound webhook strategy.
+  Called from the /tweet webhook.
 
 - GET /api/health — surface via /healthz on the bot.
 
+# Brokers
+Polymarket — @polymarket/clob-client.
+  - Auth: POLYMARKET_PRIVATE_KEY (Polygon wallet), USDC on Polygon for collateral.
+  - Orders: post-only limit at signal price, IOC fallback at marketable price after 10s.
+  - SDK: \`npm install @polymarket/clob-client\`.
+
+Kalshi — REST API.
+  - Auth: KALSHI_API_KEY + KALSHI_API_SECRET (RSA-PSS signed requests).
+  - Base URL: https://trading-api.kalshi.com/trade-api/v2.
+  - Write a thin typed wrapper around fetch.
+
 # Architecture
 src/
-  index.ts          # boot: load env, start enabled strategies + webhook server, SIGTERM cleanup
-  config.ts         # zod-validated env, defaults, type-safe export
-  musashi.ts        # typed fetch client: getArbitrage(), getMovers(), analyzeText(), getHealth()
-  dedupe.ts         # in-memory TTL Map — has(key), seen(key, ttlMs); 1h default
-  alert.ts          # Slack mrkdwn + Discord embed formatters; one send() entry point
-  server.ts         # Express: POST /tweet (x-inbound-token auth), GET /healthz
+  index.ts          # boot: load env, start strategies + webhook + risk manager, SIGTERM cleanup
+  config.ts         # zod env: keys, risk limits, thresholds; refuse to boot if unsafe
+  musashi.ts        # typed Musashi client
+  brokers/
+    polymarket.ts   # CLOB wrapper: balance(), placeOrder(), cancelOrder(), positions()
+    kalshi.ts       # REST wrapper: same surface
+  risk.ts           # position sizing, per-market cap, daily-loss kill switch, persistent state
+  executor.ts       # takeSignal(signal) → broker.placeOrder() iff risk allows
+  dedupe.ts         # TTL Map for signal dedupe (1h)
+  alert.ts          # Slack mrkdwn + Discord embed formatters; one send() entry
+  server.ts         # Express: POST /tweet (x-inbound-token auth), GET /healthz, GET /pnl
   strategies/
-    arbitrage.ts    # interval loop, dedupe by (polyId,kalshiId), alert when spread >= MIN_SPREAD
-    movers.ts       # interval loop, dedupe by marketId, group top-5 per poll
-    tweet.ts        # called from server.ts; gate on edge >= MIN_EDGE AND urgency in [high, critical]
+    arbitrage.ts    # poll Musashi arbitrage → executor.takeArbitrage(opportunity)
+    movers.ts       # poll Musashi movers → executor.takeMomentum(mover)
+    tweet.ts        # /tweet → analyzeText → executor.takeSignal(signal)
+
+# Risk model (non-negotiable defaults)
+- MAX_POSITION_USD per market (default $50)
+- MAX_DAILY_LOSS_USD across all positions (default $100). Hit → kill switch fires, no new orders for the rest of the day. Existing positions are held.
+- MIN_EDGE = 0.05 (signal must show ≥5% edge to enter)
+- One-position-per-market rule (no scaling in on the same market)
+- DRY_RUN=1 logs intended orders without submitting them (rehearsal). Default is live.
+- Idempotency: every order has a deterministic client ID derived from (strategy, market, timestamp-bucket). Never double-submit.
+- Persist daily P&L + kill-switch state in a small SQLite or LowDB file so a restart preserves the limit.
 
 # .env.example
 MUSASHI_BASE_URL=https://musashi-api.vercel.app
+
+# Polymarket
+POLYMARKET_PRIVATE_KEY=
+POLYMARKET_FUNDER_ADDRESS=
+POLYMARKET_CHAIN_ID=137
+
+# Kalshi
+KALSHI_API_KEY=
+KALSHI_API_SECRET=
+
+# Notifications
 SLACK_WEBHOOK_URL=
 DISCORD_WEBHOOK_URL=
+
+# Risk (start small)
+MAX_POSITION_USD=50
+MAX_DAILY_LOSS_USD=100
+MIN_EDGE=0.05
+
+# Safety
+DRY_RUN=
+
+# Bot
 INBOUND_TOKEN=change-me
-MIN_SPREAD=0.05
-MIN_CHANGE=0.05
-MIN_EDGE=0.08
-ARBITRAGE_INTERVAL_SECONDS=30
-MOVERS_INTERVAL_SECONDS=300
 PORT=8080
 LOG_LEVEL=info
-DISABLE_ARBITRAGE=
-DISABLE_MOVERS=
-DISABLE_TWEET=
 
-# Alert format (Slack mrkdwn — translate cleanly to Discord embeds)
-ARBITRAGE
-> *Arbitrage* — {spread%} spread
-> Poly: {title} @ {yesPrice}
-> Kalshi: {title} @ {yesPrice}
-> Direction: {direction} | Confidence: {confidence} | Age: {data_age}s
+# Alert formats (Slack mrkdwn — translate cleanly to Discord embeds)
+FILLED
+> *FILLED* — {platform} {market} {side} {size}@{price}
+> Signal: {strategy} | Edge: {edge%} | Position: {totalPosUSD}
+> Daily P&L: {dailyPnl}
 
-MOVERS (single grouped message per poll)
-> *Top movers — last 1h*
-> 1. ▲ {title} {prev}→{curr} ({change%})
-> 2. ▼ {title} {prev}→{curr} ({change%})
-> Age: {data_age}s
+KILL SWITCH
+> *KILL SWITCH* — daily loss limit hit ({dailyPnl})
+> No new orders for the rest of the day. Existing positions held.
 
-TWEET SIGNAL
-> *{direction} signal — {urgency}*
-> _{tweet excerpt}_
-> {market_title} @ {yesPrice} | edge {edge%}
-> {reasoning}
+DRY RUN
+> *DRY RUN* — would have placed {platform} {market} {side} {size}@{price}
 
 # Constraints
 - TypeScript 5, ESM ("type": "module"), Node 20+, native fetch.
-- Single-process. No DB. In-memory dedupe with 1h TTL.
-- Graceful: log + continue on non-200; exponential back-off on 429 (5s, 15s, 45s).
-- One webhook required (Slack OR Discord). Refuse to boot if neither is set.
-- /tweet rejects requests without correct x-inbound-token header (401).
-- Each strategy independently disableable via DISABLE_* env.
-- Clean SIGTERM: stop intervals, await in-flight requests, exit 0.
-- No tests required for v1.
+- Refuse to boot if (POLYMARKET_PRIVATE_KEY missing AND KALSHI_API_KEY missing) AND DRY_RUN is not set.
+- Before each order: re-fetch position, re-check risk limits, re-check kill switch.
+- Graceful SIGTERM: cancel open limit orders, persist state, exit 0.
+- Single-process. No tests required for v1.
 
 # Deliverables
 1. package.json, tsconfig.json, .env.example, .gitignore, README.md
 2. All src/ files above
 3. Dockerfile (multi-stage, node:20-slim) for Fly.io / Railway / Render
-4. README sections: prerequisites, env reference, run locally, deploy to Fly.io, how to swap signal-only for live execution later
+4. README sections: prerequisites, fund-your-wallet, dry-run rehearsal, going live, risk model, kill-switch behavior, recovery
 
 When everything is written, print:
-- The install command
-- The run command
-- A sample curl that posts a tweet to /tweet`
+- Install command
+- DRY_RUN rehearsal command
+- Live trading command
+- Sample curl that posts a tweet to /tweet`
 
 const faqs: FaqEntry[] = [
   {
-    q: 'Why a prompt instead of a tutorial?',
-    a: 'Hand-written tutorials go stale. A well-scoped prompt re-runs on every model upgrade and produces a bot tailored to your stack, package versions, and deployment target. Treat the prompt as the source of truth and let your editor regenerate the implementation.',
+    q: 'Does the bot really trade with real money?',
+    a: 'Yes. The default scaffold places real-money limit orders on Polymarket (via CLOB) and Kalshi (via REST) whenever a Musashi signal exceeds your MIN_EDGE. Risk limits are enforced before every order — MAX_POSITION_USD per market and MAX_DAILY_LOSS_USD across the bot. When daily loss hits the limit, a kill switch activates and no new orders are submitted. Set DRY_RUN=1 for a rehearsal that logs intended orders without sending them.',
   },
   {
-    q: 'Does the bot place real trades?',
-    a: 'No. The default scaffold is signal-only — it polls Musashi and posts alerts to Slack or Discord. To add execution, ask your editor for a follow-up: "Add an executor module that places limit orders on Polymarket via @polymarket/clob-client when MIN_EDGE is exceeded, behind a LIVE_TRADING=1 env flag with a confirmation gate."',
+    q: 'How do I limit my risk?',
+    a: 'Three knobs in .env: MAX_POSITION_USD caps each individual position, MAX_DAILY_LOSS_USD activates a kill switch once hit, and MIN_EDGE rejects signals below your edge threshold. Start small ($25–$50 per position, $100 daily cap), run with DRY_RUN=1 for a session or two, then drop the flag to go live.',
+  },
+  {
+    q: 'Why a prompt instead of a tutorial?',
+    a: 'Hand-written tutorials go stale. A well-scoped prompt re-runs on every model upgrade and produces a bot tailored to your stack, package versions, and deployment target. Treat the prompt as the source of truth — let your editor regenerate the implementation when SDKs update.',
   },
   {
     q: 'Which editor should I use?',
     a: 'Claude Code is recommended for end-to-end scaffolding from a single prompt. Codex CLI works well if you prefer a plan-then-execute flow. Cursor is the best fit if you want to apply the prompt inside an existing repo via Composer (⌘L).',
   },
   {
-    q: 'Does Musashi require an API key?',
-    a: 'No key required during free beta. When auth ships, only an Authorization header is added — the prompt stays the same. Polling cadence guidance: arbitrage ≥ 30s, movers ≥ 60s.',
-  },
-  {
     q: 'How do I deploy the bot?',
-    a: 'The prompt asks for a Dockerfile, so `fly launch` on Fly.io, `railway up`, or `render deploy` all work. Set the env vars in your provider, and the bot starts polling and serving the /tweet webhook on PORT.',
+    a: 'The prompt asks for a Dockerfile, so `fly launch` on Fly.io, `railway up`, or `render deploy` all work. Set your wallet keys, risk limits, and Slack/Discord webhook in the provider dashboard. The bot persists daily P&L state to a volume so restarts preserve the kill switch.',
   },
   {
     q: 'What if the Musashi API is rate-limited?',
-    a: 'The bot exponentially backs off on HTTP 429 (5s → 15s → 45s) and continues. Each Musashi response also includes data_age_seconds — the bot skips alerts when the data is stale (>60s).',
+    a: 'The bot exponentially backs off on HTTP 429 (5s → 15s → 45s) and continues. Each Musashi response also includes data_age_seconds — the bot skips alerts and trades when the data is stale (>60s), to avoid acting on a cached snapshot.',
   },
 ]
 
@@ -150,7 +187,7 @@ const schemas = [
     '@type': 'TechArticle',
     headline: 'How to Build a Prediction Market Trading Bot with Musashi',
     description:
-      'Paste one prompt into Claude Code, Codex, or Cursor and scaffold a production-grade prediction-market trading bot using the Musashi API.',
+      'Paste one prompt into Claude Code, Codex, or Cursor and scaffold a real-money prediction-market trading bot using the Musashi API.',
     url: 'https://musashi.bot/docs/trading-bot-quickstart',
     datePublished: '2026-04-29',
     dateModified: '2026-05-13',
@@ -163,13 +200,13 @@ const schemas = [
     '@type': 'HowTo',
     name: 'How to Build a Prediction Market Trading Bot with Musashi',
     description:
-      'Use a single prompt to scaffold a production-grade prediction-market signal bot that polls the Musashi API and alerts to Slack or Discord.',
+      'Use a single prompt to scaffold a real-money prediction-market trading bot that places orders on Polymarket and Kalshi using Musashi signals.',
     step: [
-      { '@type': 'HowToStep', name: 'Open a coding agent', text: 'Open Claude Code, Codex, or Cursor in an empty folder.' },
-      { '@type': 'HowToStep', name: 'Paste the prompt', text: 'Paste the full Musashi trading-bot prompt and accept the file scaffold the agent proposes.' },
-      { '@type': 'HowToStep', name: 'Configure env', text: 'Copy .env.example to .env, set MUSASHI_BASE_URL and either SLACK_WEBHOOK_URL or DISCORD_WEBHOOK_URL, plus thresholds.' },
-      { '@type': 'HowToStep', name: 'Run locally', text: 'Install dependencies and start the bot — it begins polling arbitrage and movers, and serves the /tweet webhook on PORT.' },
-      { '@type': 'HowToStep', name: 'Deploy', text: 'Build the included Dockerfile and deploy to Fly.io, Railway, or Render. Set env vars in your provider dashboard.' },
+      { '@type': 'HowToStep', name: 'Open your coding agent', text: 'In an empty folder, launch Claude Code, Codex, or Cursor.' },
+      { '@type': 'HowToStep', name: 'Paste the master prompt', text: 'Paste the copied prompt into the editor and approve the file scaffold.' },
+      { '@type': 'HowToStep', name: 'Add your keys and risk limits', text: 'Fill .env with Polymarket private key, Kalshi API keys, MAX_POSITION_USD, MAX_DAILY_LOSS_USD, and MIN_EDGE.' },
+      { '@type': 'HowToStep', name: 'Rehearse, then go live', text: 'Run with DRY_RUN=1 first to verify behavior, then drop the flag to send real orders.' },
+      { '@type': 'HowToStep', name: 'Deploy', text: 'Build the included Dockerfile and deploy to Fly.io, Railway, or Render with a persistent volume for daily P&L state.' },
     ],
   },
   createFaqSchema(faqs),
@@ -186,17 +223,6 @@ const editors = [
   { name: 'Cursor', href: 'https://cursor.com' },
 ]
 
-const scaffoldTree = `.
-├ src/index.ts          boot + lifecycle
-├ src/config.ts         zod-validated env
-├ src/musashi.ts        typed API client
-├ src/dedupe.ts         TTL dedupe
-├ src/alert.ts          Slack + Discord
-├ src/server.ts         /tweet + /healthz
-├ src/strategies/       arbitrage · movers · tweet
-├ Dockerfile            node:20-slim, multi-stage
-└ README.md             run + deploy + go-live`
-
 const nextStepLinks = [
   { href: '/docs/polymarket-api', label: 'Polymarket API Reference' },
   { href: '/ai', label: 'Full interactive API docs' },
@@ -204,22 +230,109 @@ const nextStepLinks = [
   { href: '/blog/polymarket-vs-kalshi-arbitrage', label: 'Polymarket vs Kalshi arbitrage guide' },
 ]
 
-function StepHeader({ number, title, tagline }: { number: string; title: string; tagline: string }) {
-  return (
-    <header className="flex flex-col gap-5">
-      <div className="flex items-center gap-4">
-        <span className="font-jetbrains text-[12px] font-bold uppercase tracking-[0.28em] text-[#00FF88]">
-          {number}
-        </span>
-        <div className="h-px flex-1 bg-[var(--border-primary)]" />
+type Step = {
+  title: string
+  body: ReactNode
+  code?: string
+  extras?: ReactNode
+  optional?: boolean
+}
+
+const steps: Step[] = [
+  {
+    title: 'Open your coding agent',
+    body: 'In an empty folder, launch Claude Code, Codex, or Cursor. The prompt works the same way in all three.',
+    extras: (
+      <div className="flex flex-wrap gap-2">
+        {editors.map(({ name, href }) => (
+          <a
+            key={name}
+            href={href}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="group inline-flex items-center gap-1.5 border border-[var(--border-primary)] px-3 py-1.5 font-jetbrains text-[12px] text-[var(--text-secondary)] transition-colors hover:border-[#00FF88]/40 hover:text-[var(--text-primary)]"
+          >
+            {name}
+            <span className="text-[var(--text-muted)] transition-colors group-hover:text-[#00FF88]">↗</span>
+          </a>
+        ))}
       </div>
-      <h2 className="font-grotesk text-[28px] font-semibold tracking-[-0.5px] text-[var(--text-primary)] lg:text-[34px]">
-        {title}
-      </h2>
-      <p className="max-w-[600px] font-jetbrains text-[14px] leading-[1.85] text-[var(--text-secondary)]">
-        {tagline}
-      </p>
-    </header>
+    ),
+    code: `mkdir my-musashi-bot && cd my-musashi-bot
+claude`,
+  },
+  {
+    title: 'Paste the master prompt',
+    body: 'Use the Copy prompt button above, then paste into your editor’s chat. Approve the file scaffold the agent proposes — package.json, src/, brokers/, risk.ts, Dockerfile, README.',
+  },
+  {
+    title: 'Add your keys and risk limits',
+    body: 'Fill in your Polymarket wallet, Kalshi API keys, and the risk knobs. Start small — you can raise the caps after a few clean rehearsals.',
+    code: `cp .env.example .env
+
+# .env
+POLYMARKET_PRIVATE_KEY=0x...
+KALSHI_API_KEY=...
+KALSHI_API_SECRET=...
+MAX_POSITION_USD=50
+MAX_DAILY_LOSS_USD=100
+MIN_EDGE=0.05
+SLACK_WEBHOOK_URL=https://hooks.slack.com/...`,
+  },
+  {
+    title: 'Rehearse, then go live',
+    body: (
+      <>
+        Dry-run first — orders are <span className="text-[var(--text-primary)]">logged, not placed</span>. When the
+        log looks right, drop the flag and the bot starts sending real orders.
+      </>
+    ),
+    code: `npm install
+DRY_RUN=1 npm run dev   # rehearsal
+npm run dev             # live trading`,
+  },
+  {
+    title: 'Deploy',
+    optional: true,
+    body: 'Ship to Fly.io, Railway, or Render for 24/7 operation. The scaffold includes a multi-stage Dockerfile; attach a small persistent volume so daily P&L state survives restarts.',
+    code: 'fly launch',
+  },
+]
+
+function StepGuide({ steps }: { steps: Step[] }) {
+  return (
+    <ol className="flex flex-col">
+      {steps.map((step, i) => {
+        const isLast = i === steps.length - 1
+        return (
+          <li key={step.title} className="relative flex gap-5 pb-10 last:pb-0">
+            {!isLast && (
+              <div className="pointer-events-none absolute left-[15.5px] top-9 bottom-[20px] w-px bg-[var(--border-primary)]" />
+            )}
+            <div className="relative z-10 flex h-8 w-8 shrink-0 items-center justify-center border border-[var(--border-primary)] bg-[var(--bg-primary)] font-jetbrains text-[12px] text-[var(--text-secondary)]">
+              {i + 1}
+            </div>
+            <div className="flex min-w-0 flex-1 flex-col gap-3 pt-1">
+              <div className="flex flex-wrap items-baseline gap-3">
+                <h3 className="font-grotesk text-[18px] font-semibold tracking-[-0.2px] text-[var(--text-primary)] sm:text-[19px]">
+                  {step.title}
+                </h3>
+                {step.optional && (
+                  <span className="border border-[var(--border-primary)] bg-[var(--bg-secondary)] px-2 py-0.5 font-jetbrains text-[9px] uppercase tracking-[0.22em] text-[var(--text-muted)]">
+                    Optional
+                  </span>
+                )}
+              </div>
+              <p className="max-w-[600px] font-jetbrains text-[13.5px] leading-[1.85] text-[var(--text-secondary)]">
+                {step.body}
+              </p>
+              {step.extras}
+              {step.code && <CopyableCodeBlock code={step.code} />}
+            </div>
+          </li>
+        )
+      })}
+    </ol>
   )
 }
 
@@ -227,90 +340,37 @@ export default function TradingBotQuickstart() {
   return (
     <ContentPage
       h1="How to Build a Prediction Market Trading Bot with Musashi"
-      answer="Paste one prompt. Your editor scaffolds a Musashi-powered bot that scans arbitrage, movers, and tweet signals — and alerts to Slack or Discord. Signal-only by default."
+      answer="Paste one prompt. Your editor scaffolds a real-money trading bot for Polymarket and Kalshi, powered by Musashi signals — with risk limits and a kill switch baked in."
       faqs={faqs}
       schemas={schemas}
     >
-      <section className="flex flex-col gap-6 pt-4">
-        <StepHeader
-          number="01"
-          title="Open your editor"
-          tagline="Use any agentic coding tool in an empty folder. They all handle the prompt the same way."
-        />
-        <div className="flex flex-wrap gap-2">
-          {editors.map(({ name, href }) => (
-            <a
-              key={name}
-              href={href}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="group inline-flex items-center gap-1.5 border border-[var(--border-primary)] px-3 py-1.5 font-jetbrains text-[12px] text-[var(--text-secondary)] transition-colors hover:border-[#00FF88]/40 hover:text-[var(--text-primary)]"
+      <section className="flex flex-col gap-3 pt-2">
+        <MasterPromptCard title="Give your trading bot everything it needs" prompt={MUSASHI_PROMPT} />
+      </section>
+
+      <section className="pt-2">
+        <StepGuide steps={steps} />
+      </section>
+
+      <section className="border-t border-[var(--border-primary)] pt-8">
+        <div className="flex flex-col gap-3">
+          <p className="font-jetbrains text-[13px] leading-[1.85] text-[var(--text-tertiary)]">
+            Risk reminder — this bot moves real money. Always rehearse with{' '}
+            <code className="text-[var(--text-secondary)]">DRY_RUN=1</code> first, fund your wallet with only what you
+            can afford to lose, and verify <code className="text-[var(--text-secondary)]">MAX_DAILY_LOSS_USD</code> is
+            set before going live.
+          </p>
+          <p className="font-jetbrains text-[13px] leading-[1.85] text-[var(--text-tertiary)]">
+            Full reference →{' '}
+            <Link
+              href="/ai"
+              className="text-[var(--text-primary)] underline decoration-[var(--border-primary)] underline-offset-[3px] transition-colors hover:decoration-[#00FF88]"
             >
-              {name}
-              <span className="text-[var(--text-muted)] transition-colors group-hover:text-[#00FF88]">↗</span>
-            </a>
-          ))}
+              interactive API docs
+            </Link>
+            .
+          </p>
         </div>
-      </section>
-
-      <section className="flex flex-col gap-7 pt-4">
-        <StepHeader
-          number="02"
-          title="Copy the prompt"
-          tagline="One self-contained prompt. It encodes the architecture, env contract, alert format, and Musashi endpoint contracts."
-        />
-        <CopyPromptBlock label="Master prompt" prompt={MUSASHI_PROMPT} />
-        <div>
-          <div className="mb-3 font-jetbrains text-[10px] uppercase tracking-[0.22em] text-[var(--text-muted)]">
-            What you&apos;ll get
-          </div>
-          <pre className="whitespace-pre bg-[var(--bg-secondary)] p-5 font-jetbrains text-[12px] leading-[1.85] text-[var(--text-secondary)] sm:p-6">
-            {scaffoldTree}
-          </pre>
-        </div>
-      </section>
-
-      <section className="flex flex-col gap-6 pt-4">
-        <StepHeader
-          number="03"
-          title="Configure and run"
-          tagline="Set your webhook URL and start the bot. Node 20+, one of Slack or Discord."
-        />
-        <pre className="whitespace-pre-wrap bg-[var(--bg-secondary)] p-5 font-jetbrains text-[12.5px] leading-[1.95] text-white sm:p-6">
-{`cp .env.example .env
-# set SLACK_WEBHOOK_URL or DISCORD_WEBHOOK_URL, INBOUND_TOKEN
-npm install
-npm run dev`}
-        </pre>
-        <p className="max-w-[600px] font-jetbrains text-[13px] leading-[1.85] text-[var(--text-tertiary)]">
-          Arbitrage polls every 30s, movers every 5m,{' '}
-          <code className="text-[var(--text-secondary)]">/tweet</code> listens on{' '}
-          <code className="text-[var(--text-secondary)]">PORT 8080</code>. Alerts above your thresholds land in Slack or Discord.
-        </p>
-      </section>
-
-      <section className="flex flex-col gap-6 pt-4">
-        <StepHeader
-          number="04"
-          title="Going live"
-          tagline="The scaffold is signal-only by design. When you're ready to trade real money, ask your editor:"
-        />
-        <blockquote className="max-w-[640px] border-l border-[var(--border-primary)] pl-5 font-jetbrains text-[13.5px] leading-[1.85] italic text-[var(--text-secondary)]">
-          &ldquo;Add an executor that places limit orders on Polymarket via{' '}
-          <span className="not-italic text-[var(--text-primary)]">@polymarket/clob-client</span> when{' '}
-          <span className="not-italic text-[var(--text-primary)]">MIN_EDGE</span> is exceeded, behind a{' '}
-          <span className="not-italic text-[var(--text-primary)]">LIVE_TRADING=1</span> env flag with a confirmation gate.&rdquo;
-        </blockquote>
-        <p className="font-jetbrains text-[13px] leading-[1.85] text-[var(--text-tertiary)]">
-          Full reference →{' '}
-          <Link
-            href="/ai"
-            className="text-[var(--text-primary)] underline decoration-[var(--border-primary)] underline-offset-[3px] transition-colors hover:decoration-[#00FF88]"
-          >
-            interactive API docs
-          </Link>
-          .
-        </p>
       </section>
 
       <RelatedLinks title="Next" links={nextStepLinks} />
