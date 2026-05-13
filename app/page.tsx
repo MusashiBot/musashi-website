@@ -5,7 +5,9 @@ import TerminalDemo from "./TerminalDemo";
 import SmoothScrollLink from "./components/SmoothScrollLink";
 import FAQ from "./components/FAQ";
 import InstallCodeReveal from "./components/InstallCodeReveal";
+import PromptCard from "./components/PromptCard";
 import useCompactLayout from "./hooks/useCompactLayout";
+import { BOT_ORDER, BOTS } from "./build/prompts";
 
 const mobileInstallSteps = [
   {
@@ -58,6 +60,7 @@ export default function Home() {
         </div>
         <nav className={`${isCompactLayout ? 'hidden' : 'hidden md:flex'} items-center gap-8`}>
           <a href="/mission" className="font-jetbrains text-xs font-medium text-[var(--text-secondary)] transition-colors hover:text-[var(--text-primary)]">MISSION</a>
+          <a href="/build" className="font-jetbrains text-xs font-medium text-[var(--text-secondary)] transition-colors hover:text-[var(--text-primary)]">BUILD</a>
           <a href="/quickstart" className="font-jetbrains text-xs font-medium text-[var(--text-secondary)] transition-colors hover:text-[var(--text-primary)]">MCP</a>
           <a href="/ai" className="font-jetbrains text-xs font-medium text-[var(--text-secondary)] transition-colors hover:text-[var(--text-primary)]">API</a>
           <a href="/pricing" className="font-jetbrains text-xs font-medium text-[var(--text-secondary)] transition-colors hover:text-[var(--text-primary)]">PRICING</a>
@@ -105,6 +108,9 @@ export default function Home() {
             <nav className="flex flex-col gap-3">
               <a href="/mission" onClick={() => setMobileMenuOpen(false)} className="border border-[#FFFFFF12] bg-[#FFFFFF06] px-4 py-4 font-jetbrains text-xs font-semibold tracking-[0.08em] text-white transition-colors hover:bg-[#FFFFFF10]">
                 MISSION
+              </a>
+              <a href="/build" onClick={() => setMobileMenuOpen(false)} className="border border-[#FFFFFF12] bg-[#FFFFFF06] px-4 py-4 font-jetbrains text-xs font-semibold tracking-[0.08em] text-white transition-colors hover:bg-[#FFFFFF10]">
+                BUILD
               </a>
               <a href="/quickstart" onClick={() => setMobileMenuOpen(false)} className="border border-[#FFFFFF12] bg-[#FFFFFF06] px-4 py-4 font-jetbrains text-xs font-semibold tracking-[0.08em] text-white transition-colors hover:bg-[#FFFFFF10]">
                 MCP
@@ -245,56 +251,30 @@ export default function Home() {
       </div>
 
       <section className="flex w-full flex-col items-center gap-4 bg-[var(--bg-primary)] px-4 pb-6 pt-16 text-center sm:px-6 lg:px-[120px]">
+        <span className="font-jetbrains text-[11px] font-bold uppercase tracking-[0.22em] text-[#00FF88]">
+          Build
+        </span>
         <h2 className="font-grotesk text-[38px] font-bold tracking-[-1px] text-[var(--text-primary)] md:text-[54px]">
-          Get Started
+          Don&apos;t write the bot.<br className="hidden sm:block" /> Prompt for it.
         </h2>
-        <p className="max-w-[700px] font-jetbrains text-sm text-[var(--text-secondary)] md:text-base">
-          Choose how you want to access Musashi intelligence.
+        <p className="max-w-[720px] font-jetbrains text-sm leading-[1.8] text-[var(--text-secondary)] md:text-base">
+          Paste one of these prompts into Claude Code, Codex, or Cursor. Your editor scaffolds a working
+          Musashi-powered bot — signal-only, Slack/Discord-ready — in minutes.
         </p>
       </section>
 
       <section className="flex w-full flex-col items-center gap-6 bg-[var(--bg-primary)] px-4 pb-20 sm:px-6 lg:px-[120px]">
-        <div className="grid w-full max-w-[1100px] grid-cols-1 gap-6 lg:grid-cols-2">
-          <div className="flex flex-col gap-5 border border-[#FFFFFF14] bg-[linear-gradient(180deg,#090D14_0%,#05080D_100%)] p-6 sm:p-8">
-            <div className="flex items-center gap-3">
-              <span className="font-grotesk text-[32px] leading-none">🤖</span>
-              <h3 className="font-grotesk text-[34px] font-semibold tracking-[-0.5px] text-white">Claude MCP</h3>
-              <span className="rounded-full bg-[#FFFFFF1A] px-3 py-1 font-jetbrains text-[11px] font-semibold text-[#D3D8E1]">Recommended</span>
-            </div>
-            <p className="font-jetbrains text-[15px] leading-[1.8] text-[#AAB3C2]">
-              Add Musashi as a custom MCP server and query live Polymarket/Kalshi data from Claude with OAuth + your <code className="text-white">mcp_sk_...</code> key.
-            </p>
-            <div className="rounded-2xl border border-[#FFFFFF12] bg-[#04070C] p-4">
-              <div className="mb-3 font-jetbrains text-[10px] uppercase tracking-[0.18em] text-[#7E899B]">Endpoint</div>
-              <code className="block overflow-x-auto font-jetbrains text-[12px] leading-5 text-white">
-                https://musashi-production.up.railway.app/mcp
-              </code>
-            </div>
-            <a href="/quickstart#step3" className="mt-2 inline-flex w-fit border border-[#FFFFFF24] bg-white px-6 py-3 font-jetbrains text-sm font-bold text-[#0A0A0F] transition-opacity hover:opacity-90">
-              Get Started →
-            </a>
-          </div>
-
-          <div className="flex flex-col gap-5 border border-[#FFFFFF14] bg-[linear-gradient(180deg,#090D14_0%,#05080D_100%)] p-6 sm:p-8">
-            <div className="flex items-center gap-3">
-              <span className="font-grotesk text-[32px] leading-none">⚡</span>
-              <h3 className="font-grotesk text-[34px] font-semibold tracking-[-0.5px] text-white">Direct API</h3>
-            </div>
-            <div className="rounded-2xl border border-[#FFFFFF12] bg-[#04070C] p-4">
-              <pre className="overflow-x-auto whitespace-pre-wrap font-jetbrains text-[12px] leading-6 text-[#C6CFDC]">
-{`curl -X POST "https://musashi-api.vercel.app/api/analyze-text" \\
-  -H "Content-Type: application/json" \\
-  -d '{"text":"Bitcoin above 150k by end of 2026"}'`}
-              </pre>
-            </div>
-            <p className="font-jetbrains text-[15px] leading-[1.8] text-[#AAB3C2]">
-              Use curl, Python, or JavaScript. First request in under a minute.
-            </p>
-            <a href="/quickstart#step1" className="mt-2 inline-flex w-fit border border-[#FFFFFF24] bg-transparent px-6 py-3 font-jetbrains text-sm font-bold text-white transition-colors hover:bg-[#FFFFFF10]">
-              Get Started →
-            </a>
-          </div>
+        <div className="grid w-full max-w-[1180px] grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-3">
+          {BOT_ORDER.map((id) => (
+            <PromptCard key={id} bot={BOTS[id]} variant="teaser" />
+          ))}
         </div>
+        <a
+          href="/build"
+          className="mt-4 inline-flex border border-[#FFFFFF24] bg-white px-6 py-3 font-jetbrains text-sm font-bold text-[#0A0A0F] transition-opacity hover:opacity-90"
+        >
+          Open full walkthrough →
+        </a>
       </section>
 
       <section className="flex w-full flex-col items-center gap-10 bg-[var(--bg-primary)] px-4 pb-20 sm:px-6 lg:px-[120px]">
@@ -504,7 +484,7 @@ export default function Home() {
             Built for AI agents
           </h2>
 
-          <a href="/ai" className="mx-auto bg-[var(--text-primary)] px-8 py-4 transition-opacity hover:opacity-90 sm:px-12 sm:py-5">
+          <a href="/build" className="mx-auto bg-[var(--text-primary)] px-8 py-4 transition-opacity hover:opacity-90 sm:px-12 sm:py-5">
             <span className="font-jetbrains text-xs font-bold text-[var(--bg-primary)] sm:text-sm">START BUILDING — FREE</span>
           </a>
         </div>
@@ -528,6 +508,7 @@ export default function Home() {
               </span>
               <nav className="flex flex-col gap-2">
                 <a href="/mission" className="font-jetbrains text-xs font-medium text-[var(--text-secondary)] transition-colors hover:text-[var(--text-primary)]">Mission</a>
+                <a href="/build" className="font-jetbrains text-xs font-medium text-[var(--text-secondary)] transition-colors hover:text-[var(--text-primary)]">Build a bot</a>
                 <a href="/quickstart" className="font-jetbrains text-xs font-medium text-[var(--text-secondary)] transition-colors hover:text-[var(--text-primary)]">MCP Quickstart</a>
                 <a href="/ai" className="font-jetbrains text-xs font-medium text-[var(--text-secondary)] transition-colors hover:text-[var(--text-primary)]">API Docs</a>
                 <a href="/pricing" className="font-jetbrains text-xs font-medium text-[var(--text-secondary)] transition-colors hover:text-[var(--text-primary)]">Pricing</a>
