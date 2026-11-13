@@ -13,7 +13,6 @@ const expected = [
   "404.html",
   "_headers",
   "_redirects",
-  "social-preview.png",
   "downloads/musashi-feed-demo.json",
   "downloads/musashi-match-examples.json",
   "downloads/review-batch.schema.json",
