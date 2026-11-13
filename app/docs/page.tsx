@@ -34,8 +34,7 @@ export default function About() {
             each edition.
           </p>
           <p>
-            There are no published daily briefs yet. The archive will grow as
-            the first research issues arrive.
+            The archive grows with each published daily briefing.
           </p>
           <h2>Directories that grow with the research</h2>
           <p>

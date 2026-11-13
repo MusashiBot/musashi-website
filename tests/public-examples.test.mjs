@@ -27,7 +27,7 @@ test("public classified contracts match captured venue identities and raw dates"
     const record = JSON.parse(
       fs.readFileSync(
         new URL(
-          `../ops/evidence/polymarket-${c.market_id}.json`,
+          `./fixtures/venues/polymarket-${c.market_id}.json`,
           import.meta.url,
         ),
         "utf8",

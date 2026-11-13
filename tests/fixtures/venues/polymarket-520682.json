@@ -1,0 +1,11 @@
+{
+  "id": "520682",
+  "question": "Will Trump impose tariffs on China in the first 100 days?",
+  "slug": "will-trump-impose-tariffs-on-china-in-the-first-100-days",
+  "endDate": "2025-04-29T12:00:00Z",
+  "resolutionSource": "",
+  "closed": true,
+  "checked_at": "2026-11-01",
+  "rules_sha256": "f758e01224aafc19b5ae6eb4c084c2db24305f0945ad8de4747a6e90a72d0b0c",
+  "rule_notes": "Rules count official enactment of new or increased China tariffs by April 29, 2025 at 23:59 ET, regardless of effective date. API endDate (12:00 UTC April 29) differs from that rule cutoff."
+}
