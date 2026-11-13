@@ -34,6 +34,12 @@ export default async function Edition({
   const { date } = await params;
   const issue = getIssues().find((i) => i.date === date);
   if (!issue) notFound();
+  // The original Markdown stays intact; render the title and dek only once.
+  let articleBody = issue.body.replace(/^# [^\n]+\n+/, "");
+  const lead = articleBody.split(/\n\s*\n/)[0];
+  if (lead.replace(/[*_`]/g, "") === issue.description) {
+    articleBody = articleBody.slice(lead.length).trimStart();
+  }
   return (
     <PageFrame>
       <article className="edition">
@@ -66,7 +72,7 @@ export default async function Edition({
               ),
             }}
           >
-            {issue.body}
+            {articleBody}
           </ReactMarkdown>
         </div>
         <footer className="edition-end">
