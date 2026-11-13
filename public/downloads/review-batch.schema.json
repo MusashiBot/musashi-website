@@ -1,0 +1,333 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://musashi.bot/downloads/review-batch.schema.json",
+  "title": "Musashi Match review batch v1",
+  "description": "reviewed_at null denotes a draft. Final delivery requires a UTC reviewed_at, unique item IDs and per-input candidate IDs, and source/verification times no later than review; scripts/match-validate.mjs enforces these additional cross-record constraints. Schema validation cannot establish the truth of evidence or market identity.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "batch_id",
+    "reviewed_at",
+    "retrospective",
+    "items"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "1.0.0"
+    },
+    "batch_id": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "\\S",
+      "maxLength": 120
+    },
+    "reviewed_at": {
+      "anyOf": [
+        {
+          "type": "string",
+          "format": "date-time",
+          "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(?:\\.\\d{3})?Z$"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "retrospective": {
+      "type": "boolean"
+    },
+    "items": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 100,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["id", "input", "candidates"],
+        "properties": {
+          "id": {
+            "type": "string",
+            "minLength": 1,
+            "pattern": "\\S",
+            "maxLength": 120
+          },
+          "input": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["text", "source_url", "source_published_at"],
+            "properties": {
+              "text": {
+                "type": "string",
+                "minLength": 1,
+                "pattern": "\\S",
+                "maxLength": 10000
+              },
+              "source_url": {
+                "anyOf": [
+                  {
+                    "type": "string",
+                    "format": "uri",
+                    "pattern": "^https?://(?![^/?#]*@)[^\\s]+$"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "source_published_at": {
+                "anyOf": [
+                  {
+                    "type": "string",
+                    "format": "date-time",
+                    "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(?:\\.\\d{3})?Z$"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              }
+            }
+          },
+          "candidates": {
+            "type": "array",
+            "minItems": 1,
+            "maxItems": 3,
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "venue",
+                "market_id",
+                "url",
+                "question",
+                "deadline",
+                "rules_url",
+                "verified_at",
+                "decision",
+                "reason",
+                "evidence",
+                "missing_information"
+              ],
+              "properties": {
+                "venue": {
+                  "enum": ["polymarket", "kalshi"]
+                },
+                "market_id": {
+                  "anyOf": [
+                    {
+                      "type": "string",
+                      "minLength": 1,
+                      "pattern": "\\S"
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                },
+                "url": {
+                  "anyOf": [
+                    {
+                      "type": "string",
+                      "format": "uri",
+                      "pattern": "^https?://(?![^/?#]*@)[^\\s]+$"
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                },
+                "question": {
+                  "anyOf": [
+                    {
+                      "type": "string",
+                      "minLength": 1,
+                      "pattern": "\\S"
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                },
+                "deadline": {
+                  "anyOf": [
+                    {
+                      "type": "string",
+                      "format": "date-time",
+                      "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(?:\\.\\d{3})?Z$"
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ],
+                  "description": "Raw venue API endDate, displayed as venue end date (metadata). This metadata can precede the actual event or settlement. Contract rules control the actual condition and cutoff; explain any distinction in evidence notes. Never substitute an observed source release timestamp. Null when not verified."
+                },
+                "rules_url": {
+                  "anyOf": [
+                    {
+                      "type": "string",
+                      "format": "uri",
+                      "pattern": "^https?://(?![^/?#]*@)[^\\s]+$"
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                },
+                "verified_at": {
+                  "anyOf": [
+                    {
+                      "type": "string",
+                      "format": "date-time",
+                      "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(?:\\.\\d{3})?Z$"
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                },
+                "decision": {
+                  "enum": ["relevant", "irrelevant", "uncertain"]
+                },
+                "reason": {
+                  "type": "string",
+                  "minLength": 1,
+                  "pattern": "\\S",
+                  "maxLength": 10000
+                },
+                "evidence": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "required": ["url", "note"],
+                    "properties": {
+                      "url": {
+                        "type": "string",
+                        "format": "uri",
+                        "pattern": "^https?://(?![^/?#]*@)[^\\s]+$"
+                      },
+                      "note": {
+                        "type": "string",
+                        "minLength": 1,
+                        "pattern": "\\S"
+                      }
+                    }
+                  }
+                },
+                "missing_information": {
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "minLength": 1,
+                    "pattern": "\\S"
+                  }
+                }
+              },
+              "allOf": [
+                {
+                  "if": {
+                    "properties": {
+                      "decision": {
+                        "enum": ["relevant", "irrelevant"]
+                      }
+                    },
+                    "required": ["decision"]
+                  },
+                  "then": {
+                    "properties": {
+                      "market_id": {
+                        "type": "string",
+                        "minLength": 1,
+                        "pattern": "\\S"
+                      },
+                      "url": {
+                        "type": "string",
+                        "format": "uri",
+                        "pattern": "^https?://(?![^/?#]*@)[^\\s]+$"
+                      },
+                      "question": {
+                        "type": "string",
+                        "minLength": 1,
+                        "pattern": "\\S"
+                      },
+                      "deadline": {
+                        "type": "string",
+                        "format": "date-time",
+                        "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(?:\\.\\d{3})?Z$",
+                        "description": "Raw venue API endDate, displayed as venue end date (metadata). This metadata can precede the actual event or settlement. Contract rules control the actual condition and cutoff; explain any distinction in evidence notes. Never substitute an observed source release timestamp. Null when not verified."
+                      },
+                      "rules_url": {
+                        "type": "string",
+                        "format": "uri",
+                        "pattern": "^https?://(?![^/?#]*@)[^\\s]+$"
+                      },
+                      "verified_at": {
+                        "type": "string",
+                        "format": "date-time",
+                        "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(?:\\.\\d{3})?Z$"
+                      },
+                      "evidence": {
+                        "minItems": 1
+                      }
+                    }
+                  }
+                },
+                {
+                  "if": {
+                    "properties": {
+                      "decision": {
+                        "const": "uncertain"
+                      }
+                    },
+                    "required": ["decision"]
+                  },
+                  "then": {
+                    "properties": {
+                      "missing_information": {
+                        "minItems": 1
+                      }
+                    }
+                  }
+                }
+              ]
+            }
+          }
+        },
+        "allOf": [
+          {
+            "if": {
+              "properties": {
+                "candidates": {
+                  "contains": {
+                    "type": "object",
+                    "properties": {
+                      "decision": {
+                        "enum": ["relevant", "irrelevant"]
+                      }
+                    },
+                    "required": ["decision"]
+                  }
+                }
+              },
+              "required": ["candidates"]
+            },
+            "then": {
+              "properties": {
+                "input": {
+                  "properties": {
+                    "source_url": {
+                      "type": "string",
+                      "format": "uri",
+                      "pattern": "^https?://(?![^/?#]*@)[^\\s]+$"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        ]
+      }
+    }
+  }
+}

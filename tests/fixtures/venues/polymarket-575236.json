@@ -1,0 +1,11 @@
+{
+  "id": "575236",
+  "question": "Will annual inflation increase by 2.9% in August?",
+  "slug": "will-annual-inflation-increase-by-2pt9-in-august",
+  "endDate": "2025-09-11T00:00:00Z",
+  "resolutionSource": null,
+  "closed": true,
+  "checked_at": "2026-11-01",
+  "rules_sha256": "125a237f63005bd61546c994049cb339f7ade0ae6729cb52214f8d24b11802b2",
+  "rule_notes": "Rules specify August 2025 headline CPI over 12 months, not seasonally adjusted, from the September 11 release. The API endDate is midnight UTC; the release occurred at 12:30 UTC."
+}

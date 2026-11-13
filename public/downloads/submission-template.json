@@ -1,0 +1,22 @@
+{
+  "batch_id": "your-team-sample-001",
+  "retrospective": true,
+  "items": [
+    {
+      "id": "input-001",
+      "input": {
+        "text": "Replace with a short headline or your own summary.",
+        "source_url": null,
+        "source_published_at": null
+      },
+      "candidates": [
+        {
+          "venue": "polymarket",
+          "market_id": null,
+          "url": null,
+          "question": null
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,11 @@
+{
+  "id": "542539",
+  "question": "No change in Fed interest rates after September 2025 meeting?",
+  "slug": "no-change-in-fed-interest-rates-after-september-2025-meeting",
+  "endDate": "2025-09-17T12:00:00Z",
+  "resolutionSource": null,
+  "closed": true,
+  "checked_at": "2026-11-01",
+  "rules_sha256": "bbc38e7ee8070d6de8d5b5bc83594b4a141e17fdc24f66c4df6fe7bdf413e275",
+  "rule_notes": "Rules concern no change in the upper bound at the September 16\u201317, 2025 FOMC meeting. API endDate is venue metadata, not the announcement time."
+}

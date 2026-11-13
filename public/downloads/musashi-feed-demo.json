@@ -1,0 +1,97 @@
+{
+  "demo": true,
+  "schema_version": "0.1-proposed",
+  "notice": "Illustrative scenarios only. Headlines and contracts are fictional; no live data, market identities, or trading predictions are represented. This is a proposed output format, not an available API.",
+  "records": [
+    {
+      "id": "demo-policy-001",
+      "topic": "Policy",
+      "source": {
+        "kind": "social_post",
+        "label": "Illustrative social post",
+        "text": "White House proposes higher tariffs on imported vehicles.",
+        "url": null,
+        "published_at": null
+      },
+      "related_markets": [
+        {
+          "venue": "Polymarket",
+          "market_id": null,
+          "url": null,
+          "question": "Will the US announce new auto tariffs this quarter?",
+          "relationship": "direct",
+          "context": "The proposal concerns an announcement. Final contract rules would need to establish what qualifies."
+        },
+        {
+          "venue": "Kalshi",
+          "market_id": null,
+          "url": null,
+          "question": "Will higher auto tariffs take effect this quarter?",
+          "relationship": "context",
+          "context": "A proposal is related news, but does not establish that tariffs have taken effect."
+        }
+      ],
+      "caveat": "A proposal is not implementation."
+    },
+    {
+      "id": "demo-macro-002",
+      "topic": "Macro",
+      "source": {
+        "kind": "headline",
+        "label": "Illustrative news headline",
+        "text": "US annual inflation falls below 3% in the latest release.",
+        "url": null,
+        "published_at": null
+      },
+      "related_markets": [
+        {
+          "venue": "Kalshi",
+          "market_id": null,
+          "url": null,
+          "question": "Will annual CPI be below 3% in this release?",
+          "relationship": "direct",
+          "context": "The headline addresses the threshold. The release period, series, and contract rules still need verification."
+        },
+        {
+          "venue": "Polymarket",
+          "market_id": null,
+          "url": null,
+          "question": "Will the Fed cut rates at its next meeting?",
+          "relationship": "context",
+          "context": "Inflation provides policy context. It does not establish a future rate decision."
+        }
+      ],
+      "caveat": "An inflation print is not a rate decision."
+    },
+    {
+      "id": "demo-sports-003",
+      "topic": "Sports",
+      "source": {
+        "kind": "social_post",
+        "label": "Illustrative social post",
+        "text": "Seattle rules its starting quarterback out of Sunday’s game.",
+        "url": null,
+        "published_at": null
+      },
+      "related_markets": [
+        {
+          "venue": "Polymarket",
+          "market_id": null,
+          "url": null,
+          "question": "Will Seattle win Sunday’s game?",
+          "relationship": "context",
+          "context": "The lineup change provides game context. It does not establish the result or quantify an edge."
+        },
+        {
+          "venue": "Kalshi",
+          "market_id": null,
+          "url": null,
+          "question": "Will Sunday’s Seattle game exceed 45.5 points?",
+          "relationship": "context",
+          "context": "Quarterback availability may matter to scoring expectations. The matchup and exact contract would need verification."
+        }
+      ],
+      "caveat": "Lineup news is context, not a result prediction."
+    }
+  ]
+}

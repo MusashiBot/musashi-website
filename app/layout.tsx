@@ -1,82 +1,67 @@
 import type { Metadata } from "next";
-import { JetBrains_Mono, Space_Grotesk } from "next/font/google";
-import { Analytics } from "@vercel/analytics/next";
-import JsonLd from "./components/JsonLd";
-import {
-  DEFAULT_OG_IMAGE,
-  SITE_DESCRIPTION,
-  SITE_NAME,
-  SITE_URL,
-  createOrganizationSchema,
-  createSoftwareSchema,
-} from "./lib/seo";
+import { SITE_NAME, SITE_URL, SITE_DESCRIPTION } from "./lib/seo";
 import "./globals.css";
-
-const jetbrainsMono = JetBrains_Mono({
-  variable: "--font-jetbrains-mono",
-  subsets: ["latin"],
-});
-
-const spaceGrotesk = Space_Grotesk({
-  variable: "--font-space-grotesk",
-  subsets: ["latin"],
-});
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: {
-    default: `${SITE_NAME} | Free Prediction Market API with X/Twitter Signals`,
-    template: `%s | ${SITE_NAME}`,
+    default: "Musashi · The prediction-market builder’s briefing",
+    template: "%s · Musashi",
   },
   description: SITE_DESCRIPTION,
   openGraph: {
-    type: 'website',
+    type: "website",
     siteName: SITE_NAME,
-    title: `${SITE_NAME} | Free Prediction Market API with X/Twitter Signals`,
+    title: "Musashi · The prediction-market builder’s briefing",
     description: SITE_DESCRIPTION,
-    url: SITE_URL,
-    images: [{ url: DEFAULT_OG_IMAGE }],
   },
   twitter: {
-    card: 'summary_large_image',
-    title: `${SITE_NAME} | Free Prediction Market API with X/Twitter Signals`,
+    card: "summary_large_image",
+    title: "Musashi · The prediction-market builder’s briefing",
     description: SITE_DESCRIPTION,
-    images: [DEFAULT_OG_IMAGE],
   },
-  icons: {
-    icon: '/icon.svg',
-  },
-  applicationName: SITE_NAME,
-  creator: SITE_NAME,
-  publisher: SITE_NAME,
+  alternates: { types: { "application/rss+xml": "/feed.xml" } },
+  icons: { icon: "/icon.svg" },
 };
-
-export const viewport = {
-  width: 'device-width',
-  initialScale: 1,
-  maximumScale: 5,
-  userScalable: true,
-};
-
-const organizationSchema = createOrganizationSchema();
-const softwareSchema = createSoftwareSchema();
 
 export default function RootLayout({
   children,
-}: Readonly<{
+}: {
   children: React.ReactNode;
-}>) {
+}) {
+  const structuredData = {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Organization",
+        "@id": `${SITE_URL}/#organization`,
+        name: "Musashi",
+        url: SITE_URL,
+        sameAs: ["https://github.com/MusashiBot", "https://x.com/RotcivWho"],
+      },
+      {
+        "@type": "WebSite",
+        "@id": `${SITE_URL}/#website`,
+        name: SITE_NAME,
+        url: SITE_URL,
+        description: SITE_DESCRIPTION,
+        publisher: { "@id": `${SITE_URL}/#organization` },
+      },
+    ],
+  };
   return (
-    <html lang="en" className="h-full">
-      <head>
-        <JsonLd data={organizationSchema} />
-        <JsonLd data={softwareSchema} />
-      </head>
-      <body
-        className={`${jetbrainsMono.variable} ${spaceGrotesk.variable} h-full antialiased`}
-      >
+    <html lang="en">
+      <body>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(structuredData).replace(/</g, "\\u003c"),
+          }}
+        />
+        <a className="skip-link" href="#main">
+          Skip to content
+        </a>
         {children}
-        <Analytics />
       </body>
     </html>
   );

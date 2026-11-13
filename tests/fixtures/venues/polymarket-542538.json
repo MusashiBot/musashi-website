@@ -1,0 +1,11 @@
+{
+  "id": "542538",
+  "question": "Fed decreases interest rates by 25 bps after September 2025 meeting?",
+  "slug": "fed-decreases-interest-rates-by-25-bps-after-september-2025-meeting",
+  "endDate": "2025-09-17T12:00:00Z",
+  "resolutionSource": "",
+  "closed": true,
+  "checked_at": "2026-11-01",
+  "rules_sha256": "bbc38e7ee8070d6de8d5b5bc83594b4a141e17fdc24f66c4df6fe7bdf413e275",
+  "rule_notes": "Rules concern the upper-bound change at the September 16\u201317, 2025 FOMC meeting. API endDate is 12:00 UTC on September 17, earlier than the 18:00 UTC announcement; that metadata is not the rule-defined event time."
+}
