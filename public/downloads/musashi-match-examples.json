@@ -1,0 +1,394 @@
+{
+  "schema_version": "1.0.0",
+  "batch_id": "musashi-match-public-2026-11-01",
+  "reviewed_at": "2026-11-01T01:50:23Z",
+  "retrospective": true,
+  "items": [
+    {
+      "id": "match-01",
+      "input": {
+        "text": "The Federal Reserve lowered its target range by a quarter percentage point at its September 2025 meeting.",
+        "source_url": "https://www.federalreserve.gov/newsevents/pressreleases/monetary20250917a.htm",
+        "source_published_at": "2025-09-17T18:00:00Z"
+      },
+      "candidates": [
+        {
+          "venue": "polymarket",
+          "market_id": "542538",
+          "url": "https://polymarket.com/event/fed-decision-in-september/fed-decreases-interest-rates-by-25-bps-after-september-2025-meeting",
+          "question": "Fed decreases interest rates by 25 bps after September 2025 meeting?",
+          "deadline": "2025-09-17T12:00:00Z",
+          "rules_url": "https://gamma-api.polymarket.com/markets/542538",
+          "verified_at": "2026-11-01T01:50:23Z",
+          "decision": "relevant",
+          "reason": "The source and contract identify the same FOMC meeting and upper-bound change. The reported quarter-point cut directly addresses the 25bp contract. This is an after-the-event review, not a prediction.",
+          "evidence": [
+            {
+              "url": "https://www.federalreserve.gov/newsevents/pressreleases/monetary20250917a.htm",
+              "note": "The September 17 statement reports the target range moving to 4.00–4.25 percent."
+            },
+            {
+              "url": "https://gamma-api.polymarket.com/markets/542538",
+              "note": "Rules concern the upper-bound change at the September 16–17, 2025 FOMC meeting. API endDate is 12:00 UTC on September 17, earlier than the 18:00 UTC announcement; that metadata is not the rule-defined event time."
+            }
+          ],
+          "missing_information": []
+        }
+      ]
+    },
+    {
+      "id": "match-02",
+      "input": {
+        "text": "The Federal Reserve cut its target range by 25 basis points in September 2025; it did not leave that range unchanged.",
+        "source_url": "https://www.federalreserve.gov/newsevents/pressreleases/monetary20250917a.htm",
+        "source_published_at": "2025-09-17T18:00:00Z"
+      },
+      "candidates": [
+        {
+          "venue": "polymarket",
+          "market_id": "542539",
+          "url": "https://polymarket.com/event/fed-decision-in-september/no-change-in-fed-interest-rates-after-september-2025-meeting",
+          "question": "No change in Fed interest rates after September 2025 meeting?",
+          "deadline": "2025-09-17T12:00:00Z",
+          "rules_url": "https://gamma-api.polymarket.com/markets/542539",
+          "verified_at": "2026-11-01T01:50:23Z",
+          "decision": "relevant",
+          "reason": "A cut is evidence against this contract’s no-change outcome. It is nevertheless relevant: both refer to the same authority, range and meeting. Relevant does not mean support for Yes.",
+          "evidence": [
+            {
+              "url": "https://www.federalreserve.gov/newsevents/pressreleases/monetary20250917a.htm",
+              "note": "The statement announces a reduction rather than maintenance of the target range."
+            },
+            {
+              "url": "https://gamma-api.polymarket.com/markets/542539",
+              "note": "Rules concern no change in the upper bound at the September 16–17, 2025 FOMC meeting. API endDate is venue metadata, not the announcement time."
+            }
+          ],
+          "missing_information": []
+        }
+      ]
+    },
+    {
+      "id": "match-03",
+      "input": {
+        "text": "A February 1, 2025 executive order enacted additional duties on imports from China, with collection scheduled to begin February 4.",
+        "source_url": "https://www.whitehouse.gov/presidential-actions/2025/02/imposing-duties-to-address-the-synthetic-opioid-supply-chain-in-the-peoples-republic-of-china/",
+        "source_published_at": null
+      },
+      "candidates": [
+        {
+          "venue": "polymarket",
+          "market_id": "520682",
+          "url": "https://polymarket.com/event/which-countries-will-trump-tariff-in-first-100-days/will-trump-impose-tariffs-on-china-in-the-first-100-days",
+          "question": "Will Trump impose tariffs on China in the first 100 days?",
+          "deadline": "2025-04-29T12:00:00Z",
+          "rules_url": "https://gamma-api.polymarket.com/markets/520682",
+          "verified_at": "2026-11-01T01:50:23Z",
+          "decision": "relevant",
+          "reason": "This contract counts official enactment within its window, regardless of effective date. The order concerns China and was issued within the first-100-days window. Reading the rule avoids incorrectly requiring immediate collection.",
+          "evidence": [
+            {
+              "url": "https://www.whitehouse.gov/presidential-actions/2025/02/imposing-duties-to-address-the-synthetic-opioid-supply-chain-in-the-peoples-republic-of-china/",
+              "note": "The order establishes additional China import duties and specifies a later effective time. The page gives a publication date of February 1; its exact publication time is not verified."
+            },
+            {
+              "url": "https://gamma-api.polymarket.com/markets/520682",
+              "note": "Rules count official enactment of new or increased China tariffs by April 29, 2025 at 23:59 ET, regardless of effective date. API endDate (12:00 UTC April 29) differs from that rule cutoff."
+            }
+          ],
+          "missing_information": []
+        }
+      ]
+    },
+    {
+      "id": "match-04",
+      "input": {
+        "text": "The August 2025 CPI release reported consumer prices up 2.9 percent over the preceding twelve months, before seasonal adjustment.",
+        "source_url": "https://www.bls.gov/news.release/archives/cpi_09112025.htm",
+        "source_published_at": "2025-09-11T12:30:00Z"
+      },
+      "candidates": [
+        {
+          "venue": "polymarket",
+          "market_id": "575236",
+          "url": "https://polymarket.com/event/august-inflation-annual/will-annual-inflation-increase-by-2pt9-in-august",
+          "question": "Will annual inflation increase by 2.9% in August?",
+          "deadline": "2025-09-11T00:00:00Z",
+          "rules_url": "https://gamma-api.polymarket.com/markets/575236",
+          "verified_at": "2026-11-01T01:50:23Z",
+          "decision": "relevant",
+          "reason": "The input specifies the exact reporting month, annual CPI measure and adjustment basis named by the contract. We use the original release text rather than later revised tables.",
+          "evidence": [
+            {
+              "url": "https://www.bls.gov/news.release/archives/cpi_09112025.htm",
+              "note": "The original September 11 release text reports the all-items index rising 2.9 percent over twelve months before seasonal adjustment."
+            },
+            {
+              "url": "https://gamma-api.polymarket.com/markets/575236",
+              "note": "Rules specify August 2025 headline CPI over 12 months, not seasonally adjusted, from the September 11 release. The API endDate is midnight UTC; the release occurred at 12:30 UTC."
+            }
+          ],
+          "missing_information": []
+        }
+      ]
+    },
+    {
+      "id": "match-05",
+      "input": {
+        "text": "At its October 2025 meeting, the Federal Reserve lowered the target range for the federal funds rate.",
+        "source_url": "https://www.federalreserve.gov/newsevents/pressreleases/monetary20251029a.htm",
+        "source_published_at": "2025-10-29T18:00:00Z"
+      },
+      "candidates": [
+        {
+          "venue": "polymarket",
+          "market_id": "542538",
+          "url": "https://polymarket.com/event/fed-decision-in-september/fed-decreases-interest-rates-by-25-bps-after-september-2025-meeting",
+          "question": "Fed decreases interest rates by 25 bps after September 2025 meeting?",
+          "deadline": "2025-09-17T12:00:00Z",
+          "rules_url": "https://gamma-api.polymarket.com/markets/542538",
+          "verified_at": "2026-11-01T01:50:23Z",
+          "decision": "irrelevant",
+          "reason": "The input is a decision at the October meeting. This contract asks about September. A later meeting’s decision does not directly establish the change made at the earlier meeting.",
+          "evidence": [
+            {
+              "url": "https://www.federalreserve.gov/newsevents/pressreleases/monetary20251029a.htm",
+              "note": "This is the October 29 policy decision; the candidate names the September 16–17 meeting."
+            },
+            {
+              "url": "https://gamma-api.polymarket.com/markets/542538",
+              "note": "Rules concern the upper-bound change at the September 16–17, 2025 FOMC meeting. API endDate is 12:00 UTC on September 17, earlier than the 18:00 UTC announcement; that metadata is not the rule-defined event time."
+            }
+          ],
+          "missing_information": []
+        }
+      ]
+    },
+    {
+      "id": "match-06",
+      "input": {
+        "text": "The European Central Bank left its three key policy rates unchanged in September 2025.",
+        "source_url": "https://www.ecb.europa.eu/press/pr/date/2025/html/ecb.mp250911~6afb7a9490.en.html",
+        "source_published_at": null
+      },
+      "candidates": [
+        {
+          "venue": "polymarket",
+          "market_id": "542539",
+          "url": "https://polymarket.com/event/fed-decision-in-september/no-change-in-fed-interest-rates-after-september-2025-meeting",
+          "question": "No change in Fed interest rates after September 2025 meeting?",
+          "deadline": "2025-09-17T12:00:00Z",
+          "rules_url": "https://gamma-api.polymarket.com/markets/542539",
+          "verified_at": "2026-11-01T01:50:23Z",
+          "decision": "irrelevant",
+          "reason": "The ECB decision concerns euro-area policy rates. The candidate concerns the US Federal Reserve’s target federal funds range. Shared rate language and a September date do not identify the same event.",
+          "evidence": [
+            {
+              "url": "https://www.ecb.europa.eu/press/pr/date/2025/html/ecb.mp250911~6afb7a9490.en.html",
+              "note": "The September 11 ECB decision maintains its own key rates. The exact source publication time has not been verified."
+            },
+            {
+              "url": "https://gamma-api.polymarket.com/markets/542539",
+              "note": "Rules concern no change in the upper bound at the September 16–17, 2025 FOMC meeting. API endDate is venue metadata, not the announcement time."
+            }
+          ],
+          "missing_information": []
+        }
+      ]
+    },
+    {
+      "id": "match-07",
+      "input": {
+        "text": "The August 2025 producer-price release reported final-demand PPI rising 2.6 percent over twelve months.",
+        "source_url": "https://www.bls.gov/news.release/archives/ppi_09102025.htm",
+        "source_published_at": "2025-09-10T12:30:00Z"
+      },
+      "candidates": [
+        {
+          "venue": "polymarket",
+          "market_id": "575236",
+          "url": "https://polymarket.com/event/august-inflation-annual/will-annual-inflation-increase-by-2pt9-in-august",
+          "question": "Will annual inflation increase by 2.9% in August?",
+          "deadline": "2025-09-11T00:00:00Z",
+          "rules_url": "https://gamma-api.polymarket.com/markets/575236",
+          "verified_at": "2026-11-01T01:50:23Z",
+          "decision": "irrelevant",
+          "reason": "Producer prices and consumer prices are different measures. This input’s PPI figure cannot directly establish the CPI outcome named in the candidate. Potential indirect forecasting value is outside this direct-evidence review.",
+          "evidence": [
+            {
+              "url": "https://www.bls.gov/news.release/archives/ppi_09102025.htm",
+              "note": "The September 10 BLS release concerns final-demand producer prices; it reports 2.6 percent over twelve months."
+            },
+            {
+              "url": "https://gamma-api.polymarket.com/markets/575236",
+              "note": "Rules specify August 2025 headline CPI over 12 months, not seasonally adjusted, from the September 11 release. The API endDate is midnight UTC; the release occurred at 12:30 UTC."
+            }
+          ],
+          "missing_information": []
+        }
+      ]
+    },
+    {
+      "id": "match-08",
+      "input": {
+        "text": "A February 1, 2025 executive order imposed additional duties on imports from Canada.",
+        "source_url": "https://www.whitehouse.gov/presidential-actions/2025/02/imposing-duties-to-address-the-flow-of-illicit-drugs-across-our-national-border/",
+        "source_published_at": null
+      },
+      "candidates": [
+        {
+          "venue": "polymarket",
+          "market_id": "520682",
+          "url": "https://polymarket.com/event/which-countries-will-trump-tariff-in-first-100-days/will-trump-impose-tariffs-on-china-in-the-first-100-days",
+          "question": "Will Trump impose tariffs on China in the first 100 days?",
+          "deadline": "2025-04-29T12:00:00Z",
+          "rules_url": "https://gamma-api.polymarket.com/markets/520682",
+          "verified_at": "2026-11-01T01:50:23Z",
+          "decision": "irrelevant",
+          "reason": "This particular order concerns Canada, whereas the supplied candidate asks about China. Other orders may address China, but they are separate evidence. The shared tariff topic alone is not enough.",
+          "evidence": [
+            {
+              "url": "https://www.whitehouse.gov/presidential-actions/2025/02/imposing-duties-to-address-the-flow-of-illicit-drugs-across-our-national-border/",
+              "note": "The order’s scope is Canadian products. Its original page date is February 1; an exact publication time is not verified."
+            },
+            {
+              "url": "https://gamma-api.polymarket.com/markets/520682",
+              "note": "Rules count official enactment of new or increased China tariffs by April 29, 2025 at 23:59 ET, regardless of effective date. API endDate (12:00 UTC April 29) differs from that rule cutoff."
+            }
+          ],
+          "missing_information": []
+        }
+      ]
+    },
+    {
+      "id": "match-09",
+      "input": {
+        "text": "The January 20, 2025 trade-policy memorandum requested work on the feasibility and design of an External Revenue Service.",
+        "source_url": "https://www.whitehouse.gov/presidential-actions/2025/01/america-first-trade-policy/",
+        "source_published_at": null
+      },
+      "candidates": [
+        {
+          "venue": "polymarket",
+          "market_id": "518888",
+          "url": "https://polymarket.com/event/will-trump-create-external-revenue-service-in-first-100-days/will-trump-create-external-revenue-service-in-first-100-days",
+          "question": "Will Trump create External Revenue Service in first 100 days?",
+          "deadline": "2025-04-29T12:00:00Z",
+          "rules_url": "https://gamma-api.polymarket.com/markets/518888",
+          "verified_at": "2026-11-01T01:50:23Z",
+          "decision": "uncertain",
+          "reason": "This is on topic, but a request to study feasibility does not demonstrate that an agency was created. The source alone is insufficient to establish the contract condition. This review does not conclude that no qualifying later action occurred.",
+          "evidence": [
+            {
+              "url": "https://www.whitehouse.gov/presidential-actions/2025/01/america-first-trade-policy/",
+              "note": "Section 2(b) requests investigation of feasibility and recommended design, rather than itself establishing the agency."
+            },
+            {
+              "url": "https://gamma-api.polymarket.com/markets/518888",
+              "note": "Rules require federal legislation or executive action creating a tariff-collecting agency by April 29, 2025 at 23:59 ET. Ordering a feasibility report does not itself establish creation."
+            }
+          ],
+          "missing_information": [
+            "An executive action or federal law creating the agency within the rule-defined window."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "match-10",
+      "input": {
+        "text": "Incomplete-input demonstration: a September 2025 Fed cut headline is supplied with a market identity, but the contract rules are withheld.",
+        "source_url": "https://www.federalreserve.gov/newsevents/pressreleases/monetary20250917a.htm",
+        "source_published_at": "2025-09-17T18:00:00Z"
+      },
+      "candidates": [
+        {
+          "venue": "polymarket",
+          "market_id": "542538",
+          "url": "https://polymarket.com/event/fed-decision-in-september/fed-decreases-interest-rates-by-25-bps-after-september-2025-meeting",
+          "question": "Fed decreases interest rates by 25 bps after September 2025 meeting?",
+          "deadline": "2025-09-17T12:00:00Z",
+          "rules_url": null,
+          "verified_at": "2026-11-01T01:50:23Z",
+          "decision": "uncertain",
+          "reason": "Incomplete-input demonstration: the packet deliberately withholds the settlement rules. Identity is checked, but this exercise abstains from judging rule alignment. The public contract is not claimed to be inaccessible.",
+          "evidence": [
+            {
+              "url": "https://www.federalreserve.gov/newsevents/pressreleases/monetary20250917a.htm",
+              "note": "The source identifies the September 2025 FOMC decision. Contract rules were intentionally excluded from this exercise."
+            },
+            {
+              "url": "https://gamma-api.polymarket.com/markets/542538",
+              "note": "Contract identity exists and was checked. This incomplete-input example deliberately excludes the settlement description from the review packet."
+            }
+          ],
+          "missing_information": [
+            "The exact settlement rules, deliberately withheld from this sample packet."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "match-11",
+      "input": {
+        "text": "Incomplete-input demonstration: “Inflation rises.” No original link, reporting month, index or measurement period is supplied.",
+        "source_url": null,
+        "source_published_at": null
+      },
+      "candidates": [
+        {
+          "venue": "polymarket",
+          "market_id": "575236",
+          "url": "https://polymarket.com/event/august-inflation-annual/will-annual-inflation-increase-by-2pt9-in-august",
+          "question": "Will annual inflation increase by 2.9% in August?",
+          "deadline": "2025-09-11T00:00:00Z",
+          "rules_url": "https://gamma-api.polymarket.com/markets/575236",
+          "verified_at": "2026-11-01T01:50:23Z",
+          "decision": "uncertain",
+          "reason": "The candidate is identifiable, but the input could concern CPI, PPI, another country, or a different period. The headline cannot be expanded into the August annual CPI figure without evidence. This demonstrates missing input, not a failure to access the real public market.",
+          "evidence": [
+            {
+              "url": "https://gamma-api.polymarket.com/markets/575236",
+              "note": "Rules specify August 2025 headline CPI over 12 months, not seasonally adjusted, from the September 11 release. The API endDate is midnight UTC; the release occurred at 12:30 UTC."
+            }
+          ],
+          "missing_information": [
+            "Original source URL and publication context.",
+            "The reporting month, price index, adjustment basis and measurement period."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "match-12",
+      "input": {
+        "text": "Incomplete-input demonstration: a September Fed decision headline is supplied, but the proposed Kalshi contract has no identifier, URL or wording.",
+        "source_url": "https://www.federalreserve.gov/newsevents/pressreleases/monetary20250917a.htm",
+        "source_published_at": "2025-09-17T18:00:00Z"
+      },
+      "candidates": [
+        {
+          "venue": "kalshi",
+          "market_id": null,
+          "url": null,
+          "question": null,
+          "deadline": null,
+          "rules_url": null,
+          "verified_at": null,
+          "decision": "uncertain",
+          "reason": "The source is identifiable, but the candidate is not. We cannot substitute a familiar Fed contract for an unknown one. This is a deliberately incomplete packet, not a claim that Kalshi is unavailable.",
+          "evidence": [
+            {
+              "url": "https://www.federalreserve.gov/newsevents/pressreleases/monetary20250917a.htm",
+              "note": "The source is a real FOMC statement, but it does not identify the missing candidate market."
+            }
+          ],
+          "missing_information": [
+            "An exact market ID or URL.",
+            "The candidate question, venue end date and settlement rules."
+          ]
+        }
+      ]
+    }
+  ]
+}
