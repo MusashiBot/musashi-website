@@ -114,3 +114,38 @@ assert(
 console.log(
   "Publication checked: archive, directories, RSS, side-product download, and receipt label.",
 );
+assert(
+  homepage.includes('rel="canonical" href="https://musashi.bot/"'),
+  "Homepage canonical missing",
+);
+const issueDirectory = new URL("../content/issues/", import.meta.url);
+for (const filename of fs
+  .readdirSync(issueDirectory)
+  .filter((f) => /^\d{4}-\d{2}-\d{2}\.md$/.test(f))) {
+  const metadata = JSON.parse(
+    fs.readFileSync(new URL(filename, issueDirectory), "utf8").split("\n")[0],
+  );
+  const html = fs.readFileSync(
+    path.join(root, "issues", metadata.date, "index.html"),
+    "utf8",
+  );
+  assert(
+    html.includes('property="og:type" content="article"'),
+    `Article social type missing: ${metadata.date}`,
+  );
+  const schemas = [
+    ...html.matchAll(
+      /<script type="application\/ld\+json">([\s\S]*?)<\/script>/g,
+    ),
+  ].map((m) => JSON.parse(m[1]));
+  assert(
+    schemas.some(
+      (s) =>
+        s["@type"] === "Article" &&
+        s.headline === metadata.title &&
+        s.datePublished === metadata.date,
+    ),
+    `Article structured data missing: ${metadata.date}`,
+  );
+}
+console.log("SEO checked: homepage canonical and dated Article metadata.");
