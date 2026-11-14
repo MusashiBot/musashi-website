@@ -97,7 +97,7 @@ export default async function Edition({
         </header>
         <div className="edition-body">
           <ReactMarkdown
-            remarkPlugins={[remarkGfm]}
+            remarkPlugins={[[remarkGfm, { singleTilde: false }]]}
             skipHtml
             components={{
               h1: ({ children }) => <h2>{children}</h2>,

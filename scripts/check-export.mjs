@@ -122,9 +122,8 @@ const issueDirectory = new URL("../content/issues/", import.meta.url);
 for (const filename of fs
   .readdirSync(issueDirectory)
   .filter((f) => /^\d{4}-\d{2}-\d{2}\.md$/.test(f))) {
-  const metadata = JSON.parse(
-    fs.readFileSync(new URL(filename, issueDirectory), "utf8").split("\n")[0],
-  );
+  const original = fs.readFileSync(new URL(filename, issueDirectory), "utf8");
+  const metadata = JSON.parse(original.split("\n")[0]);
   const html = fs.readFileSync(
     path.join(root, "issues", metadata.date, "index.html"),
     "utf8",
@@ -133,6 +132,11 @@ for (const filename of fs
     html.includes('property="og:type" content="article"'),
     `Article social type missing: ${metadata.date}`,
   );
+  if (!original.includes("~~"))
+    assert(
+      !/<del[ >]/.test(html),
+      `Approximation markers must not strike through research: ${metadata.date}`,
+    );
   const schemas = [
     ...html.matchAll(
       /<script type="application\/ld\+json">([\s\S]*?)<\/script>/g,
