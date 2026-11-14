@@ -54,3 +54,26 @@ test("idempotent import and no silent overwrite", () => {
     fs.rmSync(dir, { recursive: true, force: true });
   }
 });
+
+test("long introductory paragraph renders once without losing its ending", async () => {
+  const { articlePresentation } = await import(
+    "../app/lib/article-presentation.mjs"
+  );
+  const intro =
+    "*" + "Full sourced research. ".repeat(20) + "Keep this last sentence.*";
+  const r = articlePresentation(
+    "# Title\n\n" + intro + "\n\n## Today in Prediction Markets\nNews",
+    "Title",
+  );
+  assert.equal(r.intro, intro);
+  assert.ok(r.intro.includes("Keep this last sentence."));
+  assert.ok(!r.body.includes("Full sourced research."));
+  assert.ok(r.body.startsWith("## Today"));
+});
+test("heading-led research remains intact when there is no introduction", async () => {
+  const { articlePresentation } = await import(
+    "../app/lib/article-presentation.mjs"
+  );
+  const body = "## Today in Prediction Markets\n\nDetails";
+  assert.deepEqual(articlePresentation(body, "Title"), { intro: "", body });
+});

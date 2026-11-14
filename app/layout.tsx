@@ -16,11 +16,11 @@ export const metadata: Metadata = {
     description: SITE_DESCRIPTION,
   },
   twitter: {
-    card: "summary_large_image",
+    card: "summary",
     title: "Musashi · The prediction-market builder’s briefing",
     description: SITE_DESCRIPTION,
   },
-  alternates: { types: { "application/rss+xml": "/feed.xml" } },
+  alternates: { canonical: "/", types: { "application/rss+xml": "/feed.xml" } },
   icons: { icon: "/icon.svg" },
 };
 
