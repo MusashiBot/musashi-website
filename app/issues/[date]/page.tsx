@@ -95,6 +95,18 @@ export default async function Edition({
             <a href={issue.sourceIssue}>Original research ↗</a>
           </p>
         </header>
+        {issue.editorNote && (
+          <aside className="edition-byline" aria-label="Editor’s note">
+            <strong>Editor’s note:</strong> {issue.editorNote.text}{" "}
+            <a
+              href={issue.editorNote.sourceUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Primary source ↗
+            </a>
+          </aside>
+        )}
         <div className="edition-body">
           <ReactMarkdown
             remarkPlugins={[[remarkGfm, { singleTilde: false }]]}

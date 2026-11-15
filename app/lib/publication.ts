@@ -17,6 +17,7 @@ export type Issue = {
   description: string;
   sourceIssue: string;
   body: string;
+  editorNote?: { text: string; sourceUrl: string };
 };
 export function getIssues(): Issue[] {
   const dir = path.join(process.cwd(), "content/issues");
