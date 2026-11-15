@@ -77,3 +77,33 @@ test("heading-led research remains intact when there is no introduction", async 
   const body = "## Today in Prediction Markets\n\nDetails";
   assert.deepEqual(articlePresentation(body, "Title"), { intro: "", body });
 });
+
+test("accepts explicitly referenced inline sources without rewriting the research", () => {
+  const inline = body.replace(
+    "[Primary source](https://example.com/1)",
+    "All sources are linked inline above.",
+  );
+  assert.ok(
+    parseBrief({ ...issue, body: inline }).text.endsWith(
+      inline.slice(inline.indexOf("##")),
+    ),
+  );
+  assert.throws(() =>
+    parseBrief({ ...issue, body: inline.replaceAll("https://", "http://") }),
+  );
+  assert.throws(() =>
+    parseBrief({
+      ...issue,
+      body: body.replace("[Primary source](https://example.com/1)", ""),
+    }),
+  );
+  assert.throws(() =>
+    parseBrief({
+      ...issue,
+      body: body.replace(
+        "[Primary source](https://example.com/1)",
+        "Unspecified sources",
+      ),
+    }),
+  );
+});

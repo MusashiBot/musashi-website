@@ -50,9 +50,21 @@ export function parseBrief(issue) {
       throw Error("Missing or unordered section: " + name);
     previous = h.index;
   }
-  const sources = body.slice(previous);
-  if (!/https:\/\//.test(sources))
-    throw Error("Sources must link to public evidence");
+  const sources = body
+    .slice(previous)
+    .replace(/^#{1,3}[^\n]*(?:\n|$)/, "")
+    .trim();
+  const directSources = /https:\/\//.test(sources);
+  const refersToInlineSources =
+    /links?\s+inline|inline\s+(?:above|below)/i.test(sources);
+  if (
+    !sources ||
+    !/https:\/\//.test(body) ||
+    (!directSources && !refersToInlineSources)
+  )
+    throw Error(
+      "Sources must link to public evidence or explicitly reference linked inline sources",
+    );
   if (/\]\(\s*(?:javascript|data|file):/i.test(body))
     throw Error("Unsafe source URL");
   const title = match[2] || `Prediction-market builder briefing · ${date}`;
