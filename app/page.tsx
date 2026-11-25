@@ -18,9 +18,9 @@ export default function Home() {
             The news worth your time. The people worth following.
             <br className="desktop-break" /> The opportunities worth building.
           </p>
-          <a className="pub-button" href="/feed.xml">
-            Subscribe via RSS <span>↗</span>
-          </a>
+          <Link className="pub-button" href={latest ? `/issues/${latest.date}/` : "/archive/"}>
+            Read the latest briefing <span>↗</span>
+          </Link>
           <p className="pub-fine">
             Open access. Original sources. A builder’s perspective.
           </p>
@@ -142,9 +142,9 @@ export default function Home() {
         <section className="pub-signoff">
           <span className="pub-kicker">LESS SCROLLING. MORE CONTEXT.</span>
           <h2>Build with a better view.</h2>
-          <a className="pub-button" href="/feed.xml">
-            Follow the publication ↗
-          </a>
+          <Link className="pub-button" href="/archive/">
+            Explore all briefings ↗
+          </Link>
         </section>
       </div>
     </PageFrame>

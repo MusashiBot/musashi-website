@@ -11,9 +11,6 @@ export default function Header() {
           <Link href="/investors/">Investors</Link>
           <Link href="/people/">People</Link>
           <Link href="/extension/">Extension ↗</Link>
-          <a className="publication-subscribe" href="/feed.xml">
-            Subscribe via RSS
-          </a>
         </nav>
       </div>
     </header>
